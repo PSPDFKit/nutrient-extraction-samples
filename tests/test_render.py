@@ -86,3 +86,92 @@ def test_existing_png_is_untouched_without_refresh(
     assert result == rendered_path
     assert rendered_path.read_bytes() == original_bytes
     assert rendered_path.stat().st_mtime_ns == original_mtime
+
+
+def test_existing_png_with_wrong_dimensions_is_rerendered(tmp_path: Path) -> None:
+    pdf_path = tmp_path / "points.pdf"
+    rendered_path = tmp_path / "stale.png"
+    _one_page_pdf(pdf_path, width=72, height=36)
+    rendered_path.write_bytes(COMMITTED_PNG.read_bytes())
+
+    render.ensure_page_png(
+        pdf_path,
+        0,
+        rendered_path,
+        refresh=False,
+    )
+
+    assert _png_dimensions(rendered_path) == (200, 100)
+
+
+@pytest.mark.parametrize("page_dims", [(100,), (100, 200, 300)])
+def test_target_width_rejects_wrong_length_sequence(page_dims: tuple[int, ...]) -> None:
+    with pytest.raises(ValueError, match="width and height"):
+        render._target_width(page_dims)
+
+
+def test_target_width_rejects_unsupported_type() -> None:
+    with pytest.raises(TypeError, match="mapping or a width/height sequence"):
+        render._target_width(100)
+
+
+def test_target_width_rejects_boolean() -> None:
+    with pytest.raises(ValueError, match="numeric"):
+        render._target_width({"width": True})
+
+
+@pytest.mark.parametrize("width", [0, -1])
+def test_target_width_rejects_non_positive_value(width: int) -> None:
+    with pytest.raises(ValueError, match="positive finite"):
+        render._target_width({"width": width})
+
+
+@pytest.mark.parametrize("width", [float("inf"), float("-inf"), float("nan")])
+def test_target_width_rejects_non_finite_value(width: float) -> None:
+    with pytest.raises(ValueError, match="positive finite"):
+        render._target_width({"width": width})
+
+
+@pytest.mark.parametrize("page_dims", [None, {}, {"height": 200}])
+def test_target_width_returns_none_when_width_is_missing(page_dims: object) -> None:
+    assert render._target_width(page_dims) is None
+
+
+def test_target_width_rejects_over_cap() -> None:
+    with pytest.raises(ValueError, match=str(render.MAX_RENDER_WIDTH)):
+        render._target_width({"width": render.MAX_RENDER_WIDTH + 1})
+
+
+def test_render_rejects_over_pixel_cap_before_rasterizing(tmp_path: Path) -> None:
+    pdf_path = tmp_path / "tall.pdf"
+    _one_page_pdf(pdf_path, width=100, height=1_000)
+
+    with pytest.raises(ValueError, match=str(render.MAX_RENDER_PIXELS)):
+        render.ensure_page_png(
+            pdf_path,
+            0,
+            tmp_path / "tall.png",
+            page_dims={"width": render.MAX_RENDER_WIDTH},
+        )
+
+    assert not (tmp_path / "tall.png").exists()
+
+
+@pytest.mark.parametrize("page_index", [-1, True])
+def test_rasterize_rejects_invalid_page_index(
+    tmp_path: Path,
+    page_index: int,
+) -> None:
+    pdf_path = tmp_path / "one-page.pdf"
+    _one_page_pdf(pdf_path, width=72, height=36)
+
+    with pytest.raises(ValueError, match="non-negative integer"):
+        render._rasterize_page(pdf_path, page_index)
+
+
+def test_rasterize_rejects_out_of_range_page_index(tmp_path: Path) -> None:
+    pdf_path = tmp_path / "one-page.pdf"
+    _one_page_pdf(pdf_path, width=72, height=36)
+
+    with pytest.raises(IndexError, match="outside"):
+        render._rasterize_page(pdf_path, 1)

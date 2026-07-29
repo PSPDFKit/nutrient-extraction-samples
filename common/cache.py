@@ -6,11 +6,11 @@ import hashlib
 import inspect
 import json
 import os
-import tempfile
 from collections.abc import Awaitable, Callable, Mapping
 from pathlib import Path
 from typing import Any
 
+from .atomic import atomic_write
 from .api import (
     EXTRACT_ENDPOINT,
     PARSE_ENDPOINT,
@@ -20,9 +20,12 @@ from .api import (
 )
 
 Transport = Callable[
-    [str | Path, Mapping[str, Any], str],
+    [bytes, str, Mapping[str, Any], str],
     Awaitable[dict[str, Any]] | dict[str, Any],
 ]
+
+MAX_PDF_BYTES = 100 * 1024 * 1024
+PERSISTED_RESPONSE_KEYS = ("status", "requestId", "output")
 
 
 class CacheError(ValueError):
@@ -40,11 +43,19 @@ def cache_key(
     endpoint: str,
     instructions: Mapping[str, Any],
 ) -> str:
-    """Return the donor-compatible content-addressed cache key."""
+    """Return content-addressed (sha256 of PDF bytes + endpoint + canonical instructions JSON) key."""
 
     _require_supported_endpoint(endpoint)
-    source_path = Path(pdf_path)
-    file_hash = hashlib.sha256(source_path.read_bytes()).hexdigest()
+    pdf_bytes = _read_pdf_bytes(Path(pdf_path))
+    return _cache_key_for_bytes(pdf_bytes, endpoint, instructions)
+
+
+def _cache_key_for_bytes(
+    pdf_bytes: bytes,
+    endpoint: str,
+    instructions: Mapping[str, Any],
+) -> str:
+    file_hash = hashlib.sha256(pdf_bytes).hexdigest()
     config_hash = hashlib.sha256(
         canonical_json(instructions).encode("utf-8")
     ).hexdigest()
@@ -59,7 +70,19 @@ def cache_path(
 ) -> Path:
     """Return the cache JSON path for a PDF, endpoint, and client config."""
 
-    return Path(cache_dir) / f"{cache_key(pdf_path, endpoint, instructions)}.json"
+    _require_supported_endpoint(endpoint)
+    pdf_bytes = _read_pdf_bytes(Path(pdf_path))
+    return _cache_path_for_bytes(pdf_bytes, endpoint, instructions, cache_dir)
+
+
+def _cache_path_for_bytes(
+    pdf_bytes: bytes,
+    endpoint: str,
+    instructions: Mapping[str, Any],
+    cache_dir: str | Path,
+) -> Path:
+    key = _cache_key_for_bytes(pdf_bytes, endpoint, instructions)
+    return Path(cache_dir) / f"{key}.json"
 
 
 def validate_response(response: Any, endpoint: str) -> dict[str, Any]:
@@ -72,12 +95,14 @@ def validate_response(response: Any, endpoint: str) -> dict[str, Any]:
     output = response.get("output")
     if not isinstance(output, dict):
         raise ValueError("response.output must be a JSON object")
+    if response.get("status") != 200:
+        raise ValueError(f"{endpoint} response.status must be 200")
 
     if endpoint == PARSE_ENDPOINT:
         if not isinstance(output.get("elements"), list):
             raise ValueError("parse response.output.elements must be a list")
     else:
-        if any(key not in response for key in ("status", "requestId")):
+        if "requestId" not in response:
             raise ValueError("extract response is missing required top-level keys")
         if any(key not in output for key in ("data", "metadata", "pages")):
             raise ValueError("extract response.output is missing required keys")
@@ -89,6 +114,17 @@ def validate_response(response: Any, endpoint: str) -> dict[str, Any]:
             raise ValueError("extract response.output.pages must be a list")
 
     return response
+
+
+def cache_response_projection(response: Mapping[str, Any]) -> dict[str, Any]:
+    """Return the only top-level response fields permitted in a cache entry."""
+
+    projected = {
+        key: response[key] for key in PERSISTED_RESPONSE_KEYS if key in response
+    }
+    if "reconstructed" in response:
+        projected["reconstructed"] = response["reconstructed"]
+    return projected
 
 
 def read_cached_response(cache_file: str | Path, endpoint: str) -> dict[str, Any]:
@@ -114,15 +150,23 @@ def seed_cached_response(
 ) -> Path:
     """Validate and persist a committed response without reading an API key."""
 
-    destination = cache_path(pdf_path, endpoint, instructions, cache_dir)
+    _require_supported_endpoint(endpoint)
+    pdf_bytes = _read_pdf_bytes(Path(pdf_path))
+    destination = _cache_path_for_bytes(
+        pdf_bytes,
+        endpoint,
+        instructions,
+        cache_dir,
+    )
     try:
         validated_response = validate_response(response, endpoint)
-        canonical_json(validated_response)
+        persisted_response = cache_response_projection(validated_response)
+        canonical_json(persisted_response)
     except (TypeError, ValueError):
         raise CacheError(
             "Seed response did not match the required cache shape."
         ) from None
-    _write_cached_response(destination, validated_response)
+    _write_cached_response(destination, persisted_response)
     return destination
 
 
@@ -137,7 +181,15 @@ async def get_cached_response(
 ) -> dict[str, Any]:
     """Return a cached response or refresh it through the selected transport."""
 
-    response_path = cache_path(pdf_path, endpoint, instructions, cache_dir)
+    _require_supported_endpoint(endpoint)
+    source_path = Path(pdf_path)
+    pdf_bytes = _read_pdf_bytes(source_path)
+    response_path = _cache_path_for_bytes(
+        pdf_bytes,
+        endpoint,
+        instructions,
+        cache_dir,
+    )
 
     if response_path.exists() and not refresh:
         return read_cached_response(response_path, endpoint)
@@ -149,11 +201,23 @@ async def get_cached_response(
     api_key = _api_key()
     selected_transport = transport or _transport_for(endpoint)
     try:
-        pending_response = selected_transport(pdf_path, instructions, api_key)
+        pending_response = selected_transport(
+            pdf_bytes,
+            source_path.name,
+            instructions,
+            api_key,
+        )
         if inspect.isawaitable(pending_response):
             response = await pending_response
         else:
             response = pending_response
+    except ApiError as error:
+        if isinstance(error.status, int) and not isinstance(error.status, bool):
+            raise ApiError(
+                f"Nutrient {endpoint} request failed with status {error.status}.",
+                status=error.status,
+            ) from None
+        raise ApiError(f"Nutrient {endpoint} request failed.") from None
     except Exception:
         raise ApiError(f"Nutrient {endpoint} request failed.") from None
 
@@ -171,8 +235,9 @@ async def get_cached_response(
             "and was not cached."
         )
 
-    _write_cached_response(response_path, validated_response)
-    return validated_response
+    persisted_response = cache_response_projection(validated_response)
+    _write_cached_response(response_path, persisted_response)
+    return persisted_response
 
 
 def _require_supported_endpoint(endpoint: str) -> None:
@@ -197,22 +262,31 @@ def _api_key() -> str:
     return api_key
 
 
-def _write_cached_response(cache_file: Path, response: dict[str, Any]) -> None:
-    cache_file.parent.mkdir(parents=True, exist_ok=True)
-    temporary_path: Path | None = None
+def _read_pdf_bytes(source_path: Path) -> bytes:
+    if not source_path.is_file():
+        raise CacheError(f"PDF path is not a regular file: {source_path}")
     try:
-        with tempfile.NamedTemporaryFile(
-            mode="w",
-            encoding="utf-8",
-            dir=cache_file.parent,
-            prefix=f".{cache_file.name}.",
-            suffix=".tmp",
-            delete=False,
-        ) as temporary_file:
-            temporary_path = Path(temporary_file.name)
-            json.dump(response, temporary_file, ensure_ascii=False, indent=2)
-            temporary_file.write("\n")
-        temporary_path.replace(cache_file)
-    finally:
-        if temporary_path is not None:
-            temporary_path.unlink(missing_ok=True)
+        size = source_path.stat().st_size
+    except OSError as error:
+        raise CacheError(f"Could not inspect PDF path {source_path}: {error}") from None
+    if size > MAX_PDF_BYTES:
+        raise CacheError(
+            f"PDF path exceeds the {MAX_PDF_BYTES}-byte limit: {source_path}"
+        )
+    try:
+        pdf_bytes = source_path.read_bytes()
+    except OSError as error:
+        raise CacheError(f"Could not read PDF path {source_path}: {error}") from None
+    if len(pdf_bytes) > MAX_PDF_BYTES:
+        raise CacheError(
+            f"PDF path exceeds the {MAX_PDF_BYTES}-byte limit: {source_path}"
+        )
+    return pdf_bytes
+
+
+def _write_cached_response(cache_file: Path, response: dict[str, Any]) -> None:
+    persisted_response = cache_response_projection(response)
+    payload = (
+        json.dumps(persisted_response, ensure_ascii=False, indent=2) + "\n"
+    ).encode("utf-8")
+    atomic_write(cache_file, payload)

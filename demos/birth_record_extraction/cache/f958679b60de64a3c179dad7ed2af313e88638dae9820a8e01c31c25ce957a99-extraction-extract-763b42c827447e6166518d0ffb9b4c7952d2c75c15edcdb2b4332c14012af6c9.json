@@ -1,17 +1,6 @@
 {
-  "configuration": {
-    "apiVersion": "2026-05-25",
-    "engine": {
-      "requestedEngineVersion": "stable"
-    },
-    "maxLanguages": 2,
-    "maxScripts": 2,
-    "mode": "understand"
-  },
-  "metrics": {
-    "pagesProcessed": 1,
-    "processingTimeMs": 27253
-  },
+  "status": 200,
+  "requestId": "GMbJtV7WETf2JLQAAIDR",
   "output": {
     "data": {
       "full_name_at_birth": "Olivia Grace Bennett",
@@ -539,27 +528,5 @@
         "width": 4986
       }
     ]
-  },
-  "requestId": "GMbJtV7WETf2JLQAAIDR",
-  "status": 200,
-  "usage": {
-    "data_extraction_credits": {
-      "cost": 15.0,
-      "remainingCredits": 4985.0
-    },
-    "price_composition": {
-      "extract": {
-        "cost": 6.0,
-        "currency": "data_extraction_credits",
-        "unit_cost": 6.0,
-        "units": 1
-      },
-      "parse": {
-        "cost": 9.0,
-        "currency": "data_extraction_credits",
-        "unit_cost": 9.0,
-        "units": 1
-      }
-    }
   }
 }

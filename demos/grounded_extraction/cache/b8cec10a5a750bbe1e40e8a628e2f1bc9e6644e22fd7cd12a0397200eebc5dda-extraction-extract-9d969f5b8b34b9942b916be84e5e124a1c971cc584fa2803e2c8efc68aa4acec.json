@@ -1,17 +1,6 @@
 {
-  "configuration": {
-    "apiVersion": "2026-05-25",
-    "engine": {
-      "requestedEngineVersion": "stable"
-    },
-    "maxLanguages": 2,
-    "maxScripts": 2,
-    "mode": "understand"
-  },
-  "metrics": {
-    "pagesProcessed": 1,
-    "processingTimeMs": 17886
-  },
+  "status": 200,
+  "requestId": "GMbJtV9XG2QIGKUAAOay",
   "output": {
     "data": {
       "insured_id_number": "XW1234567",
@@ -501,27 +490,5 @@
         "width": 1700
       }
     ]
-  },
-  "requestId": "GMbJtV9XG2QIGKUAAOay",
-  "status": 200,
-  "usage": {
-    "data_extraction_credits": {
-      "cost": 15.0,
-      "remainingCredits": 4985.0
-    },
-    "price_composition": {
-      "extract": {
-        "cost": 6.0,
-        "currency": "data_extraction_credits",
-        "unit_cost": 6.0,
-        "units": 1
-      },
-      "parse": {
-        "cost": 9.0,
-        "currency": "data_extraction_credits",
-        "unit_cost": 9.0,
-        "units": 1
-      }
-    }
   }
 }

@@ -21,7 +21,8 @@ from common.api import (  # noqa: E402
     build_extract_instructions,
     build_parse_instructions,
 )
-from common.cache import cache_key, seed_cached_response  # noqa: E402
+from common.atomic import atomic_write  # noqa: E402
+from common.cache import seed_cached_response  # noqa: E402
 
 DEMOS_ROOT = REPO_ROOT / "demos"
 MANIFEST_PATH = DEMOS_ROOT / "seed_manifest.json"
@@ -41,6 +42,10 @@ PARSE_FIXTURE = (
     "parse_citations",
     "data/appraisal_report_parse_results.json",
 )
+SEEDED_FIXTURES = tuple(
+    (demo, source_file, EXTRACT_ENDPOINT)
+    for demo, source_file in EXTRACT_FIXTURES
+) + ((*PARSE_FIXTURE, PARSE_ENDPOINT),)
 
 
 class _Sc100PageParser(HTMLParser):
@@ -82,11 +87,12 @@ def _load_json(path: Path) -> Any:
 
 
 def _write_json(path: Path, value: Any) -> None:
-    payload = json.dumps(value, ensure_ascii=False, indent=2) + "\n"
-    if path.exists() and path.read_text(encoding="utf-8") == payload:
+    payload = (json.dumps(value, ensure_ascii=False, indent=2) + "\n").encode(
+        "utf-8"
+    )
+    if path.exists() and path.read_bytes() == payload:
         return
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(payload, encoding="utf-8")
+    atomic_write(path, payload)
 
 
 def _repo_relative(path: Path) -> str:
@@ -102,6 +108,24 @@ def _document_config(demo_dir: Path) -> dict[str, Any]:
     ):
         raise ValueError(f"{_repo_relative(demo_dir / 'docs.json')} must have one config")
     return configs[0]
+
+
+def _configured_pdf_path(demo_dir: Path, config: dict[str, Any]) -> Path:
+    configured_file = config.get("file")
+    if not isinstance(configured_file, str) or not configured_file:
+        raise ValueError("config.file must be a non-empty relative string")
+
+    relative_path = Path(configured_file)
+    if relative_path.is_absolute() or ".." in relative_path.parts:
+        raise ValueError("config.file must be a relative path without '..'")
+
+    resolved_demo_dir = demo_dir.resolve()
+    resolved_pdf_path = (demo_dir / relative_path).resolve()
+    try:
+        resolved_pdf_path.relative_to(resolved_demo_dir)
+    except ValueError:
+        raise ValueError("config.file must resolve inside its demo directory") from None
+    return resolved_pdf_path
 
 
 def _integer_attribute(value: str | None, name: str) -> int:
@@ -245,10 +269,9 @@ def _seed_entry(
 ) -> dict[str, Any]:
     demo_dir = DEMOS_ROOT / demo
     config = _document_config(demo_dir)
-    pdf_path = demo_dir / config["file"]
+    pdf_path = _configured_pdf_path(demo_dir, config)
     response_path = demo_dir / source_file
     response = _load_json(response_path)
-    response_cache_key = cache_key(pdf_path, endpoint, replay_config)
     seeded_path = seed_cached_response(
         pdf_path,
         endpoint,
@@ -256,8 +279,7 @@ def _seed_entry(
         response,
         demo_dir / "cache",
     )
-    if seeded_path.name != f"{response_cache_key}.json":
-        raise RuntimeError("seeded cache path does not match its computed key")
+    response_cache_key = seeded_path.stem
 
     return {
         "demo": demo,
@@ -313,8 +335,8 @@ def main() -> None:
         )
     )
 
-    if len(manifest) != 5:
-        raise RuntimeError("seed manifest must contain exactly five entries")
+    if len(manifest) != len(SEEDED_FIXTURES):
+        raise RuntimeError("seed manifest entry count does not match fixtures")
     _write_json(MANIFEST_PATH, manifest)
 
     for entry in manifest:

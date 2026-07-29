@@ -1,5 +1,4 @@
 {
-  "reconstructed": true,
   "status": 200,
   "requestId": "reconstructed",
   "output": {
@@ -99,5 +98,6 @@
         "width": 1700
       }
     ]
-  }
+  },
+  "reconstructed": true
 }

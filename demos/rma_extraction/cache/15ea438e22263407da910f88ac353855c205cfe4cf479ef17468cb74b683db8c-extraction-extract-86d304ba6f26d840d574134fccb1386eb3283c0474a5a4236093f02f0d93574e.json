@@ -1,17 +1,6 @@
 {
-  "configuration": {
-    "apiVersion": "2026-05-25",
-    "engine": {
-      "requestedEngineVersion": "stable"
-    },
-    "maxLanguages": 2,
-    "maxScripts": 2,
-    "mode": "understand"
-  },
-  "metrics": {
-    "pagesProcessed": 4,
-    "processingTimeMs": 63189
-  },
+  "status": 200,
+  "requestId": "GMbJtV-3sdm5fmoAAPDC",
   "output": {
     "data": {
       "loan_id_number": "0012345678",
@@ -445,27 +434,5 @@
         "width": 4718
       }
     ]
-  },
-  "requestId": "GMbJtV-3sdm5fmoAAPDC",
-  "status": 200,
-  "usage": {
-    "data_extraction_credits": {
-      "cost": 60.0,
-      "remainingCredits": 4940.0
-    },
-    "price_composition": {
-      "extract": {
-        "cost": 24.0,
-        "currency": "data_extraction_credits",
-        "unit_cost": 6.0,
-        "units": 4
-      },
-      "parse": {
-        "cost": 36.0,
-        "currency": "data_extraction_credits",
-        "unit_cost": 9.0,
-        "units": 4
-      }
-    }
   }
 }

@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import json
 from collections.abc import Mapping
-from pathlib import Path
 from typing import Any
 
 import aiohttp
@@ -18,6 +17,10 @@ PARSE_ENDPOINT = "extraction-parse"
 
 class ApiError(RuntimeError):
     """Raised when a live Nutrient request fails without exposing credentials."""
+
+    def __init__(self, message: str, *, status: int | None = None) -> None:
+        super().__init__(message)
+        self.status = status
 
 
 def build_extract_instructions(
@@ -49,37 +52,44 @@ def build_parse_instructions(mode: str) -> dict[str, Any]:
 
 
 async def _post_multipart(
-    pdf_path: str | Path,
+    pdf_bytes: bytes,
+    filename: str,
     instructions: Mapping[str, Any],
     api_key: str,
     url: str,
     operation: str,
 ) -> dict[str, Any]:
-    source_path = Path(pdf_path)
-
     try:
-        with source_path.open("rb") as pdf_file:
-            data = aiohttp.FormData()
-            data.add_field(
-                "file",
-                pdf_file,
-                filename=source_path.name,
-                content_type="application/pdf",
-            )
-            data.add_field(
-                "instructions",
-                json.dumps(instructions),
-                content_type="application/json",
-            )
+        data = aiohttp.FormData()
+        data.add_field(
+            "file",
+            pdf_bytes,
+            filename=filename,
+            content_type="application/pdf",
+        )
+        data.add_field(
+            "instructions",
+            json.dumps(instructions),
+            content_type="application/json",
+        )
 
-            headers = {"Authorization": f"Bearer {api_key}"}
-            async with aiohttp.ClientSession() as session:
-                async with session.post(url, headers=headers, data=data) as response:
-                    if response.status != 200:
-                        raise ApiError(f"Nutrient {operation} request failed.")
-                    result = await response.json()
+        headers = {"Authorization": f"Bearer {api_key}"}
+        timeout = aiohttp.ClientTimeout(total=300)
+        async with aiohttp.ClientSession(timeout=timeout) as session:
+            async with session.post(url, headers=headers, data=data) as response:
+                if response.status != 200:
+                    raise ApiError(
+                        f"Nutrient {operation} request failed with "
+                        f"status {response.status}.",
+                        status=response.status,
+                    )
+                result = await response.json()
     except ApiError:
         raise
+    except aiohttp.ClientError:
+        raise ApiError(f"Nutrient {operation} request failed.") from None
+    except OSError:
+        raise ApiError(f"Could not read PDF {filename}.") from None
     except Exception:
         raise ApiError(f"Nutrient {operation} request failed.") from None
 
@@ -89,14 +99,16 @@ async def _post_multipart(
 
 
 async def extract_transport(
-    pdf_path: str | Path,
+    pdf_bytes: bytes,
+    filename: str,
     instructions: Mapping[str, Any],
     api_key: str,
 ) -> dict[str, Any]:
-    """POST one PDF to the extraction endpoint using HER request shape."""
+    """POST using the request shape the committed demo responses were produced with."""
 
     return await _post_multipart(
-        pdf_path,
+        pdf_bytes,
+        filename,
         instructions,
         api_key,
         EXTRACT_URL,
@@ -105,14 +117,16 @@ async def extract_transport(
 
 
 async def parse_transport(
-    pdf_path: str | Path,
+    pdf_bytes: bytes,
+    filename: str,
     instructions: Mapping[str, Any],
     api_key: str,
 ) -> dict[str, Any]:
-    """POST one PDF to the parse endpoint using HER request shape."""
+    """POST using the request shape the committed demo responses were produced with."""
 
     return await _post_multipart(
-        pdf_path,
+        pdf_bytes,
+        filename,
         instructions,
         api_key,
         PARSE_URL,

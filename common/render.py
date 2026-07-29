@@ -6,7 +6,6 @@ import binascii
 import math
 import os
 import struct
-import tempfile
 import zlib
 from collections.abc import Mapping, Sequence
 from pathlib import Path
@@ -15,7 +14,11 @@ from typing import Any
 import pypdfium2 as pdfium
 from pypdfium2 import raw
 
+from .atomic import atomic_write
+
 DEFAULT_SCALE = 200 / 72
+MAX_RENDER_WIDTH = 10_000
+MAX_RENDER_PIXELS = 50_000_000
 
 
 def _target_width(page_dims: Any) -> float | None:
@@ -45,7 +48,75 @@ def _target_width(page_dims: Any) -> float | None:
         raise ValueError("page width must be numeric") from None
     if not math.isfinite(normalized) or normalized <= 0:
         raise ValueError("page width must be a positive finite number")
+    if normalized > MAX_RENDER_WIDTH:
+        raise ValueError(f"page width must not exceed {MAX_RENDER_WIDTH} pixels")
     return normalized
+
+
+def _validate_page_index(page_index: int) -> None:
+    if (
+        isinstance(page_index, bool)
+        or not isinstance(page_index, int)
+        or page_index < 0
+    ):
+        raise ValueError("page_index must be a non-negative integer")
+
+
+def _render_geometry(
+    page_width: float,
+    page_height: float,
+    page_dims: Any,
+) -> tuple[float, tuple[int, int]]:
+    if (
+        not math.isfinite(page_width)
+        or not math.isfinite(page_height)
+        or page_width <= 0
+        or page_height <= 0
+    ):
+        raise ValueError("PDF page dimensions must be positive finite numbers")
+
+    target_width = _target_width(page_dims)
+    scale = target_width / page_width if target_width is not None else DEFAULT_SCALE
+    scaled_width = page_width * scale
+    scaled_height = page_height * scale
+    if (
+        not math.isfinite(scale)
+        or scale <= 0
+        or not math.isfinite(scaled_width)
+        or not math.isfinite(scaled_height)
+    ):
+        raise ValueError("render scale must produce positive finite dimensions")
+    image_width = math.ceil(scaled_width)
+    image_height = math.ceil(scaled_height)
+    if image_width > MAX_RENDER_WIDTH:
+        raise ValueError(f"render width must not exceed {MAX_RENDER_WIDTH} pixels")
+    if image_width * image_height > MAX_RENDER_PIXELS:
+        raise ValueError(
+            f"rendered image must not exceed {MAX_RENDER_PIXELS} pixels"
+        )
+    return scale, (image_width, image_height)
+
+
+def _expected_image_size(
+    pdf_path: str | os.PathLike[str],
+    page_index: int,
+    page_dims: Any,
+) -> tuple[int, int]:
+    _validate_page_index(page_index)
+    document = pdfium.PdfDocument(Path(pdf_path))
+    page = None
+    try:
+        if page_index >= len(document):
+            raise IndexError(
+                f"page_index {page_index} is outside the PDF's {len(document)} pages"
+            )
+        page = document[page_index]
+        _, image_size = _render_geometry(*page.get_size(), page_dims)
+        return image_size
+    finally:
+        if page is not None:
+            page.close()
+        document.close()
 
 
 def _rasterize_page(
@@ -55,12 +126,7 @@ def _rasterize_page(
 ) -> tuple[bytes, tuple[int, int]]:
     """Render one PDF page to packed RGBA bytes."""
 
-    if (
-        isinstance(page_index, bool)
-        or not isinstance(page_index, int)
-        or page_index < 0
-    ):
-        raise ValueError("page_index must be a non-negative integer")
+    _validate_page_index(page_index)
 
     document = pdfium.PdfDocument(Path(pdf_path))
     page = None
@@ -72,16 +138,7 @@ def _rasterize_page(
             )
         page = document[page_index]
         page_width, page_height = page.get_size()
-        if (
-            not math.isfinite(page_width)
-            or not math.isfinite(page_height)
-            or page_width <= 0
-            or page_height <= 0
-        ):
-            raise ValueError("PDF page dimensions must be positive finite numbers")
-
-        target_width = _target_width(page_dims)
-        scale = target_width / page_width if target_width is not None else DEFAULT_SCALE
+        scale, expected_size = _render_geometry(page_width, page_height, page_dims)
         bitmap = page.render(
             scale=scale,
             fill_color=(255, 255, 255, 255),
@@ -90,6 +147,8 @@ def _rasterize_page(
         )
         rgba = bytes(bitmap.buffer)
         image_size = (bitmap.width, bitmap.height)
+        if image_size != expected_size:
+            raise ValueError("rasterized bitmap dimensions do not match the render target")
         if len(rgba) != image_size[0] * image_size[1] * 4:
             raise ValueError("rasterized bitmap is not tightly packed RGBA data")
         return rgba, image_size
@@ -134,23 +193,19 @@ def _png_bytes(rgba: bytes, image_size: tuple[int, int]) -> bytes:
     )
 
 
-def _write_atomic(destination: Path, payload: bytes) -> None:
-    destination.parent.mkdir(parents=True, exist_ok=True)
-    temporary_path: Path | None = None
+def _png_dimensions(path: Path) -> tuple[int, int] | None:
     try:
-        with tempfile.NamedTemporaryFile(
-            mode="wb",
-            dir=destination.parent,
-            prefix=f".{destination.name}.",
-            suffix=".tmp",
-            delete=False,
-        ) as temporary_file:
-            temporary_path = Path(temporary_file.name)
-            temporary_file.write(payload)
-        temporary_path.replace(destination)
-    finally:
-        if temporary_path is not None:
-            temporary_path.unlink(missing_ok=True)
+        with path.open("rb") as png_file:
+            header = png_file.read(24)
+    except OSError:
+        return None
+    if (
+        len(header) < 24
+        or header[:8] != b"\x89PNG\r\n\x1a\n"
+        or header[12:16] != b"IHDR"
+    ):
+        return None
+    return struct.unpack(">II", header[16:24])
 
 
 def ensure_page_png(
@@ -161,12 +216,17 @@ def ensure_page_png(
     page_dims: Mapping[str, Any] | Sequence[Any] | None = None,
     refresh: bool = False,
 ) -> Path:
-    """Render a page only for refreshes or when its PNG is missing."""
+    """Render a page when refreshed, missing, or dimensionally stale."""
 
     destination = Path(output_path)
-    if destination.exists() and not refresh:
+    expected_size = _expected_image_size(pdf_path, page_index, page_dims)
+    if (
+        destination.exists()
+        and not refresh
+        and _png_dimensions(destination) == expected_size
+    ):
         return destination
 
     rgba, image_size = _rasterize_page(pdf_path, page_index, page_dims)
-    _write_atomic(destination, _png_bytes(rgba, image_size))
+    atomic_write(destination, _png_bytes(rgba, image_size))
     return destination
