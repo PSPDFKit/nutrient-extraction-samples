@@ -31,19 +31,20 @@
         .pdf-container {
             position: relative;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            line-height: 0;
         }
         .pdf-image {
             display: block;
             max-width: 100%;
             height: auto;
         }
+        .page-gap { height: 8px; }
         .highlight-box {
             position: absolute;
             border: 2px solid #00ff66;
             background-color: rgba(0, 255, 102, 0.15);
             pointer-events: none;
             display: none;
-            transition: all 0.1s ease;
         }
         .sidebar {
             width: 480px;
@@ -93,16 +94,23 @@
             margin-top: 8px;
             font-size: 0.75rem;
         }
-        .confidence {
-            color: #00ff66;
-        }
+        .confidence { color: #00ff66; }
+        .page-badge { color: #888; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="viewport">
             <div class="pdf-container" id="canvas-container">
-                <img src="{{ image_src }}" class="pdf-image" id="target-image">
+                {% for page in pages %}
+                <img src="{{ page.src }}"
+                     id="page-{{ page.index }}"
+                     class="pdf-image"
+                     data-page="{{ page.index }}"
+                     data-width="{{ page.width }}"
+                     data-height="{{ page.height }}">
+                {% if not loop.last %}<div class="page-gap"></div>{% endif %}
+                {% endfor %}
                 <div class="highlight-box" id="highlight"></div>
             </div>
         </div>
@@ -115,12 +123,13 @@
             <div class="fields-list">
                 {% for card in cards %}
                 <div class="field-card"
-                     onmouseenter="highlightField({{ card.x }}, {{ card.y }}, {{ card.width }}, {{ card.height }})"
+                     onmouseenter="highlightField({{ card.x }}, {{ card.y }}, {{ card.width }}, {{ card.height }}, {{ card.page_index }})"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">{{ card.path }}</div>
                     <div class="field-value">{{ card.value }}</div>
                     <div class="field-meta">
-                        <span>Confidence: <span class="confidence">{{ card.confidence }}%</span></span>
+                        <span class="confidence">{{ card.confidence }}%</span>
+                        <span class="page-badge">p.{{ card.page_index + 1 }}</span>
                     </div>
                 </div>
                 {% endfor %}
@@ -129,26 +138,33 @@
     </div>
 
     <script>
-        const image = document.getElementById('target-image');
         const highlight = document.getElementById('highlight');
-
-        const PDF_WIDTH = {{ pdf_width }};
-        const PDF_HEIGHT = {{ pdf_height }};
-
         const viewport = document.querySelector('.viewport');
+        const PAGE_GAP = 8;
 
-        function highlightField(x, y, w, h) {
-            const scaleX = image.clientWidth / PDF_WIDTH;
-            const scaleY = image.clientHeight / PDF_HEIGHT;
+        function getPageYOffset(pageIndex) {
+            let offset = 0;
+            for (let i = 0; i < pageIndex; i++) {
+                const el = document.getElementById('page-' + i);
+                if (el) offset += el.clientHeight + PAGE_GAP;
+            }
+            return offset;
+        }
+
+        function highlightField(x, y, w, h, pageIndex) {
+            const pageEl = document.getElementById('page-' + pageIndex);
+            if (!pageEl) return;
+            const scaleX = pageEl.clientWidth  / parseFloat(pageEl.dataset.width);
+            const scaleY = pageEl.clientHeight / parseFloat(pageEl.dataset.height);
+            const yOff  = getPageYOffset(pageIndex);
             highlight.style.left   = (x * scaleX) + 'px';
-            highlight.style.top    = (y * scaleY) + 'px';
+            highlight.style.top    = (yOff + y * scaleY) + 'px';
             highlight.style.width  = (w * scaleX) + 'px';
             highlight.style.height = (h * scaleY) + 'px';
             highlight.style.display = 'block';
             const vpRect = viewport.getBoundingClientRect();
             const hlRect = highlight.getBoundingClientRect();
-            const delta = (hlRect.top + hlRect.height / 2) - (vpRect.top + vpRect.height / 2);
-            viewport.scrollBy({ top: delta, behavior: 'smooth' });
+            viewport.scrollBy({ top: (hlRect.top + hlRect.height / 2) - (vpRect.top + vpRect.height / 2), behavior: 'smooth' });
         }
 
         function clearHighlight() {

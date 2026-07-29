@@ -63,6 +63,7 @@
     border-radius: 4px;
     box-shadow: 0 4px 32px #0008;
   }
+  .page-gap { height: 8px; }
 
   .highlight {
     position: absolute;
@@ -110,8 +111,6 @@
     border-color: #00ff6655;
     background: #0a1a0f;
   }
-  .card.off-page { cursor: default; }
-  .card.off-page:hover { border-color: #222; background: #161616; }
 
   .field-path {
     font-size: 10px;
@@ -161,8 +160,6 @@
   .conf-bar-fill { height: 100%; background: #00ff66; border-radius: 2px; }
   .conf-label { font-size: 10px; color: #00ff66; font-weight: 600; min-width: 30px; text-align: right; }
 
-  .off-page-note { font-size: 10px; color: #444; margin-top: 6px; font-style: italic; }
-
   footer {
     background: #111;
     border-top: 1px solid #1e1e1e;
@@ -188,7 +185,15 @@
 <div class="main">
   <div class="pdf-pane" id="pdfPane">
     <div class="pdf-wrapper" id="pdfWrapper">
-      <img id="pdfImg" src="{{ image_src }}" alt="SC-100 Small Claims Form">
+      {% for page in pages %}
+      <img id="page-{{ page.index }}"
+           src="{{ page.src }}"
+           data-page="{{ page.index }}"
+           data-width="{{ page.width }}"
+           data-height="{{ page.height }}"
+           alt="SC-100 page {{ page.index + 1 }}">
+      {% if not loop.last %}<div class="page-gap"></div>{% endif %}
+      {% endfor %}
       <div class="highlight" id="highlight"></div>
     </div>
   </div>
@@ -196,12 +201,9 @@
   <div class="sidebar">
     <div class="sidebar-header">Extracted fields — hover to locate</div>
     {% for card in cards %}
-    {% set on_page = card.page_index == rendered_page_index %}
-    <div class="card {% if not on_page %}off-page{% endif %}"
-         {% if on_page %}
-         onmouseenter="showHighlight({{ card.x }}, {{ card.y }}, {{ card.width }}, {{ card.height }}, this)"
-         onmouseleave="hideHighlight(this)"
-         {% endif %}>
+    <div class="card"
+         onmouseenter="showHighlight({{ card.x }}, {{ card.y }}, {{ card.width }}, {{ card.height }}, {{ card.page_index }}, this)"
+         onmouseleave="hideHighlight(this)">
       <div class="field-path">
         {{ card.path.replace('.', ' › ') }}
         <span class="page-badge">p.{{ card.page_index + 1 }}</span>
@@ -215,9 +217,6 @@
         </div>
         <span class="conf-label">{{ card.confidence }}%</span>
       </div>
-      {% if not on_page %}
-      <div class="off-page-note">↗ Located on page {{ card.page_index + 1 }} — open that page to see the highlight</div>
-      {% endif %}
     </div>
     {% endfor %}
   </div>
@@ -229,30 +228,34 @@
 </footer>
 
 <script>
-  const img = document.getElementById('pdfImg');
   const highlight = document.getElementById('highlight');
-  const PDF_WIDTH = {{ pdf_width }};
-  const PDF_HEIGHT = {{ pdf_height }};
+  const pane = document.getElementById('pdfPane');
+  const PAGE_GAP = 8;
 
-  function showHighlight(x, y, w, h, cardEl) {
-    const scaleX = img.clientWidth / PDF_WIDTH;
-    const scaleY = img.clientHeight / PDF_HEIGHT;
+  function getPageYOffset(pageIndex) {
+    let offset = 0;
+    for (let i = 0; i < pageIndex; i++) {
+      const el = document.getElementById('page-' + i);
+      if (el) offset += el.clientHeight + PAGE_GAP;
+    }
+    return offset;
+  }
+
+  function showHighlight(x, y, w, h, pageIndex, cardEl) {
+    const pageEl = document.getElementById('page-' + pageIndex);
+    if (!pageEl) return;
+    const scaleX = pageEl.clientWidth  / parseFloat(pageEl.dataset.width);
+    const scaleY = pageEl.clientHeight / parseFloat(pageEl.dataset.height);
+    const yOff   = getPageYOffset(pageIndex);
     highlight.style.left   = (x * scaleX) + 'px';
-    highlight.style.top    = (y * scaleY) + 'px';
+    highlight.style.top    = (yOff + y * scaleY) + 'px';
     highlight.style.width  = (w * scaleX) + 'px';
     highlight.style.height = (h * scaleY) + 'px';
     highlight.classList.add('active');
     cardEl.classList.add('active');
-
-    // Scroll the pdf pane so the highlight is centered in view.
-    // Use getBoundingClientRect() on the positioned highlight element
-    // so we get its actual viewport coords regardless of current scroll.
-    const pane = document.getElementById('pdfPane');
     const paneRect = pane.getBoundingClientRect();
     const hlRect   = highlight.getBoundingClientRect();
-    const hlMidY   = hlRect.top  + hlRect.height  / 2;
-    const paneMidY = paneRect.top + paneRect.height / 2;
-    pane.scrollBy({ top: hlMidY - paneMidY, behavior: 'smooth' });
+    pane.scrollBy({ top: (hlRect.top + hlRect.height / 2) - (paneRect.top + paneRect.height / 2), behavior: 'smooth' });
   }
 
   function hideHighlight(cardEl) {

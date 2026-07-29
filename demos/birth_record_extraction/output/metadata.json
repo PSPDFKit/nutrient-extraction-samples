@@ -10,7 +10,7 @@
   },
   "metrics": {
     "pagesProcessed": 1,
-    "processingTimeMs": 27131
+    "processingTimeMs": 27253
   },
   "output": {
     "data": {
@@ -32,7 +32,7 @@
       "applicant_signature_block": {
         "printed_name": "Olivia Grace Bennett",
         "signature_date": "07/28/2026",
-        "is_signed": "NO",
+        "is_signed": "YES",
         "title_or_role": "Signature of Applicant"
       }
     },
@@ -412,10 +412,10 @@
       "applicant_signature_block": {
         "printed_name": {
           "bbox": {
-            "height": 60.08690000000024,
-            "width": 686.39658,
-            "x": 239.25635,
-            "y": 4693.3184
+            "height": 77.15487999999914,
+            "width": 830.5039199999997,
+            "x": 3287.0835,
+            "y": 4709.9272
           },
           "confidence": 0.95,
           "confidenceComponents": {
@@ -425,16 +425,16 @@
           "match": "id_match",
           "pageIndex": 0,
           "pageNumber": 1,
-          "recognitionScore": 0.9628361463546753,
+          "recognitionScore": 0.9563704133033752,
           "source_bboxes": [
             {
               "bbox": {
-                "height": 76.5048828125,
-                "width": 691.9029541015625,
-                "x": 236.11767578125,
-                "y": 4682.1455078125
+                "height": 83.64990234375,
+                "width": 843.946044921875,
+                "x": 3282.066162109375,
+                "y": 4706.60498046875
               },
-              "block_id": "b32",
+              "block_id": "b33",
               "pageIndex": 0,
               "pageNumber": 1
             }
@@ -472,106 +472,29 @@
         },
         "is_signed": {
           "bbox": {
-            "height": 53.688232,
-            "width": 93.39038,
-            "x": 3900.0762,
-            "y": 3115.4292
+            "height": 83.33251953125,
+            "width": 650.107421875,
+            "x": 2581.20849609375,
+            "y": 4603.875
           },
-          "confidence": 0.7,
+          "confidence": 0.95,
           "confidenceComponents": {
-            "groundingScore": 0.7,
+            "groundingScore": 0.95,
             "source": "no-logprobs"
           },
-          "match": "fuzzy_match",
+          "match": "id_match",
           "pageIndex": 0,
           "pageNumber": 1,
-          "recognitionScore": 0.7187826633453369,
+          "recognitionScore": 0.9641912579536438,
           "source_bboxes": [
             {
               "bbox": {
-                "height": 331.8125,
-                "width": 1171.425537109375,
-                "x": 3241.404052734375,
-                "y": 396.537353515625
+                "height": 83.33251953125,
+                "width": 650.107421875,
+                "x": 2581.20849609375,
+                "y": 4603.875
               },
-              "block_id": "b3",
-              "pageIndex": 0,
-              "pageNumber": 1
-            },
-            {
-              "bbox": {
-                "height": 392.50439453125,
-                "width": 4468.3330078125,
-                "x": 253.083984375,
-                "y": 1080.949462890625
-              },
-              "block_id": "b5",
-              "pageIndex": 0,
-              "pageNumber": 1
-            },
-            {
-              "bbox": {
-                "height": 420.485595703125,
-                "width": 4410.84375,
-                "x": 316.343505859375,
-                "y": 1640.824462890625
-              },
-              "block_id": "b8",
-              "pageIndex": 0,
-              "pageNumber": 1
-            },
-            {
-              "bbox": {
-                "height": 380.5703125,
-                "width": 4406.8369140625,
-                "x": 247.5,
-                "y": 5282.943359375
-              },
-              "block_id": "b39",
-              "pageIndex": 0,
-              "pageNumber": 1
-            },
-            {
-              "bbox": {
-                "height": 89.203125,
-                "width": 818.015625,
-                "x": 2017.83642578125,
-                "y": 3223.68603515625
-              },
-              "block_id": "b47",
-              "pageIndex": 0,
-              "pageNumber": 1
-            },
-            {
-              "bbox": {
-                "height": 90.43359375,
-                "width": 212.1943359375,
-                "x": 3781.55224609375,
-                "y": 3097.76123046875
-              },
-              "block_id": "b54",
-              "pageIndex": 0,
-              "pageNumber": 1
-            },
-            {
-              "bbox": {
-                "height": 91.537353515625,
-                "width": 472.935546875,
-                "x": 4096.1171875,
-                "y": 3087.74951171875
-              },
-              "block_id": "b55",
-              "pageIndex": 0,
-              "pageNumber": 1
-            },
-            {
-              "bbox": {
-                "height": 98.82861328125,
-                "width": 2155.0029296875,
-                "x": 2044.1590576171875,
-                "y": 4303.84716796875
-              },
-              "block_id": "b57",
+              "block_id": "b61",
               "pageIndex": 0,
               "pageNumber": 1
             }
@@ -617,7 +540,7 @@
       }
     ]
   },
-  "requestId": "GMbHiZjcTDoURBkAAGZi",
+  "requestId": "GMbJtV7WETf2JLQAAIDR",
   "status": 200,
   "usage": {
     "data_extraction_credits": {

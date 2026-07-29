@@ -63,6 +63,7 @@
     border-radius: 4px;
     box-shadow: 0 4px 32px #0008;
   }
+  .page-gap { height: 8px; }
 
   .highlight {
     position: absolute;
@@ -110,8 +111,6 @@
     border-color: #00ff6655;
     background: #0a1a0f;
   }
-  .card.off-page { cursor: default; }
-  .card.off-page:hover { border-color: #222; background: #161616; }
 
   .field-path {
     font-size: 10px;
@@ -161,8 +160,6 @@
   .conf-bar-fill { height: 100%; background: #00ff66; border-radius: 2px; }
   .conf-label { font-size: 10px; color: #00ff66; font-weight: 600; min-width: 30px; text-align: right; }
 
-  .off-page-note { font-size: 10px; color: #444; margin-top: 6px; font-style: italic; }
-
   footer {
     background: #111;
     border-top: 1px solid #1e1e1e;
@@ -188,7 +185,39 @@
 <div class="main">
   <div class="pdf-pane" id="pdfPane">
     <div class="pdf-wrapper" id="pdfWrapper">
-      <img id="pdfImg" src="sc100_page_1.png" alt="SC-100 Small Claims Form">
+      
+      <img id="page-0"
+           src="sc100_page_0.png"
+           data-page="0"
+           data-width="1700"
+           data-height="2200"
+           alt="SC-100 page 1">
+      <div class="page-gap"></div>
+      
+      <img id="page-1"
+           src="sc100_page_1.png"
+           data-page="1"
+           data-width="1700"
+           data-height="2200"
+           alt="SC-100 page 2">
+      <div class="page-gap"></div>
+      
+      <img id="page-2"
+           src="sc100_page_2.png"
+           data-page="2"
+           data-width="1700"
+           data-height="2200"
+           alt="SC-100 page 3">
+      <div class="page-gap"></div>
+      
+      <img id="page-3"
+           src="sc100_page_3.png"
+           data-page="3"
+           data-width="1700"
+           data-height="2200"
+           alt="SC-100 page 4">
+      
+      
       <div class="highlight" id="highlight"></div>
     </div>
   </div>
@@ -196,12 +225,9 @@
   <div class="sidebar">
     <div class="sidebar-header">Extracted fields — hover to locate</div>
     
-    
-    <div class="card "
-         
-         onmouseenter="showHighlight(102, 144, 178, 25, this)"
-         onmouseleave="hideHighlight(this)"
-         >
+    <div class="card"
+         onmouseenter="showHighlight(102, 144, 178, 25, 1, this)"
+         onmouseleave="hideHighlight(this)">
       <div class="field-path">
         plaintiff_name
         <span class="page-badge">p.2</span>
@@ -215,15 +241,11 @@
         </div>
         <span class="conf-label">95%</span>
       </div>
-      
     </div>
     
-    
-    <div class="card "
-         
-         onmouseenter="showHighlight(266, 1075, 422, 30, this)"
-         onmouseleave="hideHighlight(this)"
-         >
+    <div class="card"
+         onmouseenter="showHighlight(266, 1075, 422, 30, 1, this)"
+         onmouseleave="hideHighlight(this)">
       <div class="field-path">
         defendant_name
         <span class="page-badge">p.2</span>
@@ -237,15 +259,11 @@
         </div>
         <span class="conf-label">95%</span>
       </div>
-      
     </div>
     
-    
-    <div class="card "
-         
-         onmouseenter="showHighlight(833, 1602, 102, 27, this)"
-         onmouseleave="hideHighlight(this)"
-         >
+    <div class="card"
+         onmouseenter="showHighlight(833, 1602, 102, 27, 1, this)"
+         onmouseleave="hideHighlight(this)">
       <div class="field-path">
         claim_amount › amount
         <span class="page-badge">p.2</span>
@@ -259,12 +277,11 @@
         </div>
         <span class="conf-label">95%</span>
       </div>
-      
     </div>
     
-    
-    <div class="card off-page"
-         >
+    <div class="card"
+         onmouseenter="showHighlight(98.80133819580078, 971.9080810546875, 936.7673950195312, 66.68310546875, 0, this)"
+         onmouseleave="hideHighlight(this)">
       <div class="field-path">
         claim_amount › iso_4217_currency_code
         <span class="page-badge">p.1</span>
@@ -278,14 +295,11 @@
         </div>
         <span class="conf-label">70%</span>
       </div>
-      
-      <div class="off-page-note">↗ Located on page 1 — open that page to see the highlight</div>
-      
     </div>
     
-    
-    <div class="card off-page"
-         >
+    <div class="card"
+         onmouseenter="showHighlight(602, 258, 133, 25, 2, this)"
+         onmouseleave="hideHighlight(this)">
       <div class="field-path">
         incident_date
         <span class="page-badge">p.3</span>
@@ -299,17 +313,11 @@
         </div>
         <span class="conf-label">95%</span>
       </div>
-      
-      <div class="off-page-note">↗ Located on page 3 — open that page to see the highlight</div>
-      
     </div>
     
-    
-    <div class="card "
-         
-         onmouseenter="showHighlight(216, 1794, 964, 128, this)"
-         onmouseleave="hideHighlight(this)"
-         >
+    <div class="card"
+         onmouseenter="showHighlight(216, 1794, 964, 128, 1, this)"
+         onmouseleave="hideHighlight(this)">
       <div class="field-path">
         incident_reason
         <span class="page-badge">p.2</span>
@@ -323,7 +331,6 @@
         </div>
         <span class="conf-label">95%</span>
       </div>
-      
     </div>
     
   </div>
@@ -335,30 +342,34 @@
 </footer>
 
 <script>
-  const img = document.getElementById('pdfImg');
   const highlight = document.getElementById('highlight');
-  const PDF_WIDTH = 1700;
-  const PDF_HEIGHT = 2200;
+  const pane = document.getElementById('pdfPane');
+  const PAGE_GAP = 8;
 
-  function showHighlight(x, y, w, h, cardEl) {
-    const scaleX = img.clientWidth / PDF_WIDTH;
-    const scaleY = img.clientHeight / PDF_HEIGHT;
+  function getPageYOffset(pageIndex) {
+    let offset = 0;
+    for (let i = 0; i < pageIndex; i++) {
+      const el = document.getElementById('page-' + i);
+      if (el) offset += el.clientHeight + PAGE_GAP;
+    }
+    return offset;
+  }
+
+  function showHighlight(x, y, w, h, pageIndex, cardEl) {
+    const pageEl = document.getElementById('page-' + pageIndex);
+    if (!pageEl) return;
+    const scaleX = pageEl.clientWidth  / parseFloat(pageEl.dataset.width);
+    const scaleY = pageEl.clientHeight / parseFloat(pageEl.dataset.height);
+    const yOff   = getPageYOffset(pageIndex);
     highlight.style.left   = (x * scaleX) + 'px';
-    highlight.style.top    = (y * scaleY) + 'px';
+    highlight.style.top    = (yOff + y * scaleY) + 'px';
     highlight.style.width  = (w * scaleX) + 'px';
     highlight.style.height = (h * scaleY) + 'px';
     highlight.classList.add('active');
     cardEl.classList.add('active');
-
-    // Scroll the pdf pane so the highlight is centered in view.
-    // Use getBoundingClientRect() on the positioned highlight element
-    // so we get its actual viewport coords regardless of current scroll.
-    const pane = document.getElementById('pdfPane');
     const paneRect = pane.getBoundingClientRect();
     const hlRect   = highlight.getBoundingClientRect();
-    const hlMidY   = hlRect.top  + hlRect.height  / 2;
-    const paneMidY = paneRect.top + paneRect.height / 2;
-    pane.scrollBy({ top: hlMidY - paneMidY, behavior: 'smooth' });
+    pane.scrollBy({ top: (hlRect.top + hlRect.height / 2) - (paneRect.top + paneRect.height / 2), behavior: 'smooth' });
   }
 
   function hideHighlight(cardEl) {

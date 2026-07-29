@@ -11,11 +11,6 @@ load_dotenv(Path(__file__).parent.parent.parent / ".env")
 
 API_URL = "https://api.nutrient.io/extraction/extract"
 
-# The SC-100's key fields (plaintiff, defendant, claim, narrative) are on page 2.
-# Render page 2 so hover highlights are visible on the displayed image.
-RENDERED_PAGE_NUMBER = 2   # 1-indexed for pdf2image
-RENDERED_PAGE_INDEX = 1    # 0-indexed for API pageIndex comparison
-
 
 async def process_document(doc_config, api_key):
     pdf_path = (Path(__file__).parent / doc_config["file"]).resolve()
@@ -48,19 +43,20 @@ async def process_document(doc_config, api_key):
     output_dir = Path(__file__).parent / "output"
     output_dir.mkdir(exist_ok=True)
 
-    pages = convert_from_path(
-        pdf_path,
-        first_page=RENDERED_PAGE_NUMBER,
-        last_page=RENDERED_PAGE_NUMBER,
-    )
-    img_filename = f"{doc_config['id']}_page_{RENDERED_PAGE_INDEX}.png"
-    pages[0].save(output_dir / img_filename, "PNG")
+    all_pages = convert_from_path(pdf_path)
+    pages_info = []
+    for i, page_img in enumerate(all_pages):
+        img_filename = f"{doc_config['id']}_page_{i}.png"
+        page_img.save(output_dir / img_filename, "PNG")
+        page_data = result_json["output"]["pages"][i]
+        pages_info.append({
+            "index": i,
+            "src": img_filename,
+            "width": page_data["width"],
+            "height": page_data["height"],
+        })
 
-    page_info = result_json["output"]["pages"][RENDERED_PAGE_INDEX]
-    page_width = page_info["width"]
-    page_height = page_info["height"]
-
-    return result_json, img_filename, page_width, page_height
+    return result_json, pages_info
 
 
 def build_cards(data_node, meta_node, path=""):
@@ -101,17 +97,14 @@ def build_cards(data_node, meta_node, path=""):
     return cards
 
 
-def render_html(cards, img_filename, page_width, page_height, doc_config):
+def render_html(cards, pages_info, doc_config):
     template_dir = Path(__file__).parent
     env = Environment(loader=FileSystemLoader(str(template_dir)))
     template = env.get_template("template.html")
 
     html_output = template.render(
         doc_name=doc_config["name"],
-        image_src=img_filename,
-        pdf_width=page_width,
-        pdf_height=page_height,
-        rendered_page_index=RENDERED_PAGE_INDEX,
+        pages=pages_info,
         cards=cards,
     )
 
@@ -122,7 +115,7 @@ def render_html(cards, img_filename, page_width, page_height, doc_config):
     with open(output_dir / "metadata.json", "w") as f:
         json.dump(cards, f, indent=2)
 
-    print(f"Generated {len(cards)} grounded field highlights.")
+    print(f"Generated {len(cards)} grounded field highlights across {len(pages_info)} page(s).")
     print("Open output/index.html in a browser to view the demo.")
 
 
@@ -140,13 +133,13 @@ async def main():
     if not pdf_path.exists():
         raise SystemExit(f"PDF not found at {pdf_path}. Add the file and retry.")
 
-    result_data, img_filename, page_width, page_height = await process_document(config, api_key)
+    result_data, pages_info = await process_document(config, api_key)
 
     extracted = result_data.get("output", {}).get("data", {})
     metadata = result_data.get("output", {}).get("metadata", {})
     cards = build_cards(extracted, metadata)
 
-    render_html(cards, img_filename, page_width, page_height, config)
+    render_html(cards, pages_info, config)
 
 
 if __name__ == "__main__":

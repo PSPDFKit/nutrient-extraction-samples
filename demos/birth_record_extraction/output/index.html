@@ -24,15 +24,15 @@
             background-color: #121212;
             border-right: 1px solid #333;
         }
-        .pdf-container { position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .pdf-container { position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.5); line-height: 0; }
         .pdf-image { display: block; max-width: 100%; height: auto; }
+        .page-gap { height: 8px; }
         .highlight-box {
             position: absolute;
             border: 2px solid #00ff66;
             background-color: rgba(0, 255, 102, 0.15);
             pointer-events: none;
             display: none;
-            transition: all 0.1s ease;
         }
         .sidebar { width: 480px; display: flex; flex-direction: column; background-color: #1e1e1e; }
         .header { padding: 20px; border-bottom: 1px solid #333; }
@@ -63,7 +63,15 @@
     <div class="container">
         <div class="viewport">
             <div class="pdf-container">
-                <img src="indiana_birth_record_page_0.png" class="pdf-image" id="target-image">
+                
+                <img src="indiana_birth_record_page_0.png"
+                     id="page-0"
+                     class="pdf-image"
+                     data-page="0"
+                     data-width="4986"
+                     data-height="7021">
+                
+                
                 <div class="highlight-box" id="highlight"></div>
             </div>
         </div>
@@ -76,178 +84,178 @@
             <div class="fields-list">
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(302.38525, 2116.7156, 667.3820900000001, 57.945966000000226)"
+                     onmouseenter="highlightField(302.38525, 2116.7156, 667.3820900000001, 57.945966000000226, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">full_name_at_birth</div>
                     <div class="field-value">Olivia Grace Bennett</div>
                     <div class="field-meta">
                         <span class="confidence">95% confidence</span>
-                        <span class="page-badge">page 1</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(289.53027, 3170.6494, 361.42004, 60.67627)"
+                     onmouseenter="highlightField(289.53027, 3170.6494, 361.42004, 60.67627, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">date_of_birth</div>
                     <div class="field-value">05/14/1992</div>
                     <div class="field-meta">
                         <span class="confidence">95% confidence</span>
-                        <span class="page-badge">page 1</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(298.6897, 2747.7056, 370.40538000000004, 74.74266000000034)"
+                     onmouseenter="highlightField(298.6897, 2747.7056, 370.40538000000004, 74.74266000000034, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">place_of_birth_city</div>
                     <div class="field-value">Fort Wayne</div>
                     <div class="field-meta">
                         <span class="confidence">95% confidence</span>
-                        <span class="page-badge">page 1</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(295.1543, 2953.685, 906.3460600000001, 79.19630000000006)"
+                     onmouseenter="highlightField(295.1543, 2953.685, 906.3460600000001, 79.19630000000006, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">hospital_name</div>
                     <div class="field-value">Lutheran Hospital of Indiana</div>
                     <div class="field-meta">
                         <span class="confidence">95% confidence</span>
-                        <span class="page-badge">page 1</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(288.86865, 3396.6506, 607.38365, 63.500782999999956)"
+                     onmouseenter="highlightField(288.86865, 3396.6506, 607.38365, 63.500782999999956, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">parent_1_name</div>
                     <div class="field-value">Michael T. Bennett</div>
                     <div class="field-meta">
                         <span class="confidence">95% confidence</span>
-                        <span class="page-badge">page 1</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(282.34058, 3603.608, 1046.34949, 79.75677599999972)"
+                     onmouseenter="highlightField(282.34058, 3603.608, 1046.34949, 79.75677599999972, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">parent_2_name</div>
                     <div class="field-value">Sarah J. Bennett (nee Coleman)</div>
                     <div class="field-meta">
                         <span class="confidence">95% confidence</span>
-                        <span class="page-badge">page 1</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(277.68677, 3810.5798, 653.49365, 76.8418099999999)"
+                     onmouseenter="highlightField(277.68677, 3810.5798, 653.49365, 76.8418099999999, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">purpose</div>
                     <div class="field-value">Passport application</div>
                     <div class="field-meta">
                         <span class="confidence">95% confidence</span>
-                        <span class="page-badge">page 1</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(267.23315, 4023.5073, 130.39697, 54.96289)"
+                     onmouseenter="highlightField(267.23315, 4023.5073, 130.39697, 54.96289, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">relationship</div>
                     <div class="field-value">Self</div>
                     <div class="field-meta">
                         <span class="confidence">95% confidence</span>
-                        <span class="page-badge">page 1</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(239.25635, 4693.3184, 686.39658, 60.08690000000024)"
+                     onmouseenter="highlightField(239.25635, 4693.3184, 686.39658, 60.08690000000024, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">applicant_name</div>
                     <div class="field-value">Olivia Grace Bennett</div>
                     <div class="field-meta">
                         <span class="confidence">95% confidence</span>
-                        <span class="page-badge">page 1</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(232.64697, 4910.2754, 1477.40444, 76.54297999999926)"
+                     onmouseenter="highlightField(232.64697, 4910.2754, 1477.40444, 76.54297999999926, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">mailing_address</div>
                     <div class="field-value">742 Maplewood Drive, Fort Wayne, IN 46805</div>
                     <div class="field-meta">
                         <span class="confidence">95% confidence</span>
-                        <span class="page-badge">page 1</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(234.18555, 5091.2925, 497.5130599999999, 72.24413999999979)"
+                     onmouseenter="highlightField(234.18555, 5091.2925, 497.5130599999999, 72.24413999999979, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">telephone_number</div>
                     <div class="field-value">(260) 555-0148</div>
                     <div class="field-meta">
                         <span class="confidence">95% confidence</span>
-                        <span class="page-badge">page 1</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(4531.51318359375, 4508.7900390625, 187.4873046875, 66.93115234375)"
+                     onmouseenter="highlightField(4531.51318359375, 4508.7900390625, 187.4873046875, 66.93115234375, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">total_fee.amount</div>
                     <div class="field-value">10.00</div>
                     <div class="field-meta">
                         <span class="confidence">96% confidence</span>
-                        <span class="page-badge">page 1</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(239.25635, 4693.3184, 686.39658, 60.08690000000024)"
+                     onmouseenter="highlightField(3287.0835, 4709.9272, 830.5039199999997, 77.15487999999914, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">applicant_signature_block.printed_name</div>
                     <div class="field-value">Olivia Grace Bennett</div>
                     <div class="field-meta">
                         <span class="confidence">95% confidence</span>
-                        <span class="page-badge">page 1</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(2558.1885, 5111.531, 360.42773, 61.668945)"
+                     onmouseenter="highlightField(2558.1885, 5111.531, 360.42773, 61.668945, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">applicant_signature_block.signature_date</div>
                     <div class="field-value">07/28/2026</div>
                     <div class="field-meta">
                         <span class="confidence">95% confidence</span>
-                        <span class="page-badge">page 1</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(3900.0762, 3115.4292, 93.39038, 53.688232)"
+                     onmouseenter="highlightField(2581.20849609375, 4603.875, 650.107421875, 83.33251953125, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">applicant_signature_block.is_signed</div>
-                    <div class="field-value">NO</div>
+                    <div class="field-value">YES</div>
                     <div class="field-meta">
-                        <span class="confidence">70% confidence</span>
-                        <span class="page-badge">page 1</span>
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(2589.8594, 4609.7524, 638.4348, 74.73053999999956)"
+                     onmouseenter="highlightField(2589.8594, 4609.7524, 638.4348, 74.73053999999956, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">applicant_signature_block.title_or_role</div>
                     <div class="field-value">Signature of Applicant</div>
                     <div class="field-meta">
                         <span class="confidence">95% confidence</span>
-                        <span class="page-badge">page 1</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
@@ -255,25 +263,33 @@
         </div>
     </div>
     <script>
-        const image = document.getElementById('target-image');
         const highlight = document.getElementById('highlight');
-        const PDF_WIDTH = 4986;
-        const PDF_HEIGHT = 7021;
-
         const viewport = document.querySelector('.viewport');
+        const PAGE_GAP = 8;
 
-        function highlightField(x, y, w, h) {
-            const scaleX = image.clientWidth / PDF_WIDTH;
-            const scaleY = image.clientHeight / PDF_HEIGHT;
+        function getPageYOffset(pageIndex) {
+            let offset = 0;
+            for (let i = 0; i < pageIndex; i++) {
+                const el = document.getElementById('page-' + i);
+                if (el) offset += el.clientHeight + PAGE_GAP;
+            }
+            return offset;
+        }
+
+        function highlightField(x, y, w, h, pageIndex) {
+            const pageEl = document.getElementById('page-' + pageIndex);
+            if (!pageEl) return;
+            const scaleX = pageEl.clientWidth  / parseFloat(pageEl.dataset.width);
+            const scaleY = pageEl.clientHeight / parseFloat(pageEl.dataset.height);
+            const yOff  = getPageYOffset(pageIndex);
             highlight.style.left   = (x * scaleX) + 'px';
-            highlight.style.top    = (y * scaleY) + 'px';
+            highlight.style.top    = (yOff + y * scaleY) + 'px';
             highlight.style.width  = (w * scaleX) + 'px';
             highlight.style.height = (h * scaleY) + 'px';
             highlight.style.display = 'block';
             const vpRect = viewport.getBoundingClientRect();
             const hlRect = highlight.getBoundingClientRect();
-            const delta = (hlRect.top + hlRect.height / 2) - (vpRect.top + vpRect.height / 2);
-            viewport.scrollBy({ top: delta, behavior: 'smooth' });
+            viewport.scrollBy({ top: (hlRect.top + hlRect.height / 2) - (vpRect.top + vpRect.height / 2), behavior: 'smooth' });
         }
 
         function clearHighlight() {

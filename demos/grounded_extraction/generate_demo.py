@@ -43,25 +43,23 @@ async def process_document(doc_config, api_key):
     output_dir = Path(__file__).parent / "output"
     output_dir.mkdir(exist_ok=True)
 
-    # Render page 1 to a PNG for browser display
-    pages = convert_from_path(pdf_path, first_page=1, last_page=1)
-    img_filename = f"{doc_config['id']}_page_0.png"
-    pages[0].save(output_dir / img_filename, "PNG")
+    all_pages = convert_from_path(pdf_path)
+    pages_info = []
+    for i, page_img in enumerate(all_pages):
+        img_filename = f"{doc_config['id']}_page_{i}.png"
+        page_img.save(output_dir / img_filename, "PNG")
+        page_data = result_json["output"]["pages"][i]
+        pages_info.append({
+            "index": i,
+            "src": img_filename,
+            "width": page_data["width"],
+            "height": page_data["height"],
+        })
 
-    # Get page dimensions from the API response — these match the bbox coordinate space
-    page_info = result_json["output"]["pages"][0]
-    page_width = page_info["width"]
-    page_height = page_info["height"]
-
-    return result_json, img_filename, page_width, page_height
+    return result_json, pages_info
 
 
 def build_cards(data_node, meta_node, path=""):
-    """
-    Recursively walk data and metadata simultaneously.
-    Both mirror the same nested structure, so we traverse them in lockstep.
-    Leaf nodes that have a bbox in metadata become highlight cards.
-    """
     cards = []
 
     if isinstance(data_node, dict):
@@ -78,11 +76,11 @@ def build_cards(data_node, meta_node, path=""):
             cards.extend(build_cards(item, child_meta, child_path))
 
     else:
-        # Leaf value — pull bbox and confidence from the paired metadata node
         if not isinstance(meta_node, dict):
             return cards
         bbox = meta_node.get("bbox")
         confidence = meta_node.get("confidence", 1.0)
+        page_index = meta_node.get("pageIndex", 0)
 
         if bbox:
             if isinstance(data_node, (int, float)) and "amount" in path:
@@ -99,26 +97,24 @@ def build_cards(data_node, meta_node, path=""):
                 "y": bbox["y"],
                 "width": bbox["width"],
                 "height": bbox["height"],
+                "page_index": page_index,
             })
 
     return cards
 
 
-def render_html_template(result_data, img_filename, page_width, page_height, doc_config):
+def render_html_template(result_data, pages_info, doc_config):
     template_dir = Path(__file__).parent
     env = Environment(loader=FileSystemLoader(str(template_dir)))
     template = env.get_template("template.html")
 
     extracted_values = result_data.get("output", {}).get("data", {})
     metadata = result_data.get("output", {}).get("metadata", {})
-
     cards = build_cards(extracted_values, metadata)
 
     html_output = template.render(
         doc_name=doc_config["name"],
-        image_src=img_filename,
-        pdf_width=page_width,
-        pdf_height=page_height,
+        pages=pages_info,
         cards=cards,
     )
 
@@ -129,8 +125,8 @@ def render_html_template(result_data, img_filename, page_width, page_height, doc
     with open(output_dir / "metadata.json", "w") as f:
         json.dump(result_data, f, indent=2)
 
-    print(f"Generated {len(cards)} field highlights.")
-    print(f"Open output/index.html in a browser to view the demo.")
+    print(f"Generated {len(cards)} field highlights across {len(pages_info)} page(s).")
+    print("Open output/index.html in a browser to view the demo.")
 
 
 async def main():
@@ -142,12 +138,9 @@ async def main():
     with open(docs_path, "r") as f:
         configs = json.load(f)
 
-    hero_config = configs[0]
-
-    result_data, img_filename, page_width, page_height = await process_document(
-        hero_config, api_key
-    )
-    render_html_template(result_data, img_filename, page_width, page_height, hero_config)
+    config = configs[0]
+    result_data, pages_info = await process_document(config, api_key)
+    render_html_template(result_data, pages_info, config)
 
 
 if __name__ == "__main__":

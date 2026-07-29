@@ -31,19 +31,20 @@
         .pdf-container {
             position: relative;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            line-height: 0;
         }
         .pdf-image {
             display: block;
             max-width: 100%;
             height: auto;
         }
+        .page-gap { height: 8px; }
         .highlight-box {
             position: absolute;
             border: 2px solid #00ff66;
             background-color: rgba(0, 255, 102, 0.15);
             pointer-events: none;
             display: none;
-            transition: all 0.1s ease;
         }
         .sidebar {
             width: 480px;
@@ -93,16 +94,23 @@
             margin-top: 8px;
             font-size: 0.75rem;
         }
-        .confidence {
-            color: #00ff66;
-        }
+        .confidence { color: #00ff66; }
+        .page-badge { color: #888; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="viewport">
             <div class="pdf-container" id="canvas-container">
-                <img src="cms_1500_page_0.png" class="pdf-image" id="target-image">
+                
+                <img src="cms_1500_page_0.png"
+                     id="page-0"
+                     class="pdf-image"
+                     data-page="0"
+                     data-width="1700"
+                     data-height="2200">
+                
+                
                 <div class="highlight-box" id="highlight"></div>
             </div>
         </div>
@@ -115,122 +123,167 @@
             <div class="fields-list">
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(1030, 302, 127, 22)"
+                     onmouseenter="highlightField(1030, 302, 127, 22, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">insured_id_number</div>
                     <div class="field-value">XW1234567</div>
                     <div class="field-meta">
-                        <span>Confidence: <span class="confidence">95%</span></span>
+                        <span class="confidence">95%</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(52, 369, 189, 25)"
+                     onmouseenter="highlightField(52, 369, 189, 25, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">patient_name</div>
                     <div class="field-value">Thornton, Emily R.</div>
                     <div class="field-meta">
-                        <span>Confidence: <span class="confidence">95%</span></span>
+                        <span class="confidence">95%</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(1030, 1375, 127, 19)"
+                     onmouseenter="highlightField(1030, 1375, 127, 19, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">prior_authorization_number</div>
                     <div class="field-value">PA-0098765</div>
                     <div class="field-meta">
-                        <span>Confidence: <span class="confidence">95%</span></span>
+                        <span class="confidence">95%</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(55, 1901.9388427734375, 1344, 22.0611572265625)"
+                     onmouseenter="highlightField(55, 1901.9388427734375, 1344, 22.0611572265625, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">total_charge.amount</div>
                     <div class="field-value">170.00</div>
                     <div class="field-meta">
-                        <span>Confidence: <span class="confidence">96%</span></span>
+                        <span class="confidence">96%</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(69, 1505, 142, 19)"
+                     onmouseenter="highlightField(55, 1901.9388427734375, 1344, 22.0611572265625, 0)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">total_charge.iso_4217_currency_code</div>
+                    <div class="field-value">USD</div>
+                    <div class="field-meta">
+                        <span class="confidence">95%</span>
+                        <span class="page-badge">p.1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(69, 1505, 142, 19, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">service_lines[0].date_of_service_from</div>
                     <div class="field-value">10 26 07</div>
                     <div class="field-meta">
-                        <span>Confidence: <span class="confidence">95%</span></span>
+                        <span class="confidence">95%</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(544, 1505, 63, 19)"
+                     onmouseenter="highlightField(544, 1505, 63, 19, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">service_lines[0].procedure_code</div>
                     <div class="field-value">99213</div>
                     <div class="field-meta">
-                        <span>Confidence: <span class="confidence">95%</span></span>
+                        <span class="confidence">95%</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(1083, 1499.1651611328125, 88.0562744140625, 23.3558349609375)"
+                     onmouseenter="highlightField(1083, 1499.1651611328125, 88.0562744140625, 23.3558349609375, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">service_lines[0].line_charges.amount</div>
                     <div class="field-value">125.00</div>
                     <div class="field-meta">
-                        <span>Confidence: <span class="confidence">96%</span></span>
+                        <span class="confidence">96%</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(1391, 1505, 127, 19)"
+                     onmouseenter="highlightField(1083, 1499.1651611328125, 88.0562744140625, 23.3558349609375, 0)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">service_lines[0].line_charges.iso_4217_currency_code</div>
+                    <div class="field-value">USD</div>
+                    <div class="field-meta">
+                        <span class="confidence">95%</span>
+                        <span class="page-badge">p.1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(1391, 1505, 127, 19, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">service_lines[0].rendering_provider_npi</div>
                     <div class="field-value">1234567890</div>
                     <div class="field-meta">
-                        <span>Confidence: <span class="confidence">95%</span></span>
+                        <span class="confidence">95%</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(69, 1572, 83, 19)"
+                     onmouseenter="highlightField(69, 1572, 83, 19, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">service_lines[1].date_of_service_from</div>
                     <div class="field-value">10 07</div>
                     <div class="field-meta">
-                        <span>Confidence: <span class="confidence">95%</span></span>
+                        <span class="confidence">95%</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(544, 1572, 63, 19)"
+                     onmouseenter="highlightField(544, 1572, 63, 19, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">service_lines[1].procedure_code</div>
                     <div class="field-value">87880</div>
                     <div class="field-meta">
-                        <span>Confidence: <span class="confidence">95%</span></span>
+                        <span class="confidence">95%</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(1092.2169189453125, 1569.454833984375, 80.310302734375, 23.4119873046875)"
+                     onmouseenter="highlightField(1092.2169189453125, 1569.454833984375, 80.310302734375, 23.4119873046875, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">service_lines[1].line_charges.amount</div>
                     <div class="field-value">45.00</div>
                     <div class="field-meta">
-                        <span>Confidence: <span class="confidence">96%</span></span>
+                        <span class="confidence">96%</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(1391, 1505, 127, 19)"
+                     onmouseenter="highlightField(1092.2169189453125, 1569.454833984375, 80.310302734375, 23.4119873046875, 0)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">service_lines[1].line_charges.iso_4217_currency_code</div>
+                    <div class="field-value">USD</div>
+                    <div class="field-meta">
+                        <span class="confidence">95%</span>
+                        <span class="page-badge">p.1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(1391, 1572, 127, 19, 0)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">service_lines[1].rendering_provider_npi</div>
                     <div class="field-value">1234567890</div>
                     <div class="field-meta">
-                        <span>Confidence: <span class="confidence">95%</span></span>
+                        <span class="confidence">95%</span>
+                        <span class="page-badge">p.1</span>
                     </div>
                 </div>
                 
@@ -239,26 +292,33 @@
     </div>
 
     <script>
-        const image = document.getElementById('target-image');
         const highlight = document.getElementById('highlight');
-
-        const PDF_WIDTH = 1700;
-        const PDF_HEIGHT = 2200;
-
         const viewport = document.querySelector('.viewport');
+        const PAGE_GAP = 8;
 
-        function highlightField(x, y, w, h) {
-            const scaleX = image.clientWidth / PDF_WIDTH;
-            const scaleY = image.clientHeight / PDF_HEIGHT;
+        function getPageYOffset(pageIndex) {
+            let offset = 0;
+            for (let i = 0; i < pageIndex; i++) {
+                const el = document.getElementById('page-' + i);
+                if (el) offset += el.clientHeight + PAGE_GAP;
+            }
+            return offset;
+        }
+
+        function highlightField(x, y, w, h, pageIndex) {
+            const pageEl = document.getElementById('page-' + pageIndex);
+            if (!pageEl) return;
+            const scaleX = pageEl.clientWidth  / parseFloat(pageEl.dataset.width);
+            const scaleY = pageEl.clientHeight / parseFloat(pageEl.dataset.height);
+            const yOff  = getPageYOffset(pageIndex);
             highlight.style.left   = (x * scaleX) + 'px';
-            highlight.style.top    = (y * scaleY) + 'px';
+            highlight.style.top    = (yOff + y * scaleY) + 'px';
             highlight.style.width  = (w * scaleX) + 'px';
             highlight.style.height = (h * scaleY) + 'px';
             highlight.style.display = 'block';
             const vpRect = viewport.getBoundingClientRect();
             const hlRect = highlight.getBoundingClientRect();
-            const delta = (hlRect.top + hlRect.height / 2) - (vpRect.top + vpRect.height / 2);
-            viewport.scrollBy({ top: delta, behavior: 'smooth' });
+            viewport.scrollBy({ top: (hlRect.top + hlRect.height / 2) - (vpRect.top + vpRect.height / 2), behavior: 'smooth' });
         }
 
         function clearHighlight() {
