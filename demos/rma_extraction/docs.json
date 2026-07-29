@@ -1,0 +1,60 @@
+[
+  {
+    "id": "rma_form",
+    "name": "Making Home Affordable Program — Request for Mortgage Assistance (RMA)",
+    "file": "data/rma_form.pdf",
+    "mode": "agentic",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "loan_id_number": {
+          "type": "string",
+          "description": "The Loan I.D. Number found in the header of page 1."
+        },
+        "servicer_name": {
+          "type": "string",
+          "description": "The Servicer name listed next to the Loan ID on page 1."
+        },
+        "borrower_name": {
+          "type": "string",
+          "description": "The primary borrower's full name from the BORROWER section on page 1."
+        },
+        "borrower_ssn": {
+          "type": "string",
+          "description": "The primary borrower's Social Security Number from the BORROWER section on page 1."
+        },
+        "property_address": {
+          "type": "string",
+          "description": "The full mailing/property address listed on page 1."
+        },
+        "hardship_explanation": {
+          "type": "string",
+          "description": "The handwritten or typed explanation for hardship written at the bottom of page 1 under the Hardship Affidavit section."
+        },
+        "household_size": {
+          "type": "string",
+          "description": "The Number of People in Household listed at the top of page 2."
+        },
+        "total_gross_income": {
+          "type": "object",
+          "properties": {
+            "amount": { "type": "number" },
+            "iso_4217_currency_code": { "type": "string" }
+          },
+          "required": ["amount", "iso_4217_currency_code"],
+          "description": "The Total Gross Income dollar amount from the LEFTMOST 'Monthly Household Income' table on page 2, from the row labeled 'Total (Gross Income)'. This is NOT the Total Assets value and NOT the Total Debt/Expenses value."
+        },
+        "total_monthly_expenses": {
+          "type": "object",
+          "properties": {
+            "amount": { "type": "number" },
+            "iso_4217_currency_code": { "type": "string" }
+          },
+          "required": ["amount", "iso_4217_currency_code"],
+          "description": "The Total Debt/Expenses dollar amount from the middle 'Monthly Household Expenses/Debt' table on page 2, from the row labeled 'Total Debt/Expenses'."
+        }
+      },
+      "required": ["loan_id_number", "borrower_name", "property_address", "hardship_explanation", "total_gross_income", "total_monthly_expenses"]
+    }
+  }
+]

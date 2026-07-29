@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nutrient Grounded Extraction — RMA Form</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #1a1a1a;
+            color: #f5f5f5;
+        }
+        .container { display: flex; width: 100%; height: 100%; }
+        .viewport {
+            flex: 1;
+            position: relative;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            background-color: #121212;
+            border-right: 1px solid #333;
+        }
+        .pdf-container { position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .pdf-image { display: block; max-width: 100%; height: auto; }
+        .highlight-box {
+            position: absolute;
+            border: 2px solid #00ff66;
+            background-color: rgba(0, 255, 102, 0.15);
+            pointer-events: none;
+            display: none;
+            transition: all 0.1s ease;
+        }
+        .sidebar { width: 480px; display: flex; flex-direction: column; background-color: #1e1e1e; }
+        .header { padding: 20px; border-bottom: 1px solid #333; }
+        .header h1 { margin: 0; font-size: 1.1rem; }
+        .header p { margin: 6px 0 0; font-size: 0.78rem; color: #888; line-height: 1.4; }
+        .fields-list { flex: 1; overflow-y: auto; padding: 20px; }
+        .field-card {
+            background-color: #2a2a2a;
+            border: 1px solid #3d3d3d;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .field-card:hover, .field-card.active {
+            background-color: #333;
+            border-color: #00ff66;
+        }
+        .field-card.other-page {
+            opacity: 0.6;
+        }
+        .field-path { font-family: monospace; font-size: 0.78rem; color: #aaa; }
+        .field-value { font-weight: 600; margin-top: 6px; color: #fff; word-break: break-word; }
+        .field-meta { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.72rem; }
+        .confidence { color: #00ff66; }
+        .page-badge { color: #888; }
+        .page-badge.other-page { color: #555; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="viewport">
+            <div class="pdf-container">
+                <img src="rma_form_page_0.png" class="pdf-image" id="target-image">
+                <div class="highlight-box" id="highlight"></div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <div class="header">
+                <h1>Grounded Field Extraction</h1>
+                <p>Making Home Affordable Program — Request for Mortgage Assistance (RMA)</p>
+                <p style="margin-top:8px; color:#666;">Hover a field to see its exact location highlighted on the document. Fields from other pages are dimmed.</p>
+            </div>
+            <div class="fields-list">
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(669.76953, 680.91504, 649.2091, 63.264893, 0)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">loan_id_number</div>
+                    <div class="field-value">0012345678</div>
+                    <div class="field-meta">
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(2916.749, 690.75854, 899.21441, 62.51076999999998, 0)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">servicer_name</div>
+                    <div class="field-value">Meridian Loan Servicing Inc</div>
+                    <div class="field-meta">
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(345.50098, 1045.7849, 583.18494, 66.03488599999991, 0)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">borrower_name</div>
+                    <div class="field-value">Patricia N. Alvarez</div>
+                    <div class="field-meta">
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(346.79248, 1247.7908, 403.2068, 61.406494, 0)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">borrower_ssn</div>
+                    <div class="field-value">000-45-6789</div>
+                    <div class="field-meta">
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(325.04346, 2326.7214, 1393.18356, 71.29476000000022, 0)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">property_address</div>
+                    <div class="field-value">3390 Maple Grove Lane, Denver, CO 80219</div>
+                    <div class="field-meta">
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(303.15576171875, 5823.72705078125, 3587.3271484375, 275.3369140625, 0)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">hardship_explanation</div>
+                    <div class="field-value">Reduced work hours led to a decrease in household income, making it difficult to keep up with the mortgage payment</div>
+                    <div class="field-meta">
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card other-page"
+                     onmouseenter="highlightField(3259.4697265625, 452.216552734375, 997.63623046875, 106.076416015625, 1)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">household_size</div>
+                    <div class="field-value">2</div>
+                    <div class="field-meta">
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge other-page">page 2 — not shown</span>
+                    </div>
+                </div>
+                
+                <div class="field-card other-page"
+                     onmouseenter="highlightField(4404.253, 2975.0645, 257.75684, 62.38867, 1)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">total_gross_income.amount</div>
+                    <div class="field-value">6500.00</div>
+                    <div class="field-meta">
+                        <span class="confidence">96% confidence</span>
+                        <span class="page-badge other-page">page 2 — not shown</span>
+                    </div>
+                </div>
+                
+                <div class="field-card other-page"
+                     onmouseenter="highlightField(222.68017578125, 1639.5819091796875, 4358.62451171875, 3398.8673095703125, 2)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">total_gross_income.iso_4217_currency_code</div>
+                    <div class="field-value">USD</div>
+                    <div class="field-meta">
+                        <span class="confidence">70% confidence</span>
+                        <span class="page-badge other-page">page 3 — not shown</span>
+                    </div>
+                </div>
+                
+                <div class="field-card other-page"
+                     onmouseenter="highlightField(2914.33, 2990.8472, 249.71777, 59.283447, 1)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">total_monthly_expenses.amount</div>
+                    <div class="field-value">2210.00</div>
+                    <div class="field-meta">
+                        <span class="confidence">96% confidence</span>
+                        <span class="page-badge other-page">page 2 — not shown</span>
+                    </div>
+                </div>
+                
+                <div class="field-card other-page"
+                     onmouseenter="highlightField(222.68017578125, 1639.5819091796875, 4358.62451171875, 3398.8673095703125, 2)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">total_monthly_expenses.iso_4217_currency_code</div>
+                    <div class="field-value">USD</div>
+                    <div class="field-meta">
+                        <span class="confidence">70% confidence</span>
+                        <span class="page-badge other-page">page 3 — not shown</span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <script>
+        const image = document.getElementById('target-image');
+        const highlight = document.getElementById('highlight');
+        const PDF_WIDTH = 4817;
+        const PDF_HEIGHT = 6801;
+
+        function highlightField(x, y, w, h, pageIndex) {
+            if (pageIndex !== 0) {
+                highlight.style.display = 'none';
+                return;
+            }
+            const scaleX = image.clientWidth / PDF_WIDTH;
+            const scaleY = image.clientHeight / PDF_HEIGHT;
+            highlight.style.left   = (x * scaleX) + 'px';
+            highlight.style.top    = (y * scaleY) + 'px';
+            highlight.style.width  = (w * scaleX) + 'px';
+            highlight.style.height = (h * scaleY) + 'px';
+            highlight.style.display = 'block';
+        }
+
+        function clearHighlight() {
+            highlight.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

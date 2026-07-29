@@ -1,6 +1,6 @@
 # Nutrient Extraction Samples
 
-Self-contained demos for the [Nutrient Data Extraction API](https://www.nutrient.io/api/data-extraction/). Pre-generated HTML outputs are committed to this repo — open any `output/index.html` directly in a browser with no server, no installation, and no API key required.
+Self-contained demos for the [Nutrient Data Extraction API](https://www.nutrient.io/api/data-extraction/). Pre-generated HTML outputs are committed to this repo — open any demo directly in a browser with no server, no installation, and no API key required.
 
 Regenerating demos with custom documents requires a Nutrient API key.
 
@@ -11,14 +11,21 @@ Regenerating demos with custom documents requires a Nutrient API key.
 
 Schema-driven field extraction from a scanned government form. Each extracted field is pinned to its exact location on the source document with a bounding box, confidence score, and match grounding — hover a field to see its citation highlight on the document.
 
-→ Open [`demos/grounded_extraction/output/index.html`](demos/grounded_extraction/output/index.html)
+→ **[Open demo](https://pspdfkit.github.io/nutrient-extraction-samples/demos/grounded_extraction/output/index.html)**
 
 ### 2. Parse-Based Citations
 `demos/parse_citations/`
 
 Document parsing with visual citation overlay. Parsed text blocks are linked back to their source coordinates on the page.
 
-→ Open [`demos/parse_citations/output/index.html`](demos/parse_citations/output/index.html)
+→ **[Open demo](https://pspdfkit.github.io/nutrient-extraction-samples/demos/parse_citations/output/index.html)**
+
+### 3. RMA Form — Multi-Page Grounded Extraction
+`demos/rma_extraction/`
+
+Grounded extraction from a 4-page scanned government form (Making Home Affordable Program RMA). Demonstrates extraction across multiple pages and includes a schema tuning story: how grounding made a wrong extraction immediately auditable, and how a one-line description fix corrected it.
+
+→ **[Open demo](https://pspdfkit.github.io/nutrient-extraction-samples/demos/rma_extraction/output/index.html)**
 
 ## Regenerating demos with custom documents
 
@@ -43,11 +50,15 @@ cp .env.example .env
 ```bash
 # Grounded extraction demo
 cd demos/grounded_extraction
-python generate_demo.py
+python3 generate_demo.py
 
 # Parse citations demo
 cd demos/parse_citations
-python generate_demo.py
+python3 generate_demo.py
+
+# RMA form demo
+cd demos/rma_extraction
+python3 generate_demo.py
 ```
 
 ## Roadmap
@@ -65,11 +76,19 @@ nutrient-extraction-samples/
 │   │   ├── docs.json          # Extraction schema config
 │   │   ├── generate_demo.py   # Demo generator script
 │   │   └── template.html      # HTML template
-│   └── parse_citations/
+│   ├── parse_citations/
+│   │   ├── data/              # Source PDFs
+│   │   ├── output/            # Pre-generated HTML + PNG (committed)
+│   │   ├── generate_demo.py
+│   │   └── template.html
+│   └── rma_extraction/
 │       ├── data/              # Source PDFs
 │       ├── output/            # Pre-generated HTML + PNG (committed)
-│       ├── generate_demo.py
-│       └── template.html
+│       ├── docs.json          # Extraction schema config
+│       ├── generate_demo.py   # Demo generator script
+│       ├── template.html      # HTML template
+│       ├── README.md          # Demo-specific docs + tuning story
+│       └── tuning_notes.md    # Schema tuning walkthrough
 ├── .env.example
 └── requirements.txt
 ```
