@@ -1,0 +1,642 @@
+{
+  "configuration": {
+    "apiVersion": "2026-05-25",
+    "engine": {
+      "requestedEngineVersion": "stable"
+    },
+    "maxLanguages": 2,
+    "maxScripts": 2,
+    "mode": "understand"
+  },
+  "metrics": {
+    "pagesProcessed": 1,
+    "processingTimeMs": 28044
+  },
+  "output": {
+    "data": {
+      "full_name_at_birth": "Olivia Grace Bennett",
+      "date_of_birth": "05/14/1992",
+      "place_of_birth_city": "Fort Wayne",
+      "hospital_name": "Lutheran Hospital of Indiana",
+      "parent_1_name": "Michael T. Bennett",
+      "parent_2_name": "Sarah J. Bennett (nee Coleman)",
+      "purpose": "Passport application",
+      "relationship": "Self",
+      "applicant_name": "Olivia Grace Bennett",
+      "mailing_address": "742 Maplewood Drive, Fort Wayne, IN 46805",
+      "telephone_number": "(260) 555-0148",
+      "total_fee": {
+        "amount": 10,
+        "iso_4217_currency_code": "USD"
+      },
+      "applicant_signature_block": {
+        "printed_name": "Olivia Grace Bennett",
+        "signature_date": "07/28/2026",
+        "is_signed": "NO",
+        "title_or_role": "Signature of Applicant"
+      }
+    },
+    "metadata": {
+      "full_name_at_birth": {
+        "bbox": {
+          "height": 57.945966000000226,
+          "width": 667.3820900000001,
+          "x": 302.38525,
+          "y": 2116.7156
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "recognitionScore": 0.9528323411941528,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 74.8203125,
+              "width": 671.5679931640625,
+              "x": 302.221435546875,
+              "y": 2105.6533203125
+            },
+            "block_id": "b9",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "date_of_birth": {
+        "bbox": {
+          "height": 60.67627,
+          "width": 361.42004,
+          "x": 289.53027,
+          "y": 3170.6494
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "recognitionScore": 0.9345250725746155,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 71.4638671875,
+              "width": 366.9613037109375,
+              "x": 287.99267578125,
+              "y": 3165.89697265625
+            },
+            "block_id": "b17",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "place_of_birth_city": {
+        "bbox": {
+          "height": 74.74266000000034,
+          "width": 370.40538000000004,
+          "x": 298.6897,
+          "y": 2747.7056
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "recognitionScore": 0.9595601558685303,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 84.590087890625,
+              "width": 375.8360595703125,
+              "x": 294.205322265625,
+              "y": 2737.864501953125
+            },
+            "block_id": "b13",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "hospital_name": {
+        "bbox": {
+          "height": 79.19630000000006,
+          "width": 906.3460600000001,
+          "x": 295.1543,
+          "y": 2953.685
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "recognitionScore": 0.9604030847549438,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 88.730712890625,
+              "width": 915.4326171875,
+              "x": 288.966796875,
+              "y": 2950.2021484375
+            },
+            "block_id": "b15",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "parent_1_name": {
+        "bbox": {
+          "height": 63.500782999999956,
+          "width": 607.38365,
+          "x": 288.86865,
+          "y": 3396.6506
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "recognitionScore": 0.9124957323074341,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 71.470947265625,
+              "width": 619.5208740234375,
+              "x": 280.554931640625,
+              "y": 3389.01220703125
+            },
+            "block_id": "b19",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "parent_2_name": {
+        "bbox": {
+          "height": 79.75677599999972,
+          "width": 1046.34949,
+          "x": 282.34058,
+          "y": 3603.608
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "recognitionScore": 0.9612157344818115,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 89.256103515625,
+              "width": 1049.8485107421875,
+              "x": 278.9345703125,
+              "y": 3595.053955078125
+            },
+            "block_id": "b21",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "purpose": {
+        "bbox": {
+          "height": 76.8418099999999,
+          "width": 653.49365,
+          "x": 277.68677,
+          "y": 3810.5798
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "recognitionScore": 0.9647037386894226,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 80.49853515625,
+              "width": 661.0919189453125,
+              "x": 274.142578125,
+              "y": 3806.952880859375
+            },
+            "block_id": "b23",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "relationship": {
+        "bbox": {
+          "height": 54.96289,
+          "width": 130.39697,
+          "x": 267.23315,
+          "y": 4023.5073
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "recognitionScore": 0.9678835272789001,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 66.119384765625,
+              "width": 136.8173828125,
+              "x": 261.249755859375,
+              "y": 4015.610595703125
+            },
+            "block_id": "b25",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "applicant_name": {
+        "bbox": {
+          "height": 60.08690000000024,
+          "width": 686.39658,
+          "x": 239.25635,
+          "y": 4693.3184
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "recognitionScore": 0.9628361463546753,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 76.5048828125,
+              "width": 691.9029541015625,
+              "x": 236.11767578125,
+              "y": 4682.1455078125
+            },
+            "block_id": "b32",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "mailing_address": {
+        "bbox": {
+          "height": 76.54297999999926,
+          "width": 1477.40444,
+          "x": 232.64697,
+          "y": 4910.2754
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "recognitionScore": 0.9561739563941956,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 100.52490234375,
+              "width": 1484.6123046875,
+              "x": 230.252685546875,
+              "y": 4893.52490234375
+            },
+            "block_id": "b35",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "telephone_number": {
+        "bbox": {
+          "height": 72.24413999999979,
+          "width": 497.5130599999999,
+          "x": 234.18555,
+          "y": 5091.2925
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "recognitionScore": 0.7783268690109253,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 171.57568359375,
+              "width": 1512.9158935546875,
+              "x": 234.176513671875,
+              "y": 5003.14501953125
+            },
+            "block_id": "b36",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "total_fee": {
+        "amount": {
+          "bbox": {
+            "height": 66.93115234375,
+            "width": 187.4873046875,
+            "x": 4531.51318359375,
+            "y": 4508.7900390625
+          },
+          "confidence": 0.9696927825876808,
+          "confidenceComponents": {
+            "formatScore": 1,
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "recognitionScore": 0.9641985893249512,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 66.93115234375,
+                "width": 187.4873046875,
+                "x": 4531.51318359375,
+                "y": 4508.7900390625
+              },
+              "block_id": "b65",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "iso_4217_currency_code": {
+          "confidence": 0.4,
+          "confidenceComponents": {
+            "groundingScore": 0.4,
+            "source": "no-logprobs"
+          },
+          "match": "not_found",
+          "source_bboxes": []
+        }
+      },
+      "applicant_signature_block": {
+        "printed_name": {
+          "bbox": {
+            "height": 60.08690000000024,
+            "width": 686.39658,
+            "x": 239.25635,
+            "y": 4693.3184
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "recognitionScore": 0.9628361463546753,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 76.5048828125,
+                "width": 691.9029541015625,
+                "x": 236.11767578125,
+                "y": 4682.1455078125
+              },
+              "block_id": "b32",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "signature_date": {
+          "bbox": {
+            "height": 61.668945,
+            "width": 360.42773,
+            "x": 2558.1885,
+            "y": 5111.531
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "recognitionScore": 0.9530609250068665,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 69.9287109375,
+                "width": 360.943359375,
+                "x": 2557.689453125,
+                "y": 5109.28076171875
+              },
+              "block_id": "b38",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "is_signed": {
+          "bbox": {
+            "height": 53.688232,
+            "width": 93.39038,
+            "x": 3900.0762,
+            "y": 3115.4292
+          },
+          "confidence": 0.7,
+          "confidenceComponents": {
+            "groundingScore": 0.7,
+            "source": "no-logprobs"
+          },
+          "match": "fuzzy_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "recognitionScore": 0.7187826633453369,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 331.8125,
+                "width": 1171.425537109375,
+                "x": 3241.404052734375,
+                "y": 396.537353515625
+              },
+              "block_id": "b3",
+              "pageIndex": 0,
+              "pageNumber": 1
+            },
+            {
+              "bbox": {
+                "height": 392.50439453125,
+                "width": 4468.3330078125,
+                "x": 253.083984375,
+                "y": 1080.949462890625
+              },
+              "block_id": "b5",
+              "pageIndex": 0,
+              "pageNumber": 1
+            },
+            {
+              "bbox": {
+                "height": 420.485595703125,
+                "width": 4410.84375,
+                "x": 316.343505859375,
+                "y": 1640.824462890625
+              },
+              "block_id": "b8",
+              "pageIndex": 0,
+              "pageNumber": 1
+            },
+            {
+              "bbox": {
+                "height": 380.5703125,
+                "width": 4406.8369140625,
+                "x": 247.5,
+                "y": 5282.943359375
+              },
+              "block_id": "b39",
+              "pageIndex": 0,
+              "pageNumber": 1
+            },
+            {
+              "bbox": {
+                "height": 89.203125,
+                "width": 818.015625,
+                "x": 2017.83642578125,
+                "y": 3223.68603515625
+              },
+              "block_id": "b47",
+              "pageIndex": 0,
+              "pageNumber": 1
+            },
+            {
+              "bbox": {
+                "height": 90.43359375,
+                "width": 212.1943359375,
+                "x": 3781.55224609375,
+                "y": 3097.76123046875
+              },
+              "block_id": "b54",
+              "pageIndex": 0,
+              "pageNumber": 1
+            },
+            {
+              "bbox": {
+                "height": 91.537353515625,
+                "width": 472.935546875,
+                "x": 4096.1171875,
+                "y": 3087.74951171875
+              },
+              "block_id": "b55",
+              "pageIndex": 0,
+              "pageNumber": 1
+            },
+            {
+              "bbox": {
+                "height": 98.82861328125,
+                "width": 2155.0029296875,
+                "x": 2044.1590576171875,
+                "y": 4303.84716796875
+              },
+              "block_id": "b57",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "title_or_role": {
+          "bbox": {
+            "height": 74.73053999999956,
+            "width": 638.4348,
+            "x": 2589.8594,
+            "y": 4609.7524
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "recognitionScore": 0.9641912579536438,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 83.33251953125,
+                "width": 650.107421875,
+                "x": 2581.20849609375,
+                "y": 4603.875
+              },
+              "block_id": "b61",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        }
+      }
+    },
+    "pages": [
+      {
+        "height": 7021,
+        "page": 1,
+        "width": 4986
+      }
+    ]
+  },
+  "requestId": "GMbBKnxoxAV77NgAAW4R",
+  "status": 200,
+  "usage": {
+    "data_extraction_credits": {
+      "cost": 15.0,
+      "remainingCredits": 4985.0
+    },
+    "price_composition": {
+      "extract": {
+        "cost": 6.0,
+        "currency": "data_extraction_credits",
+        "unit_cost": 6.0,
+        "units": 1
+      },
+      "parse": {
+        "cost": 9.0,
+        "currency": "data_extraction_credits",
+        "unit_cost": 9.0,
+        "units": 1
+      }
+    }
+  }
+}

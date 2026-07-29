@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nutrient Grounded Extraction — Indiana Birth Record</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #1a1a1a;
+            color: #f5f5f5;
+        }
+        .container { display: flex; width: 100%; height: 100%; }
+        .viewport {
+            flex: 1;
+            position: relative;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            background-color: #121212;
+            border-right: 1px solid #333;
+        }
+        .pdf-container { position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .pdf-image { display: block; max-width: 100%; height: auto; }
+        .highlight-box {
+            position: absolute;
+            border: 2px solid #00ff66;
+            background-color: rgba(0, 255, 102, 0.15);
+            pointer-events: none;
+            display: none;
+            transition: all 0.1s ease;
+        }
+        .sidebar { width: 480px; display: flex; flex-direction: column; background-color: #1e1e1e; }
+        .header { padding: 20px; border-bottom: 1px solid #333; }
+        .header h1 { margin: 0; font-size: 1.1rem; }
+        .header p { margin: 6px 0 0; font-size: 0.78rem; color: #888; line-height: 1.4; }
+        .fields-list { flex: 1; overflow-y: auto; padding: 20px; }
+        .field-card {
+            background-color: #2a2a2a;
+            border: 1px solid #3d3d3d;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .field-card:hover, .field-card.active {
+            background-color: #333;
+            border-color: #00ff66;
+        }
+        .field-path { font-family: monospace; font-size: 0.78rem; color: #aaa; }
+        .field-value { font-weight: 600; margin-top: 6px; color: #fff; word-break: break-word; }
+        .field-meta { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.72rem; }
+        .confidence { color: #00ff66; }
+        .page-badge { color: #888; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="viewport">
+            <div class="pdf-container">
+                <img src="indiana_birth_record_page_0.png" class="pdf-image" id="target-image">
+                <div class="highlight-box" id="highlight"></div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <div class="header">
+                <h1>Grounded Field Extraction</h1>
+                <p>Indiana Application for Search and Certified Copy of Birth Record</p>
+                <p style="margin-top:8px; color:#666;">Hover a field to see its exact location highlighted on the document.</p>
+            </div>
+            <div class="fields-list">
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(302.38525, 2116.7156, 667.3820900000001, 57.945966000000226)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">full_name_at_birth</div>
+                    <div class="field-value">Olivia Grace Bennett</div>
+                    <div class="field-meta">
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(289.53027, 3170.6494, 361.42004, 60.67627)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">date_of_birth</div>
+                    <div class="field-value">05/14/1992</div>
+                    <div class="field-meta">
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(298.6897, 2747.7056, 370.40538000000004, 74.74266000000034)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">place_of_birth_city</div>
+                    <div class="field-value">Fort Wayne</div>
+                    <div class="field-meta">
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(295.1543, 2953.685, 906.3460600000001, 79.19630000000006)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">hospital_name</div>
+                    <div class="field-value">Lutheran Hospital of Indiana</div>
+                    <div class="field-meta">
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(288.86865, 3396.6506, 607.38365, 63.500782999999956)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">parent_1_name</div>
+                    <div class="field-value">Michael T. Bennett</div>
+                    <div class="field-meta">
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(282.34058, 3603.608, 1046.34949, 79.75677599999972)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">parent_2_name</div>
+                    <div class="field-value">Sarah J. Bennett (nee Coleman)</div>
+                    <div class="field-meta">
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(277.68677, 3810.5798, 653.49365, 76.8418099999999)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">purpose</div>
+                    <div class="field-value">Passport application</div>
+                    <div class="field-meta">
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(267.23315, 4023.5073, 130.39697, 54.96289)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">relationship</div>
+                    <div class="field-value">Self</div>
+                    <div class="field-meta">
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(239.25635, 4693.3184, 686.39658, 60.08690000000024)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">applicant_name</div>
+                    <div class="field-value">Olivia Grace Bennett</div>
+                    <div class="field-meta">
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(232.64697, 4910.2754, 1477.40444, 76.54297999999926)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">mailing_address</div>
+                    <div class="field-value">742 Maplewood Drive, Fort Wayne, IN 46805</div>
+                    <div class="field-meta">
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(234.18555, 5091.2925, 497.5130599999999, 72.24413999999979)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">telephone_number</div>
+                    <div class="field-value">(260) 555-0148</div>
+                    <div class="field-meta">
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(4531.51318359375, 4508.7900390625, 187.4873046875, 66.93115234375)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">total_fee.amount</div>
+                    <div class="field-value">10.00</div>
+                    <div class="field-meta">
+                        <span class="confidence">96% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(239.25635, 4693.3184, 686.39658, 60.08690000000024)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">applicant_signature_block.printed_name</div>
+                    <div class="field-value">Olivia Grace Bennett</div>
+                    <div class="field-meta">
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(2558.1885, 5111.531, 360.42773, 61.668945)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">applicant_signature_block.signature_date</div>
+                    <div class="field-value">07/28/2026</div>
+                    <div class="field-meta">
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(3900.0762, 3115.4292, 93.39038, 53.688232)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">applicant_signature_block.is_signed</div>
+                    <div class="field-value">NO</div>
+                    <div class="field-meta">
+                        <span class="confidence">70% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+                <div class="field-card"
+                     onmouseenter="highlightField(2589.8594, 4609.7524, 638.4348, 74.73053999999956)"
+                     onmouseleave="clearHighlight()">
+                    <div class="field-path">applicant_signature_block.title_or_role</div>
+                    <div class="field-value">Signature of Applicant</div>
+                    <div class="field-meta">
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge">page 1</span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <script>
+        const image = document.getElementById('target-image');
+        const highlight = document.getElementById('highlight');
+        const PDF_WIDTH = 4986;
+        const PDF_HEIGHT = 7021;
+
+        function highlightField(x, y, w, h) {
+            const scaleX = image.clientWidth / PDF_WIDTH;
+            const scaleY = image.clientHeight / PDF_HEIGHT;
+            highlight.style.left   = (x * scaleX) + 'px';
+            highlight.style.top    = (y * scaleY) + 'px';
+            highlight.style.width  = (w * scaleX) + 'px';
+            highlight.style.height = (h * scaleY) + 'px';
+            highlight.style.display = 'block';
+        }
+
+        function clearHighlight() {
+            highlight.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

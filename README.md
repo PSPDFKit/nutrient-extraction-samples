@@ -27,6 +27,13 @@ Grounded extraction from a 4-page scanned government form (Making Home Affordabl
 
 → **[Open demo](https://pspdfkit.github.io/nutrient-extraction-samples/demos/rma_extraction/output/index.html)**
 
+### 4. Indiana Birth Record — Signature Detection & Dotted-Line Noise Isolation
+`demos/birth_record_extraction/`
+
+Grounded extraction from a scanned state government form. Demonstrates three capabilities: handwritten signature detection (presence flag + bounding box on the ink strokes), dotted-line noise isolation (values extracted cleanly without bleeding into printed labels), and auditable schema tuning (a one-field description error caused the API to grab the signature scrawl instead of the printed name — grounding made the error immediately visible).
+
+→ **[Open demo](https://pspdfkit.github.io/nutrient-extraction-samples/demos/birth_record_extraction/output/index.html)**
+
 ## Regenerating demos with custom documents
 
 ### Prerequisites
@@ -59,6 +66,10 @@ python3 generate_demo.py
 # RMA form demo
 cd demos/rma_extraction
 python3 generate_demo.py
+
+# Indiana birth record demo
+cd demos/birth_record_extraction
+python3 generate_demo.py
 ```
 
 ## Roadmap
@@ -81,7 +92,15 @@ nutrient-extraction-samples/
 │   │   ├── output/            # Pre-generated HTML + PNG (committed)
 │   │   ├── generate_demo.py
 │   │   └── template.html
-│   └── rma_extraction/
+│   ├── rma_extraction/
+│   │   ├── data/              # Source PDFs
+│   │   ├── output/            # Pre-generated HTML + PNG (committed)
+│   │   ├── docs.json          # Extraction schema config
+│   │   ├── generate_demo.py   # Demo generator script
+│   │   ├── template.html      # HTML template
+│   │   ├── README.md          # Demo-specific docs + tuning story
+│   │   └── tuning_notes.md    # Schema tuning walkthrough
+│   └── birth_record_extraction/
 │       ├── data/              # Source PDFs
 │       ├── output/            # Pre-generated HTML + PNG (committed)
 │       ├── docs.json          # Extraction schema config

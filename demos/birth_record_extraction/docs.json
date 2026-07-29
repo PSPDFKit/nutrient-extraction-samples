@@ -1,0 +1,90 @@
+[
+  {
+    "id": "indiana_birth_record",
+    "name": "Indiana Application for Search and Certified Copy of Birth Record",
+    "file": "data/birth_record.pdf",
+    "mode": "agentic",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "full_name_at_birth": {
+          "type": "string",
+          "description": "The full name of the individual at birth, from the 'Full Name at Birth' input line near the top of the form."
+        },
+        "date_of_birth": {
+          "type": "string",
+          "description": "The date of birth entered in MM/DD/YYYY format from the 'Date of Birth (Month, Day, Year)' field."
+        },
+        "place_of_birth_city": {
+          "type": "string",
+          "description": "The city of birth listed in the 'Place of Birth: City' block."
+        },
+        "hospital_name": {
+          "type": "string",
+          "description": "The name of the hospital where the birth actually occurred, from the 'Name of Hospital' field."
+        },
+        "parent_1_name": {
+          "type": "string",
+          "description": "The full name of Parent 1 listed on the form."
+        },
+        "parent_2_name": {
+          "type": "string",
+          "description": "The full name of Parent 2 including their maiden name."
+        },
+        "purpose": {
+          "type": "string",
+          "description": "The purpose for which the birth record is to be used."
+        },
+        "relationship": {
+          "type": "string",
+          "description": "The applicant's relationship to the individual named on the certificate."
+        },
+        "applicant_name": {
+          "type": "string",
+          "description": "The printed name of the applicant from the 'Print Name of Applicant' field."
+        },
+        "mailing_address": {
+          "type": "string",
+          "description": "The full mailing address of the applicant including street, city, state, and ZIP code."
+        },
+        "telephone_number": {
+          "type": "string",
+          "description": "The applicant's daytime telephone number including area code."
+        },
+        "total_fee": {
+          "type": "object",
+          "properties": {
+            "amount": { "type": "number" },
+            "iso_4217_currency_code": { "type": "string" }
+          },
+          "required": ["amount", "iso_4217_currency_code"],
+          "description": "The total fee amount printed in the 'Total Fee' box at the bottom right of the form."
+        },
+        "applicant_signature_block": {
+          "type": "object",
+          "description": "The signature block details at the bottom of the form.",
+          "properties": {
+            "printed_name": {
+              "type": "string",
+              "description": "The name as printed or typed in the 'Print Name of Applicant' labeled field — NOT from the handwritten cursive signature next to it."
+            },
+            "signature_date": {
+              "type": "string",
+              "description": "The date written in the 'Today's Date (Month, Day, Year)' field."
+            },
+            "is_signed": {
+              "type": "string",
+              "description": "Whether a handwritten signature is visually present in the 'Signature of Applicant' box. Return YES or NO."
+            },
+            "title_or_role": {
+              "type": "string",
+              "description": "The label of the signature field, which should be 'Signature of Applicant'."
+            }
+          },
+          "required": ["printed_name", "signature_date", "is_signed", "title_or_role"]
+        }
+      },
+      "required": ["full_name_at_birth", "date_of_birth", "applicant_name", "mailing_address", "applicant_signature_block"]
+    }
+  }
+]
