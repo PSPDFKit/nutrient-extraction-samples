@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nutrient Parse Citations Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #1a1a1a;
+            color: #f5f5f5;
+        }
+        .container { display: flex; width: 100%; height: 100%; }
+        .viewport {
+            flex: 1;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            background-color: #121212;
+            border-right: 1px solid #333;
+        }
+        .pdf-container { position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .pdf-image { display: block; max-width: 100%; height: auto; }
+        .highlight-box {
+            position: absolute;
+            border: 2px solid #f5a623;
+            background-color: rgba(245, 166, 35, 0.15);
+            pointer-events: none;
+            display: none;
+        }
+        .sidebar { width: 480px; display: flex; flex-direction: column; background-color: #1e1e1e; }
+        .header { padding: 20px; border-bottom: 1px solid #333; }
+        .header h1 { margin: 0; font-size: 1.25rem; }
+        .blocks-list { flex: 1; overflow-y: auto; padding: 20px; }
+        .block-card {
+            background-color: #2a2a2a;
+            border: 1px solid #3d3d3d;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .block-card:hover, .block-card.active {
+            background-color: #333333;
+            border-color: #f5a623;
+        }
+        .block-meta {
+            font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+            font-size: 0.75rem;
+            color: #888;
+            margin-bottom: 6px;
+        }
+        .block-text { font-size: 0.9rem; color: #ddd; line-height: 1.5; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="viewport">
+            <div class="pdf-container">
+                <img src="{{ image_src }}" class="pdf-image" id="target-image">
+                <div class="highlight-box" id="highlight"></div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <div class="header">
+                <h1>Parse Citations</h1>
+                <div style="font-size:0.8rem;color:#aaa;margin-top:4px;">{{ doc_name }}</div>
+            </div>
+            <div class="blocks-list">
+                {% for block in blocks %}
+                <div class="block-card"
+                     onmouseenter="highlightBlock({{ block.x }}, {{ block.y }}, {{ block.width }}, {{ block.height }})"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">page {{ block.page }} &nbsp;·&nbsp; {{ block.x|int }}, {{ block.y|int }}</div>
+                    <div class="block-text">{{ block.text }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <script>
+        const image = document.getElementById('target-image');
+        const highlight = document.getElementById('highlight');
+        const PDF_WIDTH = {{ pdf_width }};
+        const PDF_HEIGHT = {{ pdf_height }};
+
+        function highlightBlock(x, y, w, h) {
+            const scaleX = image.clientWidth / PDF_WIDTH;
+            const scaleY = image.clientHeight / PDF_HEIGHT;
+            highlight.style.left   = (x * scaleX) + 'px';
+            highlight.style.top    = (y * scaleY) + 'px';
+            highlight.style.width  = (w * scaleX) + 'px';
+            highlight.style.height = (h * scaleY) + 'px';
+            highlight.style.display = 'block';
+        }
+
+        function clearHighlight() { highlight.style.display = 'none'; }
+    </script>
+</body>
+</html>

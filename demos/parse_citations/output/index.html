@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nutrient Parse Citations Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #1a1a1a;
+            color: #f5f5f5;
+        }
+        .container { display: flex; width: 100%; height: 100%; }
+        .viewport {
+            flex: 1;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            background-color: #121212;
+            border-right: 1px solid #333;
+        }
+        .pdf-container { position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .pdf-image { display: block; max-width: 100%; height: auto; }
+        .highlight-box {
+            position: absolute;
+            border: 2px solid #f5a623;
+            background-color: rgba(245, 166, 35, 0.15);
+            pointer-events: none;
+            display: none;
+        }
+        .sidebar { width: 480px; display: flex; flex-direction: column; background-color: #1e1e1e; }
+        .header { padding: 20px; border-bottom: 1px solid #333; }
+        .header h1 { margin: 0; font-size: 1.25rem; }
+        .blocks-list { flex: 1; overflow-y: auto; padding: 20px; }
+        .block-card {
+            background-color: #2a2a2a;
+            border: 1px solid #3d3d3d;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .block-card:hover, .block-card.active {
+            background-color: #333333;
+            border-color: #f5a623;
+        }
+        .block-meta {
+            font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+            font-size: 0.75rem;
+            color: #888;
+            margin-bottom: 6px;
+        }
+        .block-text { font-size: 0.9rem; color: #ddd; line-height: 1.5; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="viewport">
+            <div class="pdf-container">
+                <img src="page_0.png" class="pdf-image" id="target-image">
+                <div class="highlight-box" id="highlight"></div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <div class="header">
+                <h1>Parse Citations</h1>
+                <div style="font-size:0.8rem;color:#aaa;margin-top:4px;">CMS_1500</div>
+            </div>
+            <div class="blocks-list">
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(52, 369, 189, 25)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">page  &nbsp;·&nbsp; 52, 369</div>
+                    <div class="block-text">Thornton, Emily R.</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1030, 436, 208, 19)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">page  &nbsp;·&nbsp; 1030, 436</div>
+                    <div class="block-text">815 Birchwood Lane</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1027, 499, 68.211181640625, 89)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">page  &nbsp;·&nbsp; 1027, 499</div>
+                    <div class="block-text">Austin, TX 78745</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1030, 302, 127, 22)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">page  &nbsp;·&nbsp; 1030, 302</div>
+                    <div class="block-text">XW1234567</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1033, 836, 222, 25)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">page  &nbsp;·&nbsp; 1033, 836</div>
+                    <div class="block-text">Blue Ridge PPO Gold</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(91, 1305, 58, 22)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">page  &nbsp;·&nbsp; 91, 1305</div>
+                    <div class="block-text">J06.9</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1030, 1375, 127, 19)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">page  &nbsp;·&nbsp; 1030, 1375</div>
+                    <div class="block-text">PA-0098765</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(55, 1901.9388427734375, 1344, 22.0611572265625)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">page  &nbsp;·&nbsp; 55, 1901</div>
+                    <div class="block-text">170.00</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(55, 1902, 122, 19)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">page  &nbsp;·&nbsp; 55, 1902</div>
+                    <div class="block-text">87-6543210</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(522, 2075, 124, 19)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">page  &nbsp;·&nbsp; 522, 2075</div>
+                    <div class="block-text">1234567890</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1033, 1977, 285, 27)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">page  &nbsp;·&nbsp; 1033, 1977</div>
+                    <div class="block-text">Austin Family Medical Clinic</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1036, 1977, 596, 50)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">page  &nbsp;·&nbsp; 1036, 1977</div>
+                    <div class="block-text">4500 Oak Hill Blvd, Austin, TX 78745</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(116, 1169, 219, 25)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">page  &nbsp;·&nbsp; 116, 1169</div>
+                    <div class="block-text">Michael Hastings, MD</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1391, 1505, 127, 19)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">page  &nbsp;·&nbsp; 1391, 1505</div>
+                    <div class="block-text">1234567890</div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <script>
+        const image = document.getElementById('target-image');
+        const highlight = document.getElementById('highlight');
+        const PDF_WIDTH = 1700;
+        const PDF_HEIGHT = 2200;
+
+        function highlightBlock(x, y, w, h) {
+            const scaleX = image.clientWidth / PDF_WIDTH;
+            const scaleY = image.clientHeight / PDF_HEIGHT;
+            highlight.style.left   = (x * scaleX) + 'px';
+            highlight.style.top    = (y * scaleY) + 'px';
+            highlight.style.width  = (w * scaleX) + 'px';
+            highlight.style.height = (h * scaleY) + 'px';
+            highlight.style.display = 'block';
+        }
+
+        function clearHighlight() { highlight.style.display = 'none'; }
+    </script>
+</body>
+</html>

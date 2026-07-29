@@ -1,0 +1,527 @@
+{
+  "configuration": {
+    "apiVersion": "2026-05-25",
+    "engine": {
+      "requestedEngineVersion": "stable"
+    },
+    "maxLanguages": 2,
+    "maxScripts": 2,
+    "mode": "understand"
+  },
+  "metrics": {
+    "pagesProcessed": 1,
+    "processingTimeMs": 17792
+  },
+  "output": {
+    "data": {
+      "insured_id_number": "XW1234567",
+      "patient_name": "Thornton, Emily R.",
+      "prior_authorization_number": "PA-0098765",
+      "total_charge": {
+        "amount": 170,
+        "iso_4217_currency_code": "USD"
+      },
+      "service_lines": [
+        {
+          "date_of_service_from": "10 26 07",
+          "procedure_code": "99213",
+          "line_charges": {
+            "amount": 125,
+            "iso_4217_currency_code": "USD"
+          },
+          "rendering_provider_npi": "1234567890"
+        },
+        {
+          "date_of_service_from": "10 07",
+          "procedure_code": "87880",
+          "line_charges": {
+            "amount": 45,
+            "iso_4217_currency_code": "USD"
+          },
+          "rendering_provider_npi": "1234567890"
+        }
+      ]
+    },
+    "metadata": {
+      "insured_id_number": {
+        "bbox": {
+          "height": 22,
+          "width": 127,
+          "x": 1030,
+          "y": 302
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 22,
+              "width": 127.6097412109375,
+              "x": 1029.7008056640625,
+              "y": 302
+            },
+            "block_id": "b87",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "patient_name": {
+        "bbox": {
+          "height": 25,
+          "width": 189,
+          "x": 52,
+          "y": 369
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 26.305633544921875,
+              "width": 189.42306518554688,
+              "x": 52,
+              "y": 367.6943664550781
+            },
+            "block_id": "b8",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "prior_authorization_number": {
+        "bbox": {
+          "height": 19,
+          "width": 127,
+          "x": 1030,
+          "y": 1375
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 22.5255126953125,
+              "width": 127.9825439453125,
+              "x": 1029.5924072265625,
+              "y": 1371.4744873046875
+            },
+            "block_id": "b119",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "total_charge": {
+        "amount": {
+          "bbox": {
+            "height": 22.0611572265625,
+            "width": 1344,
+            "x": 55,
+            "y": 1901.9388427734375
+          },
+          "confidence": 0.9696927825876808,
+          "confidenceComponents": {
+            "formatScore": 1,
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 22.0611572265625,
+                "width": 1344,
+                "x": 55,
+                "y": 1901.9388427734375
+              },
+              "block_id": "b51",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "iso_4217_currency_code": {
+          "bbox": {
+            "height": 22.0611572265625,
+            "width": 1344,
+            "x": 55,
+            "y": 1901.9388427734375
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 22.0611572265625,
+                "width": 1344,
+                "x": 55,
+                "y": 1901.9388427734375
+              },
+              "block_id": "b51",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        }
+      },
+      "service_lines": [
+        {
+          "date_of_service_from": {
+            "bbox": {
+              "height": 19,
+              "width": 142,
+              "x": 69,
+              "y": 1505
+            },
+            "confidence": 0.95,
+            "confidenceComponents": {
+              "groundingScore": 0.95,
+              "source": "no-logprobs"
+            },
+            "match": "id_match",
+            "pageIndex": 0,
+            "pageNumber": 1,
+            "source_bboxes": [
+              {
+                "bbox": {
+                  "height": 21.5535888671875,
+                  "width": 142,
+                  "x": 69,
+                  "y": 1502.4464111328125
+                },
+                "block_id": "b46",
+                "pageIndex": 0,
+                "pageNumber": 1
+              }
+            ]
+          },
+          "procedure_code": {
+            "bbox": {
+              "height": 19,
+              "width": 63,
+              "x": 544,
+              "y": 1505
+            },
+            "confidence": 0.95,
+            "confidenceComponents": {
+              "groundingScore": 0.95,
+              "source": "no-logprobs"
+            },
+            "match": "id_match",
+            "pageIndex": 0,
+            "pageNumber": 1,
+            "source_bboxes": [
+              {
+                "bbox": {
+                  "height": 20.61572265625,
+                  "width": 64.74822998046875,
+                  "x": 542.2517700195312,
+                  "y": 1503.38427734375
+                },
+                "block_id": "b67",
+                "pageIndex": 0,
+                "pageNumber": 1
+              }
+            ]
+          },
+          "line_charges": {
+            "amount": {
+              "bbox": {
+                "height": 23.3558349609375,
+                "width": 88.0562744140625,
+                "x": 1083,
+                "y": 1499.1651611328125
+              },
+              "confidence": 0.9696927825876808,
+              "confidenceComponents": {
+                "formatScore": 1,
+                "groundingScore": 0.95,
+                "source": "no-logprobs"
+              },
+              "match": "id_match",
+              "pageIndex": 0,
+              "pageNumber": 1,
+              "source_bboxes": [
+                {
+                  "bbox": {
+                    "height": 23.3558349609375,
+                    "width": 88.0562744140625,
+                    "x": 1083,
+                    "y": 1499.1651611328125
+                  },
+                  "block_id": "b121",
+                  "pageIndex": 0,
+                  "pageNumber": 1
+                }
+              ]
+            },
+            "iso_4217_currency_code": {
+              "bbox": {
+                "height": 23.3558349609375,
+                "width": 88.0562744140625,
+                "x": 1083,
+                "y": 1499.1651611328125
+              },
+              "confidence": 0.95,
+              "confidenceComponents": {
+                "groundingScore": 0.95,
+                "source": "no-logprobs"
+              },
+              "match": "id_match",
+              "pageIndex": 0,
+              "pageNumber": 1,
+              "source_bboxes": [
+                {
+                  "bbox": {
+                    "height": 23.3558349609375,
+                    "width": 88.0562744140625,
+                    "x": 1083,
+                    "y": 1499.1651611328125
+                  },
+                  "block_id": "b121",
+                  "pageIndex": 0,
+                  "pageNumber": 1
+                }
+              ]
+            }
+          },
+          "rendering_provider_npi": {
+            "bbox": {
+              "height": 19,
+              "width": 127,
+              "x": 1391,
+              "y": 1505
+            },
+            "confidence": 0.95,
+            "confidenceComponents": {
+              "groundingScore": 0.95,
+              "source": "no-logprobs"
+            },
+            "match": "id_match",
+            "pageIndex": 0,
+            "pageNumber": 1,
+            "source_bboxes": [
+              {
+                "bbox": {
+                  "height": 22.169921875,
+                  "width": 129.1572265625,
+                  "x": 1391,
+                  "y": 1501.830078125
+                },
+                "block_id": "b141",
+                "pageIndex": 0,
+                "pageNumber": 1
+              }
+            ]
+          }
+        },
+        {
+          "date_of_service_from": {
+            "bbox": {
+              "height": 19,
+              "width": 83,
+              "x": 69,
+              "y": 1572
+            },
+            "confidence": 0.95,
+            "confidenceComponents": {
+              "groundingScore": 0.95,
+              "source": "no-logprobs"
+            },
+            "match": "id_match",
+            "pageIndex": 0,
+            "pageNumber": 1,
+            "source_bboxes": [
+              {
+                "bbox": {
+                  "height": 21.7515869140625,
+                  "width": 83.31941986083984,
+                  "x": 68.68058013916016,
+                  "y": 1569.2484130859375
+                },
+                "block_id": "b47",
+                "pageIndex": 0,
+                "pageNumber": 1
+              }
+            ]
+          },
+          "procedure_code": {
+            "bbox": {
+              "height": 19,
+              "width": 63,
+              "x": 544,
+              "y": 1572
+            },
+            "confidence": 0.95,
+            "confidenceComponents": {
+              "groundingScore": 0.95,
+              "source": "no-logprobs"
+            },
+            "match": "id_match",
+            "pageIndex": 0,
+            "pageNumber": 1,
+            "source_bboxes": [
+              {
+                "bbox": {
+                  "height": 21.5048828125,
+                  "width": 64.69866943359375,
+                  "x": 542.5648803710938,
+                  "y": 1569.9234619140625
+                },
+                "block_id": "b68",
+                "pageIndex": 0,
+                "pageNumber": 1
+              }
+            ]
+          },
+          "line_charges": {
+            "amount": {
+              "bbox": {
+                "height": 23.4119873046875,
+                "width": 80.310302734375,
+                "x": 1092.2169189453125,
+                "y": 1569.454833984375
+              },
+              "confidence": 0.9696927825876808,
+              "confidenceComponents": {
+                "formatScore": 1,
+                "groundingScore": 0.95,
+                "source": "no-logprobs"
+              },
+              "match": "id_match",
+              "pageIndex": 0,
+              "pageNumber": 1,
+              "source_bboxes": [
+                {
+                  "bbox": {
+                    "height": 23.4119873046875,
+                    "width": 80.310302734375,
+                    "x": 1092.2169189453125,
+                    "y": 1569.454833984375
+                  },
+                  "block_id": "b122",
+                  "pageIndex": 0,
+                  "pageNumber": 1
+                }
+              ]
+            },
+            "iso_4217_currency_code": {
+              "bbox": {
+                "height": 23.4119873046875,
+                "width": 80.310302734375,
+                "x": 1092.2169189453125,
+                "y": 1569.454833984375
+              },
+              "confidence": 0.95,
+              "confidenceComponents": {
+                "groundingScore": 0.95,
+                "source": "no-logprobs"
+              },
+              "match": "id_match",
+              "pageIndex": 0,
+              "pageNumber": 1,
+              "source_bboxes": [
+                {
+                  "bbox": {
+                    "height": 23.4119873046875,
+                    "width": 80.310302734375,
+                    "x": 1092.2169189453125,
+                    "y": 1569.454833984375
+                  },
+                  "block_id": "b122",
+                  "pageIndex": 0,
+                  "pageNumber": 1
+                }
+              ]
+            }
+          },
+          "rendering_provider_npi": {
+            "bbox": {
+              "height": 19,
+              "width": 127,
+              "x": 1391,
+              "y": 1505
+            },
+            "confidence": 0.95,
+            "confidenceComponents": {
+              "groundingScore": 0.95,
+              "source": "no-logprobs"
+            },
+            "match": "id_match",
+            "pageIndex": 0,
+            "pageNumber": 1,
+            "source_bboxes": [
+              {
+                "bbox": {
+                  "height": 22.169921875,
+                  "width": 129.1572265625,
+                  "x": 1391,
+                  "y": 1501.830078125
+                },
+                "block_id": "b141",
+                "pageIndex": 0,
+                "pageNumber": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "pages": [
+      {
+        "height": 2200,
+        "page": 1,
+        "width": 1700
+      }
+    ]
+  },
+  "requestId": "GMa8eDmsDlgyZJcAALMS",
+  "status": 200,
+  "usage": {
+    "data_extraction_credits": {
+      "cost": 15.0,
+      "remainingCredits": 4985.0
+    },
+    "price_composition": {
+      "extract": {
+        "cost": 6.0,
+        "currency": "data_extraction_credits",
+        "unit_cost": 6.0,
+        "units": 1
+      },
+      "parse": {
+        "cost": 9.0,
+        "currency": "data_extraction_credits",
+        "unit_cost": 9.0,
+        "units": 1
+      }
+    }
+  }
+}

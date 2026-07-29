@@ -1,0 +1,13 @@
+.env
+__pycache__/
+*.pyc
+.DS_Store
+**/.DS_Store
+venv/
+.venv/
+
+# Legacy folders (superseded by demos/grounded_extraction and demos/parse_citations)
+demos/grounded-extraction/
+demos/parse-citations/
+outputs/
+scripts/

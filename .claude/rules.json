@@ -1,0 +1,11 @@
+{
+  "rules": [
+    "Always use the NUTRIENT_API_KEY environment variable for API authentication. Never hardcode API keys.",
+    "The extraction API endpoint is https://api.nutrient.io/extraction/extract",
+    "Bounding box coordinates are in the API's native document space. Use output.pages[0].width and output.pages[0].height for scaling — never PDF point dimensions from pypdf.",
+    "Extracted field values are in output.data. Bounding box metadata is in output.metadata. Never use output.value.",
+    "output.data and output.metadata mirror the same nested structure. Always traverse them simultaneously in lockstep.",
+    "All HTML demos must be fully self-contained and open directly in a browser with no server required.",
+    "Pre-commit generated HTML files to the repo so developers can view demos without running any Python scripts."
+  ]
+}
