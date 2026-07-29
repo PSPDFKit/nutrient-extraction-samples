@@ -1,0 +1,103 @@
+{
+  "reconstructed": true,
+  "status": 200,
+  "requestId": "reconstructed",
+  "output": {
+    "data": {
+      "plaintiff_name": "Daniel R. Ortiz",
+      "defendant_name": "BrightWave Appliance Repair, LLC",
+      "claim_amount": {
+        "amount": "1,850.00",
+        "iso_4217_currency_code": "USD"
+      },
+      "incident_date": "06/02/2026",
+      "incident_reason": "On 06/02/2026, I paid BrightWave Appliance Repair, LLC $1,850.00 to repair my refrigerator. The technician replaced the compressor, but the unit stopped cooling again within 3 days. I contacted BrightWave multiple times requesting a refund or proper repair, but they refused to correct the work or return my payment."
+    },
+    "metadata": {
+      "plaintiff_name": {
+        "bbox": {
+          "x": 102,
+          "y": 144,
+          "width": 178,
+          "height": 25
+        },
+        "confidence": 0.95,
+        "pageIndex": 1
+      },
+      "defendant_name": {
+        "bbox": {
+          "x": 266,
+          "y": 1075,
+          "width": 422,
+          "height": 30
+        },
+        "confidence": 0.95,
+        "pageIndex": 1
+      },
+      "claim_amount": {
+        "amount": {
+          "bbox": {
+            "x": 833,
+            "y": 1602,
+            "width": 102,
+            "height": 27
+          },
+          "confidence": 0.95,
+          "pageIndex": 1
+        },
+        "iso_4217_currency_code": {
+          "bbox": {
+            "x": 98.80133819580078,
+            "y": 971.9080810546875,
+            "width": 936.7673950195312,
+            "height": 66.68310546875
+          },
+          "confidence": 0.7,
+          "pageIndex": 0
+        }
+      },
+      "incident_date": {
+        "bbox": {
+          "x": 602,
+          "y": 258,
+          "width": 133,
+          "height": 25
+        },
+        "confidence": 0.95,
+        "pageIndex": 2
+      },
+      "incident_reason": {
+        "bbox": {
+          "x": 216,
+          "y": 1794,
+          "width": 964,
+          "height": 128
+        },
+        "confidence": 0.95,
+        "pageIndex": 1
+      }
+    },
+    "pages": [
+      {
+        "height": 2200,
+        "page": 1,
+        "width": 1700
+      },
+      {
+        "height": 2200,
+        "page": 2,
+        "width": 1700
+      },
+      {
+        "height": 2200,
+        "page": 3,
+        "width": 1700
+      },
+      {
+        "height": 2200,
+        "page": 4,
+        "width": 1700
+      }
+    ]
+  }
+}

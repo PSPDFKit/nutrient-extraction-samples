@@ -3,6 +3,6 @@
     "id": "appraisal_report",
     "name": "Small Residential Income Property Appraisal Report (Freddie Mac Form 72)",
     "file": "data/appraisal_report.pdf",
-    "mode": "understand"
+    "mode": "agentic"
   }
 ]

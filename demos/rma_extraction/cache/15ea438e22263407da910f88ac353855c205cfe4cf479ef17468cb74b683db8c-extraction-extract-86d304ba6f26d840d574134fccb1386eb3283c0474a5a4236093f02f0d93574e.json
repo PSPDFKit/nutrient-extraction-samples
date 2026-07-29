@@ -1,0 +1,471 @@
+{
+  "configuration": {
+    "apiVersion": "2026-05-25",
+    "engine": {
+      "requestedEngineVersion": "stable"
+    },
+    "maxLanguages": 2,
+    "maxScripts": 2,
+    "mode": "understand"
+  },
+  "metrics": {
+    "pagesProcessed": 4,
+    "processingTimeMs": 63189
+  },
+  "output": {
+    "data": {
+      "loan_id_number": "0012345678",
+      "servicer_name": "Meridian Loan Servicing Inc",
+      "borrower_name": "Patricia N. Alvarez",
+      "borrower_ssn": "000-45-6789",
+      "property_address": "3390 Maple Grove Lane, Denver, CO 80219",
+      "hardship_explanation": "Reduced work hours led to a decrease in household income, making it difficult to keep up with the mortgage payment",
+      "household_size": "2",
+      "total_gross_income": {
+        "amount": 6500,
+        "iso_4217_currency_code": "USD"
+      },
+      "total_monthly_expenses": {
+        "amount": 2210,
+        "iso_4217_currency_code": "USD"
+      }
+    },
+    "metadata": {
+      "loan_id_number": {
+        "bbox": {
+          "height": 63.264893,
+          "width": 649.2091,
+          "x": 669.76953,
+          "y": 680.91504
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "recognitionScore": 0,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 103.20263671875,
+              "width": 995.625,
+              "x": 326.879150390625,
+              "y": 652.586669921875
+            },
+            "block_id": "b7",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "servicer_name": {
+        "bbox": {
+          "height": 62.51076999999998,
+          "width": 899.21441,
+          "x": 2916.749,
+          "y": 690.75854
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "recognitionScore": 0.7514203786849976,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 116.487548828125,
+              "width": 1240.775146484375,
+              "x": 2575.279541015625,
+              "y": 661.408203125
+            },
+            "block_id": "b3",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "borrower_name": {
+        "bbox": {
+          "height": 66.03488599999991,
+          "width": 583.18494,
+          "x": 345.50098,
+          "y": 1045.7849
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "recognitionScore": 0.9234575629234314,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 71.911865234375,
+              "width": 595.625732421875,
+              "x": 337.867431640625,
+              "y": 1042.25244140625
+            },
+            "block_id": "b10",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "borrower_ssn": {
+        "bbox": {
+          "height": 61.406494,
+          "width": 403.2068,
+          "x": 346.79248,
+          "y": 1247.7908
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "recognitionScore": 0.914004921913147,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 167.09521484375,
+              "width": 749.670654296875,
+              "x": 339.13720703125,
+              "y": 1149.388916015625
+            },
+            "block_id": "b11",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "property_address": {
+        "bbox": {
+          "height": 71.29476000000022,
+          "width": 1393.18356,
+          "x": 325.04346,
+          "y": 2326.7214
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "recognitionScore": 0.9569979310035706,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 87.102294921875,
+              "width": 1404.844482421875,
+              "x": 317.564453125,
+              "y": 2314.49560546875
+            },
+            "block_id": "b18",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "hardship_explanation": {
+        "bbox": {
+          "height": 275.3369140625,
+          "width": 3587.3271484375,
+          "x": 303.15576171875,
+          "y": 5823.72705078125
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match_multiblock",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "recognitionScore": 0.7418915033340454,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 88.54931640625,
+              "width": 1677.481689453125,
+              "x": 2213.001220703125,
+              "y": 5823.72705078125
+            },
+            "block_id": "b62",
+            "pageIndex": 0,
+            "pageNumber": 1
+          },
+          {
+            "bbox": {
+              "height": 100.11279296875,
+              "width": 2119.248291015625,
+              "x": 303.15576171875,
+              "y": 5998.951171875
+            },
+            "block_id": "b63",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "household_size": {
+        "bbox": {
+          "height": 106.076416015625,
+          "width": 997.63623046875,
+          "x": 3259.4697265625,
+          "y": 452.216552734375
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 1,
+        "pageNumber": 2,
+        "recognitionScore": 0.8792338371276855,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 106.076416015625,
+              "width": 997.63623046875,
+              "x": 3259.4697265625,
+              "y": 452.216552734375
+            },
+            "block_id": "b104",
+            "pageIndex": 1,
+            "pageNumber": 2
+          }
+        ]
+      },
+      "total_gross_income": {
+        "amount": {
+          "bbox": {
+            "height": 62.38867,
+            "width": 257.75684,
+            "x": 4404.253,
+            "y": 2975.0645
+          },
+          "confidence": 0.9696927825876808,
+          "confidenceComponents": {
+            "formatScore": 1,
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 1,
+          "pageNumber": 2,
+          "recognitionScore": 0.9668071269989014,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 70.457275390625,
+                "width": 267.2109375,
+                "x": 4398.3828125,
+                "y": 2967.96337890625
+              },
+              "block_id": "b143",
+              "pageIndex": 1,
+              "pageNumber": 2
+            }
+          ]
+        },
+        "iso_4217_currency_code": {
+          "bbox": {
+            "height": 3398.8673095703125,
+            "width": 4358.62451171875,
+            "x": 222.68017578125,
+            "y": 1639.5819091796875
+          },
+          "confidence": 0.7,
+          "confidenceComponents": {
+            "groundingScore": 0.7,
+            "source": "no-logprobs"
+          },
+          "match": "fuzzy_match",
+          "pageIndex": 2,
+          "pageNumber": 3,
+          "recognitionScore": 0.9082669019699097,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 317.24169921875,
+                "width": 4349.03857421875,
+                "x": 232.26611328125,
+                "y": 1639.5819091796875
+              },
+              "block_id": "b195",
+              "pageIndex": 2,
+              "pageNumber": 3
+            },
+            {
+              "bbox": {
+                "height": 263.2607421875,
+                "width": 4288.8095703125,
+                "x": 228.800537109375,
+                "y": 2635.6103515625
+              },
+              "block_id": "b199",
+              "pageIndex": 2,
+              "pageNumber": 3
+            },
+            {
+              "bbox": {
+                "height": 650.88720703125,
+                "width": 4323.11669921875,
+                "x": 222.68017578125,
+                "y": 4387.56201171875
+              },
+              "block_id": "b209",
+              "pageIndex": 2,
+              "pageNumber": 3
+            }
+          ]
+        }
+      },
+      "total_monthly_expenses": {
+        "amount": {
+          "bbox": {
+            "height": 59.283447,
+            "width": 249.71777,
+            "x": 2914.33,
+            "y": 2990.8472
+          },
+          "confidence": 0.9696927825876808,
+          "confidenceComponents": {
+            "formatScore": 1,
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 1,
+          "pageNumber": 2,
+          "recognitionScore": 0.9558963179588318,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 71.45947265625,
+                "width": 259.6201171875,
+                "x": 2907.493408203125,
+                "y": 2981.51171875
+              },
+              "block_id": "b140",
+              "pageIndex": 1,
+              "pageNumber": 2
+            }
+          ]
+        },
+        "iso_4217_currency_code": {
+          "bbox": {
+            "height": 3398.8673095703125,
+            "width": 4358.62451171875,
+            "x": 222.68017578125,
+            "y": 1639.5819091796875
+          },
+          "confidence": 0.7,
+          "confidenceComponents": {
+            "groundingScore": 0.7,
+            "source": "no-logprobs"
+          },
+          "match": "fuzzy_match",
+          "pageIndex": 2,
+          "pageNumber": 3,
+          "recognitionScore": 0.9082669019699097,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 317.24169921875,
+                "width": 4349.03857421875,
+                "x": 232.26611328125,
+                "y": 1639.5819091796875
+              },
+              "block_id": "b195",
+              "pageIndex": 2,
+              "pageNumber": 3
+            },
+            {
+              "bbox": {
+                "height": 263.2607421875,
+                "width": 4288.8095703125,
+                "x": 228.800537109375,
+                "y": 2635.6103515625
+              },
+              "block_id": "b199",
+              "pageIndex": 2,
+              "pageNumber": 3
+            },
+            {
+              "bbox": {
+                "height": 650.88720703125,
+                "width": 4323.11669921875,
+                "x": 222.68017578125,
+                "y": 4387.56201171875
+              },
+              "block_id": "b209",
+              "pageIndex": 2,
+              "pageNumber": 3
+            }
+          ]
+        }
+      }
+    },
+    "pages": [
+      {
+        "height": 6801,
+        "page": 1,
+        "width": 4817
+      },
+      {
+        "height": 6929,
+        "page": 2,
+        "width": 4871
+      },
+      {
+        "height": 6763,
+        "page": 3,
+        "width": 4723
+      },
+      {
+        "height": 6889,
+        "page": 4,
+        "width": 4718
+      }
+    ]
+  },
+  "requestId": "GMbJtV-3sdm5fmoAAPDC",
+  "status": 200,
+  "usage": {
+    "data_extraction_credits": {
+      "cost": 60.0,
+      "remainingCredits": 4940.0
+    },
+    "price_composition": {
+      "extract": {
+        "cost": 24.0,
+        "currency": "data_extraction_credits",
+        "unit_cost": 6.0,
+        "units": 4
+      },
+      "parse": {
+        "cost": 36.0,
+        "currency": "data_extraction_credits",
+        "unit_cost": 9.0,
+        "units": 4
+      }
+    }
+  }
+}
