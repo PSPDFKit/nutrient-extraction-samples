@@ -1,115 +1,147 @@
-# Nutrient Extraction Samples
+# nutrient-extraction-samples
 
-Self-contained demos for the [Nutrient Data Extraction API](https://www.nutrient.io/api/data-extraction/). Pre-generated HTML outputs are committed to this repo — open any demo directly in a browser with no server, no installation, and no API key required.
+Interactive demos for the [Nutrient Data Extraction API](https://www.nutrient.io/api/data-extraction/) and [Nutrient Parse API](https://www.nutrient.io/api/data-extraction/).
 
-Regenerating demos with custom documents requires a Nutrient API key.
+Each demo is a Python script that calls the API, then generates a self-contained HTML file that opens in any browser — no server, no signup, no API key needed to view the output.
+
+---
+
+## Why grounded extraction matters
+
+Most document AI tools return values. Nutrient returns values **and proof**.
+
+Every extracted field comes with:
+- **Bounding box** — the exact pixel region on the page the value was pulled from
+- **Confidence score** — how certain the model is about that value
+- **Page index** — which page of the document the value lives on
+
+When a value is wrong, there is no need to search the document manually. Hover over the field card and the highlight lands on exactly where the model looked. A wrong highlight location is an immediately visible audit trail.
+
+This is the difference between a black box and an auditable extraction pipeline.
+
+---
 
 ## Demos
 
-### 1. Grounded Extraction (Hero Demo)
+### 1. CMS-1500 Health Insurance Claim
 `demos/grounded_extraction/`
 
-Schema-driven field extraction from a scanned government form. Each extracted field is pinned to its exact location on the source document with a bounding box, confidence score, and match grounding — hover a field to see its citation highlight on the document.
+**API:** Data Extraction (grounded schema)
+**Document:** CMS-1500, the standard US healthcare reimbursement form
+**What it shows:** Table row extraction across a dense printed grid. The form uses a dropout-red ink grid that scanners typically destroy — Nutrient extracts procedure codes, diagnosis codes, billing amounts, and provider fields correctly, each highlighted in the exact table cell it came from.
 
 → **[Open demo](https://pspdfkit.github.io/nutrient-extraction-samples/demos/grounded_extraction/output/index.html)**
 
-### 2. Layout-Aware Parse — Appraisal Report
-`demos/parse_citations/`
+---
 
-Document parsing with visual citation overlay using the Nutrient Parse API. A 4-page real estate appraisal report (Freddie Mac Form 72) is decomposed into 243 spatially-grounded semantic blocks in reading order — paragraphs, section headers, tables. Each block carries its page coordinates, making this the foundation for layout-aware RAG chunking: split on natural document boundaries, attach source coordinates to every chunk, retrieve with built-in citations.
-
-→ **[Open demo](https://pspdfkit.github.io/nutrient-extraction-samples/demos/parse_citations/output/index.html)**
-
-### 3. RMA Form — Multi-Page Grounded Extraction
-`demos/rma_extraction/`
-
-Grounded extraction from a 4-page scanned government form (Making Home Affordable Program RMA). Demonstrates extraction across multiple pages and includes a schema tuning story: how grounding made a wrong extraction immediately auditable, and how a one-line description fix corrected it.
-
-→ **[Open demo](https://pspdfkit.github.io/nutrient-extraction-samples/demos/rma_extraction/output/index.html)**
-
-### 4. Indiana Birth Record — Signature Detection & Dotted-Line Noise Isolation
+### 2. Indiana State Birth Record
 `demos/birth_record_extraction/`
 
-Grounded extraction from a scanned state government form. Demonstrates three capabilities: handwritten signature detection (presence flag + bounding box on the ink strokes), dotted-line noise isolation (values extracted cleanly without bleeding into printed labels), and auditable schema tuning (a one-field description error caused the API to grab the signature scrawl instead of the printed name — grounding made the error immediately visible).
+**API:** Data Extraction (grounded schema)
+**Document:** Indiana Certificate of Live Birth application (state vital records form)
+**What it shows:** Signature block detection on a handwritten/printed mixed document. The schema distinguishes between the *printed name* field and the adjacent *cursive signature* — two visually adjacent fields that trip up most models. The demo includes a before/after tuning comparison showing how schema description specificity fixes extraction errors.
 
 → **[Open demo](https://pspdfkit.github.io/nutrient-extraction-samples/demos/birth_record_extraction/output/index.html)**
 
-## Regenerating demos with custom documents
+---
 
-### Prerequisites
+### 3. Making Home Affordable — Request for Modification
+`demos/rma_extraction/`
+
+**API:** Data Extraction (grounded schema)
+**Document:** Making Home Affordable Program RMA form (HUD/Treasury)
+**What it shows:** Value isolation in a dense 3-column financial table. The form has three adjacent columns (Monthly Income, Total Assets, Total Expenses) with nearly identical labels. The demo includes a tuning story: before/after showing how a vague schema description extracts the wrong column, and how a precise description fixes it — with the highlight visually confirming the correction.
+
+→ **[Open demo](https://pspdfkit.github.io/nutrient-extraction-samples/demos/rma_extraction/output/index.html)**
+
+---
+
+### 4. CA SC-100 Small Claims Court
+`demos/sc100_extraction/`
+
+**API:** Data Extraction (grounded schema)
+**Document:** California Judicial Council SC-100, Plaintiff's Claim and ORDER to Go to Small Claims Court
+**What it shows:** Full narrative paragraph extraction from a free-text legal form field. The `incident_reason` field captures a complete multi-sentence plaintiff explanation across multiple lines — grounded with a single bounding box covering the entire explanation area. Also demonstrates cross-page extraction: five fields pulled from three different pages of the same document.
+
+→ **[Open demo](https://pspdfkit.github.io/nutrient-extraction-samples/demos/sc100_extraction/output/index.html)**
+
+---
+
+### 5. Small Residential Income Property Appraisal Report
+`demos/parse_citations/`
+
+**API:** Parse API (layout-aware block decomposition)
+**Document:** Freddie Mac Form 72 residential appraisal report
+**What it shows:** Document decomposed into semantic blocks — paragraphs, section headers, tables — each with spatial coordinates. Demonstrates the RAG citation use case: every text block in the sidebar links back to its exact location in the document, so retrieval pipelines can cite the source precisely. Use Parse when structure-aware chunking is needed rather than field-level extraction.
+
+→ **[Open demo](https://pspdfkit.github.io/nutrient-extraction-samples/demos/parse_citations/output/index.html)**
+
+---
+
+## How to run any demo
+
+Each demo folder contains:
+
+```
+demo_name/
+├── docs.json              # extraction schema (or parse config)
+├── generate_demo.py       # calls the API, writes the HTML
+├── template.html          # visual layout
+└── README.md              # demo-specific notes and tuning story
+```
+
+```bash
+cd demos/grounded_extraction    # or birth_record_extraction, rma_extraction, sc100_extraction, parse_citations
+pip install -r ../../requirements.txt
+# place your PDF in data/ matching the filename in docs.json
+export NUTRIENT_API_KEY=your_key
+python3 generate_demo.py
+open output/index.html
+```
+
+---
+
+## Pre-built outputs
+
+The `output/` folder in each demo contains a pre-committed HTML file built from sample data. Open any of these directly in a browser to see the demo without running the script or owning an API key:
+
+- [`demos/grounded_extraction/output/index.html`](demos/grounded_extraction/output/index.html)
+- [`demos/birth_record_extraction/output/index.html`](demos/birth_record_extraction/output/index.html)
+- [`demos/rma_extraction/output/index.html`](demos/rma_extraction/output/index.html)
+- [`demos/sc100_extraction/output/index.html`](demos/sc100_extraction/output/index.html)
+- [`demos/parse_citations/output/index.html`](demos/parse_citations/output/index.html)
+
+---
+
+## Document verticals covered
+
+| Vertical | Demo |
+|---|---|
+| Healthcare billing | CMS-1500 |
+| Government / vital records | Indiana Birth Record |
+| Mortgage / housing assistance | Making Home Affordable RMA |
+| Legal / civil court | CA SC-100 Small Claims |
+| Real estate / lending | Appraisal Report (Form 72) |
+
+---
+
+## Prerequisites
 
 - Python 3.9+
 - `poppler` for PDF rendering: `brew install poppler`
 - A [Nutrient API key](https://www.nutrient.io/api/)
+- Dependencies: `pip install -r requirements.txt`
 
-### Setup
+---
 
-```bash
-git clone https://github.com/PSPDFKit/nutrient-extraction-samples.git
-cd nutrient-extraction-samples
-pip install -r requirements.txt
-cp .env.example .env
-# Add NUTRIENT_API_KEY to .env
-```
+## API reference
 
-### Run
+- [Data Extraction API docs](https://www.nutrient.io/api/data-extraction/)
+- [Parse API docs](https://www.nutrient.io/api/data-extraction/)
+- [Nutrient Studio](https://dashboard.nutrient.io/data-extraction-api/studio/extract) — test documents visually before writing code
 
-```bash
-# Grounded extraction demo
-cd demos/grounded_extraction
-python3 generate_demo.py
+---
 
-# Parse citations demo
-cd demos/parse_citations
-python3 generate_demo.py
+## Contributing
 
-# RMA form demo
-cd demos/rma_extraction
-python3 generate_demo.py
-
-# Indiana birth record demo
-cd demos/birth_record_extraction
-python3 generate_demo.py
-```
-
-## Roadmap
-
-- **Claude Code skill integration** — a one-line install that wires the Nutrient extract skill directly into Claude Code, making this repo a distribution channel for the skill alongside the demos. Pending confirmation of the source skill repo.
-
-## Repo structure
-
-```
-nutrient-extraction-samples/
-├── demos/
-│   ├── grounded_extraction/
-│   │   ├── data/              # Source PDFs
-│   │   ├── output/            # Pre-generated HTML + PNG (committed)
-│   │   ├── docs.json          # Extraction schema config
-│   │   ├── generate_demo.py   # Demo generator script
-│   │   └── template.html      # HTML template
-│   ├── parse_citations/
-│   │   ├── data/              # Source PDFs
-│   │   ├── output/            # Pre-generated HTML + PNG (committed)
-│   │   ├── docs.json          # Parse config
-│   │   ├── generate_demo.py   # Demo generator script
-│   │   ├── template.html      # HTML template
-│   │   └── README.md          # Demo-specific docs + Parse vs. Extract comparison
-│   ├── rma_extraction/
-│   │   ├── data/              # Source PDFs
-│   │   ├── output/            # Pre-generated HTML + PNG (committed)
-│   │   ├── docs.json          # Extraction schema config
-│   │   ├── generate_demo.py   # Demo generator script
-│   │   ├── template.html      # HTML template
-│   │   ├── README.md          # Demo-specific docs + tuning story
-│   │   └── tuning_notes.md    # Schema tuning walkthrough
-│   └── birth_record_extraction/
-│       ├── data/              # Source PDFs
-│       ├── output/            # Pre-generated HTML + PNG (committed)
-│       ├── docs.json          # Extraction schema config
-│       ├── generate_demo.py   # Demo generator script
-│       ├── template.html      # HTML template
-│       ├── README.md          # Demo-specific docs + tuning story
-│       └── tuning_notes.md    # Schema tuning walkthrough
-├── .env.example
-└── requirements.txt
-```
+To suggest a new document type, open an issue with the document name and the fields to extract.

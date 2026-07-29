@@ -1970,6 +1970,8 @@ etc): adverse easements or encroachments noted. Zoning conforms to current use. 
         const PDF_WIDTH = 1700;
         const PDF_HEIGHT = 2200;
 
+        const viewport = document.querySelector('.viewport');
+
         function highlightBlock(x, y, w, h) {
             const scaleX = image.clientWidth / PDF_WIDTH;
             const scaleY = image.clientHeight / PDF_HEIGHT;
@@ -1978,6 +1980,10 @@ etc): adverse easements or encroachments noted. Zoning conforms to current use. 
             highlight.style.width  = (w * scaleX) + 'px';
             highlight.style.height = (h * scaleY) + 'px';
             highlight.style.display = 'block';
+            const vpRect = viewport.getBoundingClientRect();
+            const hlRect = highlight.getBoundingClientRect();
+            const delta = (hlRect.top + hlRect.height / 2) - (vpRect.top + vpRect.height / 2);
+            viewport.scrollBy({ top: delta, behavior: 'smooth' });
         }
 
         function clearHighlight() {

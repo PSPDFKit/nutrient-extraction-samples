@@ -168,13 +168,13 @@
                 </div>
                 
                 <div class="field-card other-page"
-                     onmouseenter="highlightField(222.68017578125, 1639.5819091796875, 4358.62451171875, 3398.8673095703125, 2)"
+                     onmouseenter="highlightField(4398.3828125, 2967.96337890625, 267.2109375, 70.457275390625, 1)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">total_gross_income.iso_4217_currency_code</div>
                     <div class="field-value">USD</div>
                     <div class="field-meta">
-                        <span class="confidence">70% confidence</span>
-                        <span class="page-badge other-page">page 3 — not shown</span>
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge other-page">page 2 — not shown</span>
                     </div>
                 </div>
                 
@@ -190,13 +190,13 @@
                 </div>
                 
                 <div class="field-card other-page"
-                     onmouseenter="highlightField(222.68017578125, 1639.5819091796875, 4358.62451171875, 3398.8673095703125, 2)"
+                     onmouseenter="highlightField(2907.493408203125, 2981.51171875, 259.6201171875, 71.45947265625, 1)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">total_monthly_expenses.iso_4217_currency_code</div>
                     <div class="field-value">USD</div>
                     <div class="field-meta">
-                        <span class="confidence">70% confidence</span>
-                        <span class="page-badge other-page">page 3 — not shown</span>
+                        <span class="confidence">95% confidence</span>
+                        <span class="page-badge other-page">page 2 — not shown</span>
                     </div>
                 </div>
                 
@@ -208,6 +208,8 @@
         const highlight = document.getElementById('highlight');
         const PDF_WIDTH = 4817;
         const PDF_HEIGHT = 6801;
+
+        const viewport = document.querySelector('.viewport');
 
         function highlightField(x, y, w, h, pageIndex) {
             if (pageIndex !== 0) {
@@ -221,6 +223,10 @@
             highlight.style.width  = (w * scaleX) + 'px';
             highlight.style.height = (h * scaleY) + 'px';
             highlight.style.display = 'block';
+            const vpRect = viewport.getBoundingClientRect();
+            const hlRect = highlight.getBoundingClientRect();
+            const delta = (hlRect.top + hlRect.height / 2) - (vpRect.top + vpRect.height / 2);
+            viewport.scrollBy({ top: delta, behavior: 'smooth' });
         }
 
         function clearHighlight() {

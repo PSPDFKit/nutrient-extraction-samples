@@ -155,16 +155,6 @@
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(55, 1901.9388427734375, 1344, 22.0611572265625)"
-                     onmouseleave="clearHighlight()">
-                    <div class="field-path">total_charge.iso_4217_currency_code</div>
-                    <div class="field-value">USD</div>
-                    <div class="field-meta">
-                        <span>Confidence: <span class="confidence">95%</span></span>
-                    </div>
-                </div>
-                
-                <div class="field-card"
                      onmouseenter="highlightField(69, 1505, 142, 19)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">service_lines[0].date_of_service_from</div>
@@ -191,16 +181,6 @@
                     <div class="field-value">125.00</div>
                     <div class="field-meta">
                         <span>Confidence: <span class="confidence">96%</span></span>
-                    </div>
-                </div>
-                
-                <div class="field-card"
-                     onmouseenter="highlightField(1083, 1499.1651611328125, 88.0562744140625, 23.3558349609375)"
-                     onmouseleave="clearHighlight()">
-                    <div class="field-path">service_lines[0].line_charges.iso_4217_currency_code</div>
-                    <div class="field-value">USD</div>
-                    <div class="field-meta">
-                        <span>Confidence: <span class="confidence">95%</span></span>
                     </div>
                 </div>
                 
@@ -245,16 +225,6 @@
                 </div>
                 
                 <div class="field-card"
-                     onmouseenter="highlightField(1092.2169189453125, 1569.454833984375, 80.310302734375, 23.4119873046875)"
-                     onmouseleave="clearHighlight()">
-                    <div class="field-path">service_lines[1].line_charges.iso_4217_currency_code</div>
-                    <div class="field-value">USD</div>
-                    <div class="field-meta">
-                        <span>Confidence: <span class="confidence">95%</span></span>
-                    </div>
-                </div>
-                
-                <div class="field-card"
                      onmouseenter="highlightField(1391, 1505, 127, 19)"
                      onmouseleave="clearHighlight()">
                     <div class="field-path">service_lines[1].rendering_provider_npi</div>
@@ -275,15 +245,20 @@
         const PDF_WIDTH = 1700;
         const PDF_HEIGHT = 2200;
 
+        const viewport = document.querySelector('.viewport');
+
         function highlightField(x, y, w, h) {
             const scaleX = image.clientWidth / PDF_WIDTH;
             const scaleY = image.clientHeight / PDF_HEIGHT;
-
             highlight.style.left   = (x * scaleX) + 'px';
             highlight.style.top    = (y * scaleY) + 'px';
             highlight.style.width  = (w * scaleX) + 'px';
             highlight.style.height = (h * scaleY) + 'px';
             highlight.style.display = 'block';
+            const vpRect = viewport.getBoundingClientRect();
+            const hlRect = highlight.getBoundingClientRect();
+            const delta = (hlRect.top + hlRect.height / 2) - (vpRect.top + vpRect.height / 2);
+            viewport.scrollBy({ top: delta, behavior: 'smooth' });
         }
 
         function clearHighlight() {

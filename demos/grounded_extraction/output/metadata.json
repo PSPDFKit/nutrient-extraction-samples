@@ -10,7 +10,7 @@
   },
   "metrics": {
     "pagesProcessed": 1,
-    "processingTimeMs": 17792
+    "processingTimeMs": 18075
   },
   "output": {
     "data": {
@@ -162,33 +162,13 @@
           ]
         },
         "iso_4217_currency_code": {
-          "bbox": {
-            "height": 22.0611572265625,
-            "width": 1344,
-            "x": 55,
-            "y": 1901.9388427734375
-          },
-          "confidence": 0.95,
+          "confidence": 0.4,
           "confidenceComponents": {
-            "groundingScore": 0.95,
+            "groundingScore": 0.4,
             "source": "no-logprobs"
           },
-          "match": "id_match",
-          "pageIndex": 0,
-          "pageNumber": 1,
-          "source_bboxes": [
-            {
-              "bbox": {
-                "height": 22.0611572265625,
-                "width": 1344,
-                "x": 55,
-                "y": 1901.9388427734375
-              },
-              "block_id": "b51",
-              "pageIndex": 0,
-              "pageNumber": 1
-            }
-          ]
+          "match": "not_found",
+          "source_bboxes": []
         }
       },
       "service_lines": [
@@ -283,33 +263,13 @@
               ]
             },
             "iso_4217_currency_code": {
-              "bbox": {
-                "height": 23.3558349609375,
-                "width": 88.0562744140625,
-                "x": 1083,
-                "y": 1499.1651611328125
-              },
-              "confidence": 0.95,
+              "confidence": 0.4,
               "confidenceComponents": {
-                "groundingScore": 0.95,
+                "groundingScore": 0.4,
                 "source": "no-logprobs"
               },
-              "match": "id_match",
-              "pageIndex": 0,
-              "pageNumber": 1,
-              "source_bboxes": [
-                {
-                  "bbox": {
-                    "height": 23.3558349609375,
-                    "width": 88.0562744140625,
-                    "x": 1083,
-                    "y": 1499.1651611328125
-                  },
-                  "block_id": "b121",
-                  "pageIndex": 0,
-                  "pageNumber": 1
-                }
-              ]
+              "match": "not_found",
+              "source_bboxes": []
             }
           },
           "rendering_provider_npi": {
@@ -433,33 +393,13 @@
               ]
             },
             "iso_4217_currency_code": {
-              "bbox": {
-                "height": 23.4119873046875,
-                "width": 80.310302734375,
-                "x": 1092.2169189453125,
-                "y": 1569.454833984375
-              },
-              "confidence": 0.95,
+              "confidence": 0.4,
               "confidenceComponents": {
-                "groundingScore": 0.95,
+                "groundingScore": 0.4,
                 "source": "no-logprobs"
               },
-              "match": "id_match",
-              "pageIndex": 0,
-              "pageNumber": 1,
-              "source_bboxes": [
-                {
-                  "bbox": {
-                    "height": 23.4119873046875,
-                    "width": 80.310302734375,
-                    "x": 1092.2169189453125,
-                    "y": 1569.454833984375
-                  },
-                  "block_id": "b122",
-                  "pageIndex": 0,
-                  "pageNumber": 1
-                }
-              ]
+              "match": "not_found",
+              "source_bboxes": []
             }
           },
           "rendering_provider_npi": {
@@ -502,7 +442,7 @@
       }
     ]
   },
-  "requestId": "GMa8eDmsDlgyZJcAALMS",
+  "requestId": "GMbHiZhgJ097UXUAAGZC",
   "status": 200,
   "usage": {
     "data_extraction_credits": {

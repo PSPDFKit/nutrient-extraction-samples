@@ -10,7 +10,7 @@
   },
   "metrics": {
     "pagesProcessed": 1,
-    "processingTimeMs": 28044
+    "processingTimeMs": 27131
   },
   "output": {
     "data": {
@@ -617,7 +617,7 @@
       }
     ]
   },
-  "requestId": "GMbBKnxoxAV77NgAAW4R",
+  "requestId": "GMbHiZjcTDoURBkAAGZi",
   "status": 200,
   "usage": {
     "data_extraction_credits": {

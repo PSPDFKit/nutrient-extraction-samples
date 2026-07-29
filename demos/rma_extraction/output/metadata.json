@@ -10,7 +10,7 @@
   },
   "metrics": {
     "pagesProcessed": 4,
-    "processingTimeMs": 62742
+    "processingTimeMs": 66273
   },
   "output": {
     "data": {
@@ -286,53 +286,31 @@
         },
         "iso_4217_currency_code": {
           "bbox": {
-            "height": 3398.8673095703125,
-            "width": 4358.62451171875,
-            "x": 222.68017578125,
-            "y": 1639.5819091796875
+            "height": 70.457275390625,
+            "width": 267.2109375,
+            "x": 4398.3828125,
+            "y": 2967.96337890625
           },
-          "confidence": 0.7,
+          "confidence": 0.95,
           "confidenceComponents": {
-            "groundingScore": 0.7,
+            "groundingScore": 0.95,
             "source": "no-logprobs"
           },
-          "match": "fuzzy_match",
-          "pageIndex": 2,
-          "pageNumber": 3,
-          "recognitionScore": 0.9082669019699097,
+          "match": "id_match",
+          "pageIndex": 1,
+          "pageNumber": 2,
+          "recognitionScore": 0.9668071269989014,
           "source_bboxes": [
             {
               "bbox": {
-                "height": 317.24169921875,
-                "width": 4349.03857421875,
-                "x": 232.26611328125,
-                "y": 1639.5819091796875
+                "height": 70.457275390625,
+                "width": 267.2109375,
+                "x": 4398.3828125,
+                "y": 2967.96337890625
               },
-              "block_id": "b195",
-              "pageIndex": 2,
-              "pageNumber": 3
-            },
-            {
-              "bbox": {
-                "height": 263.2607421875,
-                "width": 4288.8095703125,
-                "x": 228.800537109375,
-                "y": 2635.6103515625
-              },
-              "block_id": "b199",
-              "pageIndex": 2,
-              "pageNumber": 3
-            },
-            {
-              "bbox": {
-                "height": 650.88720703125,
-                "width": 4323.11669921875,
-                "x": 222.68017578125,
-                "y": 4387.56201171875
-              },
-              "block_id": "b209",
-              "pageIndex": 2,
-              "pageNumber": 3
+              "block_id": "b143",
+              "pageIndex": 1,
+              "pageNumber": 2
             }
           ]
         }
@@ -371,53 +349,31 @@
         },
         "iso_4217_currency_code": {
           "bbox": {
-            "height": 3398.8673095703125,
-            "width": 4358.62451171875,
-            "x": 222.68017578125,
-            "y": 1639.5819091796875
+            "height": 71.45947265625,
+            "width": 259.6201171875,
+            "x": 2907.493408203125,
+            "y": 2981.51171875
           },
-          "confidence": 0.7,
+          "confidence": 0.95,
           "confidenceComponents": {
-            "groundingScore": 0.7,
+            "groundingScore": 0.95,
             "source": "no-logprobs"
           },
-          "match": "fuzzy_match",
-          "pageIndex": 2,
-          "pageNumber": 3,
-          "recognitionScore": 0.9082669019699097,
+          "match": "id_match",
+          "pageIndex": 1,
+          "pageNumber": 2,
+          "recognitionScore": 0.9558963179588318,
           "source_bboxes": [
             {
               "bbox": {
-                "height": 317.24169921875,
-                "width": 4349.03857421875,
-                "x": 232.26611328125,
-                "y": 1639.5819091796875
+                "height": 71.45947265625,
+                "width": 259.6201171875,
+                "x": 2907.493408203125,
+                "y": 2981.51171875
               },
-              "block_id": "b195",
-              "pageIndex": 2,
-              "pageNumber": 3
-            },
-            {
-              "bbox": {
-                "height": 263.2607421875,
-                "width": 4288.8095703125,
-                "x": 228.800537109375,
-                "y": 2635.6103515625
-              },
-              "block_id": "b199",
-              "pageIndex": 2,
-              "pageNumber": 3
-            },
-            {
-              "bbox": {
-                "height": 650.88720703125,
-                "width": 4323.11669921875,
-                "x": 222.68017578125,
-                "y": 4387.56201171875
-              },
-              "block_id": "b209",
-              "pageIndex": 2,
-              "pageNumber": 3
+              "block_id": "b140",
+              "pageIndex": 1,
+              "pageNumber": 2
             }
           ]
         }
@@ -446,7 +402,7 @@
       }
     ]
   },
-  "requestId": "GMa_gzyjIKBLGV0AAOIh",
+  "requestId": "GMbHiZmjs16Zdu0AAFyi",
   "status": 200,
   "usage": {
     "data_extraction_credits": {

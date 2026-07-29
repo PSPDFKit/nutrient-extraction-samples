@@ -1,0 +1,62 @@
+[
+  {
+    "path": "plaintiff_name",
+    "value": "Daniel R. Ortiz",
+    "confidence": 95,
+    "x": 102,
+    "y": 144,
+    "width": 178,
+    "height": 25,
+    "page_index": 1
+  },
+  {
+    "path": "defendant_name",
+    "value": "BrightWave Appliance Repair, LLC",
+    "confidence": 95,
+    "x": 266,
+    "y": 1075,
+    "width": 422,
+    "height": 30,
+    "page_index": 1
+  },
+  {
+    "path": "claim_amount.amount",
+    "value": "1,850.00",
+    "confidence": 95,
+    "x": 833,
+    "y": 1602,
+    "width": 102,
+    "height": 27,
+    "page_index": 1
+  },
+  {
+    "path": "claim_amount.iso_4217_currency_code",
+    "value": "USD",
+    "confidence": 70,
+    "x": 98.80133819580078,
+    "y": 971.9080810546875,
+    "width": 936.7673950195312,
+    "height": 66.68310546875,
+    "page_index": 0
+  },
+  {
+    "path": "incident_date",
+    "value": "06/02/2026",
+    "confidence": 95,
+    "x": 602,
+    "y": 258,
+    "width": 133,
+    "height": 25,
+    "page_index": 2
+  },
+  {
+    "path": "incident_reason",
+    "value": "On 06/02/2026, I paid BrightWave Appliance Repair, LLC $1,850.00 to repair my refrigerator. The technician replaced the compressor, but the unit stopped cooling again within 3 days. I contacted BrightWave multiple times requesting a refund or proper repair, but they refused to correct the work or return my payment.",
+    "confidence": 95,
+    "x": 216,
+    "y": 1794,
+    "width": 964,
+    "height": 128,
+    "page_index": 1
+  }
+]

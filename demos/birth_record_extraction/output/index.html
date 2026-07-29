@@ -260,6 +260,8 @@
         const PDF_WIDTH = 4986;
         const PDF_HEIGHT = 7021;
 
+        const viewport = document.querySelector('.viewport');
+
         function highlightField(x, y, w, h) {
             const scaleX = image.clientWidth / PDF_WIDTH;
             const scaleY = image.clientHeight / PDF_HEIGHT;
@@ -268,6 +270,10 @@
             highlight.style.width  = (w * scaleX) + 'px';
             highlight.style.height = (h * scaleY) + 'px';
             highlight.style.display = 'block';
+            const vpRect = viewport.getBoundingClientRect();
+            const hlRect = highlight.getBoundingClientRect();
+            const delta = (hlRect.top + hlRect.height / 2) - (vpRect.top + vpRect.height / 2);
+            viewport.scrollBy({ top: delta, behavior: 'smooth' });
         }
 
         function clearHighlight() {

@@ -1,0 +1,45 @@
+[
+  {
+    "id": "sc100",
+    "name": "California SC-100 Small Claims Court Form",
+    "file": "data/sc100.pdf",
+    "mode": "agentic",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "plaintiff_name": {
+          "type": "string",
+          "description": "The full legal name of the person or business filing the claim, from the 'Plaintiff (the person suing)' section on page 1 or 2."
+        },
+        "defendant_name": {
+          "type": "string",
+          "description": "The full legal name of the person or business being sued, from the 'Defendant (the person you are suing)' section. This may be a company name or individual name."
+        },
+        "claim_amount": {
+          "type": "object",
+          "description": "The dollar amount the plaintiff is claiming as damages.",
+          "properties": {
+            "amount": {
+              "type": "string",
+              "description": "The numeric dollar amount claimed, as printed on the form (e.g. '1,850.00'). Do NOT include the dollar sign."
+            },
+            "iso_4217_currency_code": {
+              "type": "string",
+              "description": "The ISO 4217 currency code. For US court forms this is always 'USD'."
+            }
+          },
+          "required": ["amount", "iso_4217_currency_code"]
+        },
+        "incident_date": {
+          "type": "string",
+          "description": "The date on which the incident or dispute occurred, from the 'When did this happen?' labeled field. Return in MM/DD/YYYY format."
+        },
+        "incident_reason": {
+          "type": "string",
+          "description": "The plaintiff's full narrative explanation of why they are suing, from the 'Explain your claim' or 'Why are you suing the defendant?' free-text section. Extract the complete multi-sentence paragraph exactly as written — do not truncate."
+        }
+      },
+      "required": ["plaintiff_name", "defendant_name", "claim_amount", "incident_date", "incident_reason"]
+    }
+  }
+]
