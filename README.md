@@ -13,10 +13,10 @@ Schema-driven field extraction from a scanned government form. Each extracted fi
 
 → **[Open demo](https://pspdfkit.github.io/nutrient-extraction-samples/demos/grounded_extraction/output/index.html)**
 
-### 2. Parse-Based Citations
+### 2. Layout-Aware Parse — Appraisal Report
 `demos/parse_citations/`
 
-Document parsing with visual citation overlay. Parsed text blocks are linked back to their source coordinates on the page.
+Document parsing with visual citation overlay using the Nutrient Parse API. A 4-page real estate appraisal report (Freddie Mac Form 72) is decomposed into 243 spatially-grounded semantic blocks in reading order — paragraphs, section headers, tables. Each block carries its page coordinates, making this the foundation for layout-aware RAG chunking: split on natural document boundaries, attach source coordinates to every chunk, retrieve with built-in citations.
 
 → **[Open demo](https://pspdfkit.github.io/nutrient-extraction-samples/demos/parse_citations/output/index.html)**
 
@@ -90,8 +90,10 @@ nutrient-extraction-samples/
 │   ├── parse_citations/
 │   │   ├── data/              # Source PDFs
 │   │   ├── output/            # Pre-generated HTML + PNG (committed)
-│   │   ├── generate_demo.py
-│   │   └── template.html
+│   │   ├── docs.json          # Parse config
+│   │   ├── generate_demo.py   # Demo generator script
+│   │   ├── template.html      # HTML template
+│   │   └── README.md          # Demo-specific docs + Parse vs. Extract comparison
 │   ├── rma_extraction/
 │   │   ├── data/              # Source PDFs
 │   │   ├── output/            # Pre-generated HTML + PNG (committed)

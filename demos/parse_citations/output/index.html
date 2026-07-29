@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Nutrient Parse Citations Demo</title>
+    <title>Nutrient Parse Demo — Appraisal Report</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -15,6 +15,7 @@
         .container { display: flex; width: 100%; height: 100%; }
         .viewport {
             flex: 1;
+            position: relative;
             overflow: auto;
             display: flex;
             justify-content: center;
@@ -27,14 +28,16 @@
         .pdf-image { display: block; max-width: 100%; height: auto; }
         .highlight-box {
             position: absolute;
-            border: 2px solid #f5a623;
-            background-color: rgba(245, 166, 35, 0.15);
+            border: 2px solid #00aaff;
+            background-color: rgba(0, 170, 255, 0.15);
             pointer-events: none;
             display: none;
+            transition: all 0.1s ease;
         }
         .sidebar { width: 480px; display: flex; flex-direction: column; background-color: #1e1e1e; }
         .header { padding: 20px; border-bottom: 1px solid #333; }
-        .header h1 { margin: 0; font-size: 1.25rem; }
+        .header h1 { margin: 0; font-size: 1.1rem; }
+        .header p { margin: 6px 0 0; font-size: 0.78rem; color: #888; line-height: 1.4; }
         .blocks-list { flex: 1; overflow-y: auto; padding: 20px; }
         .block-card {
             background-color: #2a2a2a;
@@ -46,129 +49,1916 @@
             transition: background 0.2s;
         }
         .block-card:hover, .block-card.active {
-            background-color: #333333;
-            border-color: #f5a623;
+            background-color: #333;
+            border-color: #00aaff;
         }
         .block-meta {
-            font-family: "SFMono-Regular", Consolas, Menlo, monospace;
-            font-size: 0.75rem;
-            color: #888;
+            display: flex;
+            align-items: center;
+            gap: 6px;
             margin-bottom: 6px;
+            flex-wrap: wrap;
         }
-        .block-text { font-size: 0.9rem; color: #ddd; line-height: 1.5; }
+        .badge {
+            font-size: 0.68rem;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+        .badge-header {
+            background-color: rgba(0, 200, 100, 0.2);
+            color: #00c864;
+            border: 1px solid rgba(0, 200, 100, 0.3);
+        }
+        .badge-type {
+            background-color: #2a2a2a;
+            color: #888;
+            border: 1px solid #444;
+        }
+        .badge-checkbox-on {
+            background-color: rgba(0, 170, 255, 0.15);
+            color: #00aaff;
+            border: 1px solid rgba(0, 170, 255, 0.3);
+        }
+        .badge-checkbox-off {
+            background-color: #2a2a2a;
+            color: #666;
+            border: 1px solid #444;
+        }
+        .block-confidence {
+            font-size: 0.72rem;
+            color: #00aaff;
+            margin-left: auto;
+        }
+        .block-text {
+            font-size: 0.88rem;
+            color: #ddd;
+            line-height: 1.5;
+            word-break: break-word;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="viewport">
             <div class="pdf-container">
-                <img src="page_0.png" class="pdf-image" id="target-image">
+                <img src="appraisal_report_page_0.png" class="pdf-image" id="target-image">
                 <div class="highlight-box" id="highlight"></div>
             </div>
         </div>
         <div class="sidebar">
             <div class="header">
-                <h1>Parse Citations</h1>
-                <div style="font-size:0.8rem;color:#aaa;margin-top:4px;">CMS_1500</div>
+                <h1>Layout-Aware Parse</h1>
+                <p>Small Residential Income Property Appraisal Report (Freddie Mac Form 72)</p>
+                <p style="margin-top:8px; color:#666;">Hover a block to see its exact location on the document. Blocks are in reading order — ready for RAG chunking or structured extraction.</p>
             </div>
             <div class="blocks-list">
                 
                 <div class="block-card"
-                     onmouseenter="highlightBlock(52, 369, 189, 25)"
+                     onmouseenter="highlightBlock(351.4891, 86.55932, 1006.51587, 29.166245)"
                      onmouseleave="clearHighlight()">
-                    <div class="block-meta">page  &nbsp;·&nbsp; 52, 369</div>
-                    <div class="block-text">Thornton, Emily R.</div>
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-header">Header</span>
+                        
+                        <span class="block-confidence">76%</span>
+                    </div>
+                    <div class="block-text">SMALL RESIDENTIAL INCOME PROPERY APPRAISAL REPORT</div>
                 </div>
                 
                 <div class="block-card"
-                     onmouseenter="highlightBlock(1030, 436, 208, 19)"
+                     onmouseenter="highlightBlock(1348.1819, 133.5393, 176.07324, 26.913101)"
                      onmouseleave="clearHighlight()">
-                    <div class="block-meta">page  &nbsp;·&nbsp; 1030, 436</div>
-                    <div class="block-text">815 Birchwood Lane</div>
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">84%</span>
+                    </div>
+                    <div class="block-text">Zip Code 62704</div>
                 </div>
                 
                 <div class="block-card"
-                     onmouseenter="highlightBlock(1027, 499, 68.211181640625, 89)"
+                     onmouseenter="highlightBlock(87.98707, 133.6173, 728.01294, 29.382706)"
                      onmouseleave="clearHighlight()">
-                    <div class="block-meta">page  &nbsp;·&nbsp; 1027, 499</div>
-                    <div class="block-text">Austin, TX 78745</div>
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">76%</span>
+                    </div>
+                    <div class="block-text">Property Address Willowbrook Lane 1487_____________________________________</div>
                 </div>
                 
                 <div class="block-card"
-                     onmouseenter="highlightBlock(1030, 302, 127, 22)"
+                     onmouseenter="highlightBlock(88, 162.32098, 1520, 30.679016)"
                      onmouseleave="clearHighlight()">
-                    <div class="block-meta">page  &nbsp;·&nbsp; 1030, 302</div>
-                    <div class="block-text">XW1234567</div>
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">76%</span>
+                    </div>
+                    <div class="block-text">Legal Description 12, Block 3, Willowbrook Estates Subdivision Lot____________________________________________________________County Sangamon___________________________</div>
                 </div>
                 
                 <div class="block-card"
-                     onmouseenter="highlightBlock(1033, 836, 222, 25)"
+                     onmouseenter="highlightBlock(86, 193.63255, 1352, 28.367447)"
                      onmouseleave="clearHighlight()">
-                    <div class="block-meta">page  &nbsp;·&nbsp; 1033, 836</div>
-                    <div class="block-text">Blue Ridge PPO Gold</div>
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">74%</span>
+                    </div>
+                    <div class="block-text">Assessor’s Parcel No. 14-22-301-012______________________Tax Year 2025_______ R.E. Taxes $ 6,850___________ Special Assessments $</div>
                 </div>
                 
                 <div class="block-card"
-                     onmouseenter="highlightBlock(91, 1305, 58, 22)"
+                     onmouseenter="highlightBlock(650.61597, 194.8384, 91.95459, 21.914474)"
                      onmouseleave="clearHighlight()">
-                    <div class="block-meta">page  &nbsp;·&nbsp; 91, 1305</div>
-                    <div class="block-text">J06.9</div>
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">78%</span>
+                    </div>
+                    <div class="block-text">Tax Year</div>
                 </div>
                 
                 <div class="block-card"
-                     onmouseenter="highlightBlock(1030, 1375, 127, 19)"
+                     onmouseenter="highlightBlock(87.34662, 225.97736, 1519.6533, 26.503525)"
                      onmouseleave="clearHighlight()">
-                    <div class="block-meta">page  &nbsp;·&nbsp; 1030, 1375</div>
-                    <div class="block-text">PA-0098765</div>
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">83%</span>
+                    </div>
+                    <div class="block-text">Neighborhood or Project Name Estates Willowbrook_____________________________ Map Reference 22-14N-4W____________ Census Tract 0012.00________________</div>
                 </div>
                 
                 <div class="block-card"
-                     onmouseenter="highlightBlock(55, 1901.9388427734375, 1344, 22.0611572265625)"
+                     onmouseenter="highlightBlock(87.5034, 259.46173, 266.9436, 24.17633)"
                      onmouseleave="clearHighlight()">
-                    <div class="block-meta">page  &nbsp;·&nbsp; 55, 1901</div>
-                    <div class="block-text">170.00</div>
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">73%</span>
+                    </div>
+                    <div class="block-text">Borrower Robert Ashford</div>
                 </div>
                 
                 <div class="block-card"
-                     onmouseenter="highlightBlock(55, 1902, 122, 19)"
+                     onmouseenter="highlightBlock(87.0855, 302.46182, 282.32675, 27.735474)"
                      onmouseleave="clearHighlight()">
-                    <div class="block-meta">page  &nbsp;·&nbsp; 55, 1902</div>
-                    <div class="block-text">87-6543210</div>
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">71%</span>
+                    </div>
+                    <div class="block-text">Property rights appraised</div>
                 </div>
                 
                 <div class="block-card"
-                     onmouseenter="highlightBlock(522, 2075, 124, 19)"
+                     onmouseenter="highlightBlock(88.393265, 334.9407, 236.50047, 24.153595)"
                      onmouseleave="clearHighlight()">
-                    <div class="block-meta">page  &nbsp;·&nbsp; 522, 2075</div>
-                    <div class="block-text">1234567890</div>
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">65%</span>
+                    </div>
+                    <div class="block-text">Sales Price $ 285,000</div>
                 </div>
                 
                 <div class="block-card"
-                     onmouseenter="highlightBlock(1033, 1977, 285, 27)"
+                     onmouseenter="highlightBlock(88, 297, 1497, 32)"
                      onmouseleave="clearHighlight()">
-                    <div class="block-meta">page  &nbsp;·&nbsp; 1033, 1977</div>
-                    <div class="block-text">Austin Family Medical Clinic</div>
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-on">☑ checked</span>
+                        
+                        <span class="block-confidence">70%</span>
+                    </div>
+                    <div class="block-text">Property rights appraised 4 ❐ Fee Simple ❐ Leasehold Project Type ❐ PUD ❐ Condominium HOA$__________ /mo</div>
                 </div>
                 
                 <div class="block-card"
-                     onmouseenter="highlightBlock(1036, 1977, 596, 50)"
+                     onmouseenter="highlightBlock(356.27908, 334.63983, 139.35577, 22.702362)"
                      onmouseleave="clearHighlight()">
-                    <div class="block-meta">page  &nbsp;·&nbsp; 1036, 1977</div>
-                    <div class="block-text">4500 Oak Hill Blvd, Austin, TX 78745</div>
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">50%</span>
+                    </div>
+                    <div class="block-text">Date of Sale</div>
                 </div>
                 
                 <div class="block-card"
-                     onmouseenter="highlightBlock(116, 1169, 219, 25)"
+                     onmouseenter="highlightBlock(87.74953, 365.38895, 402.70203, 24.890808)"
                      onmouseleave="clearHighlight()">
-                    <div class="block-meta">page  &nbsp;·&nbsp; 116, 1169</div>
-                    <div class="block-text">Michael Hastings, MD</div>
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">77%</span>
+                    </div>
+                    <div class="block-text">Lender/Client Heritage National Bank</div>
                 </div>
                 
                 <div class="block-card"
-                     onmouseenter="highlightBlock(1391, 1505, 127, 19)"
+                     onmouseenter="highlightBlock(86.35928, 397.1936, 538.5912, 25.50647)"
                      onmouseleave="clearHighlight()">
-                    <div class="block-meta">page  &nbsp;·&nbsp; 1391, 1505</div>
-                    <div class="block-text">1234567890</div>
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">70%</span>
+                    </div>
+                    <div class="block-text">Appraiser Nathan Reyes, Certified Residential Appraiser</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(88, 449, 86.38928, 21.016296)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">76%</span>
+                    </div>
+                    <div class="block-text">Location</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(88, 482.69095, 75, 24.309052)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">73%</span>
+                    </div>
+                    <div class="block-text">Built up</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(88, 515.6182, 122, 20.51654)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">77%</span>
+                    </div>
+                    <div class="block-text">Growth rate</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(88, 548.4025, 159.143, 26.597473)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">79%</span>
+                    </div>
+                    <div class="block-text">Property Values</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(88, 583, 161.43518, 25)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">83%</span>
+                    </div>
+                    <div class="block-text">Demand/Supply</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(88, 615.40735, 150, 25.592651)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">85%</span>
+                    </div>
+                    <div class="block-text">Marketing time</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(282.14676, 446.6327, 93.76956, 22.957428)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">83%</span>
+                    </div>
+                    <div class="block-text">❐ Urban</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(282.16977, 479.66013, 134.44458, 23.303925)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">84%</span>
+                    </div>
+                    <div class="block-text">❐ Over 75%</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(281.59253, 512.81854, 88.18906, 28.181458)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">83%</span>
+                    </div>
+                    <div class="block-text">❐ Rapid</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(281.29663, 546.98035, 136.70337, 28.019653)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">82%</span>
+                    </div>
+                    <div class="block-text">❐ Increasing</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(281.96024, 580, 122.09561, 28)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">82%</span>
+                    </div>
+                    <div class="block-text">❐ Shortage</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(282.1698, 613, 166.8302, 23.320679)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">79%</span>
+                    </div>
+                    <div class="block-text">❐ Under 3 mos.</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(86, 686, 1524, 27)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">76%</span>
+                    </div>
+                    <div class="block-text">Typical 2-4 family bldg. Present land use % Land use change</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(86, 716, 1529, 27)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">68%</span>
+                    </div>
+                    <div class="block-text">Typical rent $ 950 ________ 4 ❐ Stable ❐ Declining One family ❐ Likely</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(88, 747, 1461, 27.217285)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">68%</span>
+                    </div>
+                    <div class="block-text">Est. neighborhood apt. vacancy 4____ % ❐ Declining 2-4 family ❐ In process to:</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(88.36274, 777.1145, 225.33572, 23.180542)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">52%</span>
+                    </div>
+                    <div class="block-text">Rent controls □ Yes</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(411.36584, 776.18964, 90.78998, 27.250732)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">79%</span>
+                    </div>
+                    <div class="block-text">□ Likely</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(818.4954, 131.75447, 154.06683, 26.74466)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">89%</span>
+                    </div>
+                    <div class="block-text">City Springfield</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(861.63184, 192.64, 201.54016, 25.176346)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">74%</span>
+                    </div>
+                    <div class="block-text">R.E. Taxes $ 6,850</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(862.10486, 225.16203, 300.05432, 25.783936)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">83%</span>
+                    </div>
+                    <div class="block-text">Map Reference 22-14N-4W</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(88, 258, 1519, 30)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">83%</span>
+                    </div>
+                    <div class="block-text">Borrower Ashford Robert____________________________ Current Owner Ashford Robert________________________ Occupant ❐ Owner ❐ Vacant</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(567.87854, 299.79, 150.79279, 24.61438)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">82%</span>
+                    </div>
+                    <div class="block-text">□ Leasehold</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(781.0541, 300.7975, 135.92975, 27.408508)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-on">☑ checked</span>
+                        
+                        <span class="block-confidence">66%</span>
+                    </div>
+                    <div class="block-text">Project Type</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1136.5096, 135.01816, 81.982056, 21.652222)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">86%</span>
+                    </div>
+                    <div class="block-text">StateIL</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1136.4537, 165.13635, 200.40796, 24.835007)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">83%</span>
+                    </div>
+                    <div class="block-text">County Sangamon</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1172.8058, 193.48608, 288.7318, 26.652542)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">83%</span>
+                    </div>
+                    <div class="block-text">Special Assessments $ 0</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1224.8376, 226.07741, 239.6034, 22.890884)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">77%</span>
+                    </div>
+                    <div class="block-text">Census Tract 0012.00</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1117.9945, 262.15036, 107.5166, 26.459045)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">77%</span>
+                    </div>
+                    <div class="block-text">Occupant</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1047.7126, 299.16302, 188.3324, 25.967743)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">80%</span>
+                    </div>
+                    <div class="block-text">Condominium</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(938.27405, 298.23392, 87.043335, 25.82254)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">78%</span>
+                    </div>
+                    <div class="block-text">PUD</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1245.3245, 257.4391, 107.017456, 27.481934)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">81%</span>
+                    </div>
+                    <div class="block-text">Owner</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1325.5518, 301.26477, 68.88574, 22.64914)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">67%</span>
+                    </div>
+                    <div class="block-text">HOA$</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(86, 335.49716, 1535, 27.502838)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">78%</span>
+                    </div>
+                    <div class="block-text">Sales Price $ 285,000_______ Date of Sale Description and $ amount of loan charges/concessions to be paid by seller N/A__________</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(88, 366, 1533, 28)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">76%</span>
+                    </div>
+                    <div class="block-text">Lender/Client National Bank Heritage_______________________________ Address Financial Plaza, Springfield, IL 62701 500___________________________________________________________</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(86, 396.33026, 1535, 28.669739)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">80%</span>
+                    </div>
+                    <div class="block-text">Nathan Reyes, Certified Residential Appraiser___________________________________ Address Oak Grove Drive, Springfield, IL 62702 1200___________________________________________________________</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(788, 447.8956, 133.12024, 60.1044)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">60%</span>
+                    </div>
+                    <div class="block-text">Single Family</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(787.9971, 514.8089, 845.0029, 26.191101)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">67%</span>
+                    </div>
+                    <div class="block-text">Occupancy $(000) Occupancy $(000) (yrs)</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(787.81024, 547.0943, 95.84924, 23.69049)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">84%</span>
+                    </div>
+                    <div class="block-text">Owner</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(788.4812, 580.525, 97.04022, 23.08374)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">82%</span>
+                    </div>
+                    <div class="block-text">Tenant</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(788, 613, 827, 28)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">85%</span>
+                    </div>
+                    <div class="block-text">❐ Vacant (0-5%) Predominant ❐ Vacant (0-5%) Predominant</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(788, 646.4148, 661, 28.585205)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">55%</span>
+                    </div>
+                    <div class="block-text">❐ Vacant (over 5%) ❐ Vacant (over 5%)</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(790.69946, 715.961, 128.453, 25.021362)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">75%</span>
+                    </div>
+                    <div class="block-text">Declining</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(799.4713, 745.5905, 128.46735, 26.84613)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">70%</span>
+                    </div>
+                    <div class="block-text">Declining</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(88, 776.98114, 1214, 26.43103)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">76%</span>
+                    </div>
+                    <div class="block-text">Rent controls ❐ Yes ❐ Likely If yes or likely, describe____________ Multi family _____</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(87.056625, 866, 943.82214, 27.034668)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">80%</span>
+                    </div>
+                    <div class="block-text">Note: Race and the racial composition of the neighborhood are not appraisal factors</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(87.44337, 896.7186, 524.0616, 25.596619)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">66%</span>
+                    </div>
+                    <div class="block-text">Neighborhood boundaries and characteristics:</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(88, 926.2247, 1525, 59.77533)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">79%</span>
+                    </div>
+                    <div class="block-text">Proximity to employment centers in downtown Springfield (10 minutes), grocery, schools, and public transportation supports steady rental demand and _____________________________________________________________________________________________________________
+Employment base is stable, anchored by state government, healthcare, and higher education employers. _____________________________________________________________________________________________________________</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(86, 984.0764, 1521, 59.36609)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">76%</span>
+                    </div>
+                    <div class="block-text">Factors that affect the marketability of the properties in the neighborhood (proximity to employment and amenities, employment stability,
+appeal to market, etc.): __________________________________________________________________________________________</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(85.37959, 1049.8269, 1561.696, 143.1731)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">91%</span>
+                    </div>
+                    <div class="block-text">competing listings within the immediate subject neighborhood were found to be materially superior or inferior; market conditions have been stable with No_____________________________________________________________________________________________________________
+The following available listings represent the most current, similar, and proximate competitive properties to the subject property in the
+subject neighborhood. This analysis is intended to evaluate the inventory currently on the market competing with the subject property in the
+subject neighborhood and recent price and marketing time trends affecting the subject property. (Listings outside the subject neighborhood
+are not considered applicable) The listing comparables can be the rental or sale comparables if they are currently for sale.</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(86, 1466, 459.99237, 28)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">86%</span>
+                    </div>
+                    <div class="block-text">Comparison of listings to subject propert:</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(84.77426, 1525.7681, 1545.8387, 118.23193)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">94%</span>
+                    </div>
+                    <div class="block-text">Market conditions that affect 2-4 family properties in the subject neighborhood (including the above neighborhood indicators of growth
+rate, property values, demand/supply, and marketing time) and the prevalence and impact in the subject market area regarding loan
+discounts, interest buydowns and concessions, and identification of trends in listing prices, average days on market and any change over
+past year, etc.: _________________________________________________________________________________________________</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(87.97719, 1676.1521, 1520.0228, 25.8479)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">80%</span>
+                    </div>
+                    <div class="block-text">150' x 200' irregular Dimensions____________________________________________________________________ Level Topography________________________________</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(86, 1702, 1522, 27)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">66%</span>
+                    </div>
+                    <div class="block-text">Site area acres (30,000 sq. ft.) 0.69______________________________________________________________________ Size for area Typical______________________________________</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(391.44214, 1702.8004, 25.696106, 19.227295)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">53%</span>
+                    </div>
+                    <div class="block-text">ft.)</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(86, 1728.715, 1521, 26.285034)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">73%</span>
+                    </div>
+                    <div class="block-text">Specific zoning classification and description Two-Family Residential R-2,_________________________________________ Shape Rectangular____________________________________</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(85.98133, 1754.3981, 1521.0187, 26.950928)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">50%</span>
+                    </div>
+                    <div class="block-text">Zoning compliance 4 ❐ Legal ❐ Legal nonconforming (Grandfathered use) ❐ Illegal ❐ No zoning Drainage adequate Appears__________________________________</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(86.64513, 1783, 1521.3549, 27)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">72%</span>
+                    </div>
+                    <div class="block-text">Highest & best use as improved: 4 ❐ Present use ❐ Other use (explain) Residential View_________________________________</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(88.528206, 1842.4094, 82.18766, 21.248169)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">60%</span>
+                    </div>
+                    <div class="block-text">Utilities</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(86.23232, 1904.378, 46.243614, 19.961914)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">51%</span>
+                    </div>
+                    <div class="block-text">Gas</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(86, 1962.653, 1521, 25.347046)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-on">☑ checked</span>
+                        
+                        <span class="block-confidence">55%</span>
+                    </div>
+                    <div class="block-text">Sanitary sewer 4 ❐ Street lights Overhead_______________ 4 ❐ ❐Fema Map 17167C0210F No._________________________</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(86, 1992.2312, 195.41064, 23.939697)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">51%</span>
+                    </div>
+                    <div class="block-text">Storm sewer 4 ❐</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(613.9484, 1782.1697, 239.35608, 26.45581)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">76%</span>
+                    </div>
+                    <div class="block-text">Other use (explain)</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(430.3328, 1782.7319, 160.22513, 23.565674)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">62%</span>
+                    </div>
+                    <div class="block-text">Present use</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(380.05145, 1842.2983, 64.43887, 21.600098)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">59%</span>
+                    </div>
+                    <div class="block-text">Other</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(511.6526, 1841.9419, 245.40552, 26.388916)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">80%</span>
+                    </div>
+                    <div class="block-text">Off-site improvements</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(512.119, 1872.5857, 219.40442, 25.50061)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">72%</span>
+                    </div>
+                    <div class="block-text">Street Asphalt paved</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(86, 1902, 785, 27)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">68%</span>
+                    </div>
+                    <div class="block-text">Gas Curb/gutter Concrete________________</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(511.32782, 1932.4541, 104.621155, 22.656128)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">65%</span>
+                    </div>
+                    <div class="block-text">Sidewalk</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(511.33917, 1962.8569, 246.85522, 25.338745)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">75%</span>
+                    </div>
+                    <div class="block-text">Street lights Overhead</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(511.16302, 1993.2764, 114.75726, 24.864136)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">76%</span>
+                    </div>
+                    <div class="block-text">Alley None</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(85.92773, 2021.9955, 1537.0232, 60.004517)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">78%</span>
+                    </div>
+                    <div class="block-text">Comments (apparent adverse easements, encroashments, special assessments, slide areas, illegal or legal nonconforming zoning, use,
+etc): adverse easements or encroachments noted. Zoning conforms to current use. No_________________________________________________________________________________________________________</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(88, 2105, 1519, 2)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">100%</span>
+                    </div>
+                    <div class="block-text">_____________________________________________________________________________________________________________</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(819.0473, 1842.6373, 51.184204, 26.374512)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">73%</span>
+                    </div>
+                    <div class="block-text">Type</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(244.08379, 1841.6421, 69.888016, 21.578491)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">68%</span>
+                    </div>
+                    <div class="block-text">Public</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1088.1455, 1675.1329, 169.82349, 25.347778)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">84%</span>
+                    </div>
+                    <div class="block-text">TopographyLevel</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1087.8441, 1703.5294, 205.40259, 23.31604)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">80%</span>
+                    </div>
+                    <div class="block-text">Size Typical for area</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1088.0198, 1728.7517, 184.61292, 23.278442)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">76%</span>
+                    </div>
+                    <div class="block-text">Shape Rectangular</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1087.3754, 1754.1467, 265.50464, 25.36853)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">80%</span>
+                    </div>
+                    <div class="block-text">Drainage Appears adequate</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1087.2948, 1783.6954, 169.3269, 22.098267)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">78%</span>
+                    </div>
+                    <div class="block-text">View Residential</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1088, 1813, 519, 28.14795)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">78%</span>
+                    </div>
+                    <div class="block-text">Landscaping mature trees Typical,__________________________</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(88, 1843.6366, 1520, 27.363403)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">80%</span>
+                    </div>
+                    <div class="block-text">Utilities Public Other Off-site improvements Type Public Private Driveway shared 2-car Asphalt,_____________________________</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(511, 1872, 1116, 30.027344)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">74%</span>
+                    </div>
+                    <div class="block-text">Street paved Asphalt____________________ ❐Apparent easements utility easements along Standard____________________</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1087.4241, 1932.4323, 153.91663, 23.163818)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">63%</span>
+                    </div>
+                    <div class="block-text">Fema Zone X</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1087.0326, 1962.7322, 284.64368, 26.069214)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">74%</span>
+                    </div>
+                    <div class="block-text">Fema Map No. 17167C0210F</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1380.9241, 1932.4584, 111.7594, 25.778687)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">62%</span>
+                    </div>
+                    <div class="block-text">Map Date</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(788, 448.22253, 852, 25.777466)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">79%</span>
+                    </div>
+                    <div class="block-text">Predominant Single family housing Predominant 2-4 family housing</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1126.2278, 483.3553, 40.618286, 22.805511)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">53%</span>
+                    </div>
+                    <div class="block-text">Age</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1238.0159, 448.52078, 127.04578, 21.342682)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">77%</span>
+                    </div>
+                    <div class="block-text">Predominant</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1245.1691, 481.7899, 104.64172, 25.180756)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-on">☑ checked</span>
+                        
+                        <span class="block-confidence">70%</span>
+                    </div>
+                    <div class="block-text">2-4 Family</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1244.7555, 515.0571, 118.950806, 25.649597)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">65%</span>
+                    </div>
+                    <div class="block-text">Occupancy</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(788, 546.79736, 555, 24.737244)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-on">☑ checked</span>
+                        
+                        <span class="block-confidence">82%</span>
+                    </div>
+                    <div class="block-text">❐ Owner 4 ❐ Owner</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1245.4707, 579.83856, 96.20776, 23.533264)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">80%</span>
+                    </div>
+                    <div class="block-text">Tenant</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1245.8438, 613.97754, 172.2826, 24.589355)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">84%</span>
+                    </div>
+                    <div class="block-text">Vacant (0-5%)</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1246.0901, 646.2902, 200.09021, 25.379333)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">84%</span>
+                    </div>
+                    <div class="block-text">Vacant (over 5%)</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1095.7427, 685.6061, 223.54517, 24.431274)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">76%</span>
+                    </div>
+                    <div class="block-text">Present land use %</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1094.0166, 717.69366, 121.3689, 25.386902)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">57%</span>
+                    </div>
+                    <div class="block-text">One family</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1096.9583, 747.2375, 114.207886, 25.544922)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">60%</span>
+                    </div>
+                    <div class="block-text">2-4 family</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1093.289, 776.2828, 207.36072, 25.559387)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">52%</span>
+                    </div>
+                    <div class="block-text">Multi family</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1086, 805, 171, 28)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">61%</span>
+                    </div>
+                    <div class="block-text">to the south, and Commercial</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1413.0552, 686.65906, 198.198, 25.094421)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">67%</span>
+                    </div>
+                    <div class="block-text">Land use change</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1527.2808, 715.2623, 88.63916, 26.016724)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">60%</span>
+                    </div>
+                    <div class="block-text">Likely</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1375.5531, 746.4315, 174.4917, 25.91156)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">79%</span>
+                    </div>
+                    <div class="block-text">In process to:</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(456.81604, 446.59058, 128.18396, 24.649872)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-on">☑ checked</span>
+                        
+                        <span class="block-confidence">86%</span>
+                    </div>
+                    <div class="block-text">4 ❐ Suburban</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(456.4448, 479.36438, 109.964264, 24.674957)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-on">☑ checked</span>
+                        
+                        <span class="block-confidence">81%</span>
+                    </div>
+                    <div class="block-text">4 ❐ 25-75%</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(457.36115, 511.93472, 91.638855, 23.271942)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-on">☑ checked</span>
+                        
+                        <span class="block-confidence">84%</span>
+                    </div>
+                    <div class="block-text">4 ❐ Stable</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(457.03827, 546.92365, 91.96173, 23.463501)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-on">☑ checked</span>
+                        
+                        <span class="block-confidence">82%</span>
+                    </div>
+                    <div class="block-text">4 ❐ Stable</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(456.76562, 580, 133.95093, 23.613647)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-on">☑ checked</span>
+                        
+                        <span class="block-confidence">84%</span>
+                    </div>
+                    <div class="block-text">4 ❐ In balance</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(456.88242, 613, 120.117584, 22.680786)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-on">☑ checked</span>
+                        
+                        <span class="block-confidence">80%</span>
+                    </div>
+                    <div class="block-text">4 ❐ 3-6 mos.</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(607.8654, 446.95975, 83.76752, 22.501617)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">75%</span>
+                    </div>
+                    <div class="block-text">❐ Rural</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(607.55963, 479.94223, 144.44037, 23.036041)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">84%</span>
+                    </div>
+                    <div class="block-text">❐ Under 25%</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(607.7231, 512.5644, 78.27692, 22.435608)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">77%</span>
+                    </div>
+                    <div class="block-text">❐ Slow</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(607.9271, 580, 155.07288, 28)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">83%</span>
+                    </div>
+                    <div class="block-text">❐ Over supply</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(607.5477, 613, 155.45227, 24.056824)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">83%</span>
+                    </div>
+                    <div class="block-text">❐ Over 6 mos.</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(677.80396, 715.80334, 97.00867, 24.237976)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-on">☑ checked</span>
+                        
+                        <span class="block-confidence">61%</span>
+                    </div>
+                    <div class="block-text">Stable</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(753.62085, 192.09045, 51.310303, 21.104828)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">68%</span>
+                    </div>
+                    <div class="block-text">2025</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(47.02567, 205.1013, 25.035694, 121.1086)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-header">Header</span>
+                        
+                        <span class="block-confidence">79%</span>
+                    </div>
+                    <div class="block-text">SUBJECT</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(46.45737, 870.4129, 26.018368, 206.69086)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-header">Header</span>
+                        
+                        <span class="block-confidence">81%</span>
+                    </div>
+                    <div class="block-text">NEIGHBORHOOD</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1499.1122, 257.8615, 108.52783, 26.496765)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">77%</span>
+                    </div>
+                    <div class="block-text">Vacant</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1542.4333, 303.27698, 41.764404, 21.330444)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">57%</span>
+                    </div>
+                    <div class="block-text">/mo</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1458.0778, 448.70886, 183.59644, 24.78189)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">71%</span>
+                    </div>
+                    <div class="block-text">2-4 family housing</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1458.9281, 481.9559, 51.546265, 21.033234)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">64%</span>
+                    </div>
+                    <div class="block-text">Price</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1459.0128, 514.54474, 63.8468, 24.38263)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">59%</span>
+                    </div>
+                    <div class="block-text">$(000)</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1581.6611, 483.52966, 41.184692, 21.76007)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">56%</span>
+                    </div>
+                    <div class="block-text">Age</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1581.6412, 515.867, 49.93213, 23.348755)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">50%</span>
+                    </div>
+                    <div class="block-text">(yrs)</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1525.8134, 582.5939, 72.33057, 22.7453)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">52%</span>
+                    </div>
+                    <div class="block-text">High 50</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1462.1752, 608.97424, 160.34082, 30.285461)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">59%</span>
+                    </div>
+                    <div class="block-text">Predominant</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1022.6053, 515.9587, 63.858826, 22.552551)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">57%</span>
+                    </div>
+                    <div class="block-text">$(000)</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(788, 580, 856, 28)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">65%</span>
+                    </div>
+                    <div class="block-text">❐ Tenant 260_____ High 45_____ ❐ Tenant High 50_____</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1026.3267, 613.30914, 147.80847, 24.493042)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-checkbox-off">☐ unchecked</span>
+                        
+                        <span class="block-confidence">51%</span>
+                    </div>
+                    <div class="block-text">Predominant</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1647, 1050, 66, 27)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">100%</span>
+                    </div>
+                    <div class="block-text">typical</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1674, 1877, 25, 19)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">100%</span>
+                    </div>
+                    <div class="block-text">lot</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(899.2269, 1841.9495, 68.450195, 20.93103)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">68%</span>
+                    </div>
+                    <div class="block-text">Public</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(511, 1933, 982, 27)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">55%</span>
+                    </div>
+                    <div class="block-text">Sidewalk 4 ❐ ❐Fema Zone Map Date</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(918.8051, 1962.2273, 19.24701, 19.072632)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">51%</span>
+                    </div>
+                    <div class="block-text">☑</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(989.08984, 1841.965, 78.12024, 21.450806)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">paragraph</span>
+                        
+                        <span class="block-confidence">65%</span>
+                    </div>
+                    <div class="block-text">Private</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(53.14818, 2118.6816, 1576.8518, 25.31836)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">footer</span>
+                        
+                        <span class="block-confidence">78%</span>
+                    </div>
+                    <div class="block-text">Freddie Mac Form 72 Page 1 Fannie Mae Form 1025</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(52.452663, 2145.3901, 470.5529, 23.609863)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">footer</span>
+                        
+                        <span class="block-confidence">87%</span>
+                    </div>
+                    <div class="block-text">National Association of Real Estate Appraisers</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(827.8556, 2118.6196, 70.01129, 23.225098)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">footer</span>
+                        
+                        <span class="block-confidence">92%</span>
+                    </div>
+                    <div class="block-text">Page 1</div>
+                </div>
+                
+                <div class="block-card"
+                     onmouseenter="highlightBlock(1399.6283, 2118.1816, 232.05847, 20.247559)"
+                     onmouseleave="clearHighlight()">
+                    <div class="block-meta">
+                        
+                        <span class="badge badge-type">footer</span>
+                        
+                        <span class="block-confidence">90%</span>
+                    </div>
+                    <div class="block-text">Fannie Mae Form 1025</div>
                 </div>
                 
             </div>
@@ -190,7 +1980,9 @@
             highlight.style.display = 'block';
         }
 
-        function clearHighlight() { highlight.style.display = 'none'; }
+        function clearHighlight() {
+            highlight.style.display = 'none';
+        }
     </script>
 </body>
 </html>

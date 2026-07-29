@@ -1,10 +1,3 @@
-"""
-Parse Citations Demo
-Uses the Nutrient Data Extraction API to extract document sections and generates
-a self-contained HTML file showing each extracted section pinned to its source
-location on the document page via bounding box citations.
-"""
-
 import os
 import json
 import asyncio
@@ -16,91 +9,14 @@ from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).parent.parent.parent / ".env")
 
-API_URL = "https://api.nutrient.io/extraction/extract"
-
-PDF_PATH = Path(__file__).parent / "data" / "CMS_1500.pdf"
-
-SCHEMA = {
-    "type": "object",
-    "properties": {
-        "patient_name": {
-            "type": "string",
-            "description": "Full name of the patient from Box 2."
-        },
-        "patient_address": {
-            "type": "string",
-            "description": "Patient's street address from Box 5."
-        },
-        "patient_city_state_zip": {
-            "type": "string",
-            "description": "Patient's city, state, and zip code."
-        },
-        "insured_name": {
-            "type": "string",
-            "description": "Full name of the insured person from Box 4."
-        },
-        "insured_id_number": {
-            "type": "string",
-            "description": "The insured's ID number from Box 1a."
-        },
-        "insurance_plan_name": {
-            "type": "string",
-            "description": "Insurance plan or program name from Box 11c."
-        },
-        "diagnosis_code_a": {
-            "type": "string",
-            "description": "First diagnosis ICD code from Box 21A."
-        },
-        "diagnosis_code_b": {
-            "type": "string",
-            "description": "Second diagnosis ICD code from Box 21B."
-        },
-        "prior_authorization_number": {
-            "type": "string",
-            "description": "Prior authorization number from Box 23."
-        },
-        "total_charge": {
-            "type": "object",
-            "properties": {
-                "amount": {"type": "number"},
-                "iso_4217_currency_code": {"type": "string"}
-            },
-            "required": ["amount", "iso_4217_currency_code"],
-            "description": "Total charges from Box 28."
-        },
-        "federal_tax_id": {
-            "type": "string",
-            "description": "Federal tax ID number from Box 25."
-        },
-        "patient_account_number": {
-            "type": "string",
-            "description": "Patient account number from Box 26."
-        },
-        "billing_provider_name": {
-            "type": "string",
-            "description": "Name of the billing provider or facility from Box 33."
-        },
-        "billing_provider_address": {
-            "type": "string",
-            "description": "Address of the billing provider from Box 33."
-        },
-        "referring_provider_name": {
-            "type": "string",
-            "description": "Name of the referring provider from Box 17."
-        },
-        "referring_provider_npi": {
-            "type": "string",
-            "description": "NPI of the referring provider from Box 17b."
-        },
-    },
-    "required": ["patient_name", "insured_id_number", "total_charge"]
-}
+PARSE_API_URL = "https://api.nutrient.io/parse"
 
 
-async def extract(pdf_path: Path, api_key: str) -> dict:
-    print(f"Uploading and extracting: {pdf_path}")
+async def call_api(pdf_path, doc_config, api_key):
+    print(f"Uploading and parsing via API: {pdf_path}")
 
     headers = {"Authorization": f"Bearer {api_key}"}
+
     data = aiohttp.FormData()
     data.add_field(
         "file",
@@ -108,65 +24,104 @@ async def extract(pdf_path: Path, api_key: str) -> dict:
         filename=pdf_path.name,
         content_type="application/pdf",
     )
-    instructions = {"mode": "agentic", "schema": SCHEMA}
+
+    instructions = {
+        "mode": doc_config["mode"],
+        "outputFormat": {
+            "elements": {
+                "bounds": True,
+                "confidence": True,
+                "text": True,
+            }
+        },
+    }
     data.add_field("instructions", json.dumps(instructions), content_type="application/json")
 
     async with aiohttp.ClientSession() as session:
-        async with session.post(API_URL, headers=headers, data=data) as response:
+        async with session.post(PARSE_API_URL, headers=headers, data=data) as response:
             if response.status != 200:
                 text = await response.text()
                 raise Exception(f"API Error ({response.status}): {text}")
             return await response.json()
 
 
-def build_blocks(data_node, meta_node, path=""):
-    """
-    Recursively walk data and metadata simultaneously to collect leaf values with bboxes.
-    """
+async def process_document(doc_config, api_key):
+    pdf_path = (Path(__file__).parent / doc_config["file"]).resolve()
+
+    # If a saved Studio JSON result exists, use it — avoids the API call
+    saved_json_path = pdf_path.parent / f"{pdf_path.stem}_parse_results.json"
+    if saved_json_path.exists():
+        print(f"Using saved parse result: {saved_json_path}")
+        with open(saved_json_path) as f:
+            result_json = json.load(f)
+    else:
+        if not api_key:
+            raise SystemExit(
+                f"No saved result at {saved_json_path} and NUTRIENT_API_KEY is not set.\n"
+                "Either save the Studio JSON there or set NUTRIENT_API_KEY."
+            )
+        result_json = await call_api(pdf_path, doc_config, api_key)
+
+    output_dir = Path(__file__).parent / "output"
+    output_dir.mkdir(exist_ok=True)
+
+    pages = convert_from_path(pdf_path, first_page=1, last_page=1)
+    img_filename = f"{doc_config['id']}_page_0.png"
+    pages[0].save(output_dir / img_filename, "PNG")
+
+    # Get page dimensions from the first element that reports page info
+    page_width, page_height = 1700, 2200
+    elements = result_json.get("output", {}).get("elements", [])
+    for el in elements:
+        if el.get("page"):
+            page_width = el["page"]["width"]
+            page_height = el["page"]["height"]
+            break
+
+    return result_json, img_filename, page_width, page_height
+
+
+def build_blocks(result_data):
+    elements = result_data.get("output", {}).get("elements", [])
     blocks = []
 
-    if isinstance(data_node, dict):
-        for k, v in data_node.items():
-            child_meta = meta_node.get(k, {}) if isinstance(meta_node, dict) else {}
-            child_path = f"{path}.{k}" if path else k
-            blocks.extend(build_blocks(v, child_meta, child_path))
+    for el in elements:
+        # Only page 1 (index 0) — we only render one page image
+        if el.get("page", {}).get("pageIndex", 0) != 0:
+            continue
 
-    elif isinstance(data_node, list):
-        meta_list = meta_node if isinstance(meta_node, list) else []
-        for i, item in enumerate(data_node):
-            child_meta = meta_list[i] if i < len(meta_list) else {}
-            blocks.extend(build_blocks(item, child_meta, f"{path}[{i}]"))
+        text = el.get("text", "").strip()
+        if not text:
+            continue
 
-    else:
-        if not isinstance(meta_node, dict):
-            return blocks
-        bbox = meta_node.get("bbox")
-        confidence = meta_node.get("confidence", 1.0)
-        if bbox and data_node is not None:
-            if isinstance(data_node, (int, float)) and "amount" in path:
-                display = f"{float(data_node):.2f}"
-            else:
-                display = str(data_node)
-            blocks.append({
-                "label": path,
-                "text": display,
-                "confidence": int(confidence * 100),
-                "x": bbox["x"],
-                "y": bbox["y"],
-                "width": bbox["width"],
-                "height": bbox["height"],
-            })
+        bounds = el.get("bounds", {})
+        if not bounds:
+            continue
 
+        blocks.append({
+            "text": text,
+            "type": el.get("type", "paragraph"),
+            "role": el.get("role", ""),
+            "confidence": int(el.get("confidence", 0.0) * 100),
+            "x": bounds.get("x", 0),
+            "y": bounds.get("y", 0),
+            "width": bounds.get("width", 0),
+            "height": bounds.get("height", 0),
+            "page_index": el.get("page", {}).get("pageIndex", 0),
+            "reading_order": el.get("readingOrder", 0),
+        })
+
+    blocks.sort(key=lambda b: b["reading_order"])
     return blocks
 
 
-def render_html(blocks, img_filename, page_width, page_height, doc_name):
+def render_html(blocks, img_filename, page_width, page_height, doc_config):
     template_dir = Path(__file__).parent
     env = Environment(loader=FileSystemLoader(str(template_dir)))
     template = env.get_template("template.html")
 
     html_output = template.render(
-        doc_name=doc_name,
+        doc_name=doc_config["name"],
         image_src=img_filename,
         pdf_width=page_width,
         pdf_height=page_height,
@@ -174,37 +129,33 @@ def render_html(blocks, img_filename, page_width, page_height, doc_name):
     )
 
     output_dir = Path(__file__).parent / "output"
-    output_dir.mkdir(exist_ok=True)
     with open(output_dir / "index.html", "w") as f:
         f.write(html_output)
-    print(f"Generated {len(blocks)} cited sections.")
+
+    with open(output_dir / "elements.json", "w") as f:
+        json.dump(blocks, f, indent=2)
+
+    print(f"Generated {len(blocks)} cited blocks.")
     print("Open output/index.html in a browser to view the demo.")
 
 
 async def main():
     api_key = os.getenv("NUTRIENT_API_KEY")
     if not api_key:
-        raise SystemExit("NUTRIENT_API_KEY is not set. Copy .env.example to .env and add your key.")
-    if not PDF_PATH.exists():
-        raise SystemExit(f"PDF not found at {PDF_PATH}.")
+        raise SystemExit("Error: NUTRIENT_API_KEY is not set. Copy .env.example to .env and add your key.")
 
-    result = await extract(PDF_PATH, api_key)
+    docs_path = Path(__file__).parent / "docs.json"
+    with open(docs_path, "r") as f:
+        configs = json.load(f)
 
-    output_dir = Path(__file__).parent / "output"
-    output_dir.mkdir(exist_ok=True)
-    pages = convert_from_path(PDF_PATH, first_page=1, last_page=1)
-    img_filename = "page_0.png"
-    pages[0].save(output_dir / img_filename, "PNG")
+    config = configs[0]
+    pdf_path = (Path(__file__).parent / config["file"]).resolve()
+    if not pdf_path.exists():
+        raise SystemExit(f"PDF not found at {pdf_path}. Add the file and retry.")
 
-    page_info = result["output"]["pages"][0]
-    page_width = page_info["width"]
-    page_height = page_info["height"]
-
-    data = result.get("output", {}).get("data", {})
-    metadata = result.get("output", {}).get("metadata", {})
-    blocks = build_blocks(data, metadata)
-
-    render_html(blocks, img_filename, page_width, page_height, PDF_PATH.stem)
+    result_data, img_filename, page_width, page_height = await process_document(config, api_key)
+    blocks = build_blocks(result_data)
+    render_html(blocks, img_filename, page_width, page_height, config)
 
 
 if __name__ == "__main__":
