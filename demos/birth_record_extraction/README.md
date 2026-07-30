@@ -1,7 +1,7 @@
 # Grounded Extraction Demo — Indiana Birth Record Application
 
 This demo extracts structured data from a real scanned government form using the
-[Nutrient Data Extraction API](https://www.nutrient.io/api/data-extraction/).
+[Nutrient Data Extraction API](https://www.nutrient.io/api/data-extraction-api/).
 
 **Open `output/index.html` in your browser — no setup required.**
 
@@ -47,9 +47,12 @@ A public government form used to request certified birth record copies.
 ## Running the Demo Yourself
 
 1. Place the PDF at `data/birth_record.pdf`
-2. Install dependencies: `pip install -r ../../requirements.txt`
-3. Set your API key: `export NUTRIENT_API_KEY=your_key_here`
-4. Run from this folder: `python3 generate_demo.py`
-5. Open `output/index.html` in your browser
+2. Install Poppler first: `brew install poppler` (macOS) or
+   `apt-get install poppler-utils` (Debian/Ubuntu). Without it, page rendering raises
+   `PDFInfoNotInstalledError` after a live API request has already been billed.
+3. Install dependencies: `pip install -r ../../requirements.txt`
+4. Set your API key: `export NUTRIENT_API_KEY=your_key_here`
+5. Run from this folder: `python3 generate_demo.py`
+6. Open `output/index.html` in your browser
 
-Get an API key at [nutrient.io](https://www.nutrient.io/api/data-extraction/).
+Get an API key at [nutrient.io](https://www.nutrient.io/api/data-extraction-api/).
