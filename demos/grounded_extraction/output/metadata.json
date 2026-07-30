@@ -503,25 +503,5 @@
     ]
   },
   "requestId": "GMbJtV9XG2QIGKUAAOay",
-  "status": 200,
-  "usage": {
-    "data_extraction_credits": {
-      "cost": 15.0,
-      "remainingCredits": 4985.0
-    },
-    "price_composition": {
-      "extract": {
-        "cost": 6.0,
-        "currency": "data_extraction_credits",
-        "unit_cost": 6.0,
-        "units": 1
-      },
-      "parse": {
-        "cost": 9.0,
-        "currency": "data_extraction_credits",
-        "unit_cost": 9.0,
-        "units": 1
-      }
-    }
-  }
+  "status": 200
 }

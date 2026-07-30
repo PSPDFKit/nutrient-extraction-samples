@@ -1,6 +1,6 @@
 # Parse Demo — Small Residential Income Property Appraisal Report
 
-This demo uses the [Nutrient Parse API](https://www.nutrient.io/api/document-parsing/) to decompose a 4-page appraisal report into spatially-grounded semantic blocks.
+This demo uses the [Nutrient Parse API](https://www.nutrient.io/guides/dws-data-extraction/getting-started/) to decompose a 4-page appraisal report into spatially-grounded semantic blocks.
 
 **Open `output/index.html` in your browser — no setup required.**
 

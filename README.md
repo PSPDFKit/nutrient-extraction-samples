@@ -1,6 +1,6 @@
 # nutrient-extraction-samples
 
-Interactive demos for the [Nutrient Data Extraction API](https://www.nutrient.io/api/data-extraction-api/) and [Nutrient Parse API](https://www.nutrient.io/api/document-parsing/).
+Interactive demos for the [Nutrient Data Extraction API](https://www.nutrient.io/api/data-extraction-api/) and [Nutrient Parse API](https://www.nutrient.io/guides/dws-data-extraction/getting-started/).
 
 Each demo is a Python script that calls the API, then generates a self-contained HTML file that opens in any browser — no server, no signup, no API key needed to view the output.
 
@@ -32,6 +32,8 @@ This is the difference between a black box and an auditable extraction pipeline.
 
 → **[Open demo](https://pspdfkit.github.io/nutrient-extraction-samples/demos/grounded_extraction/output/index.html)**
 
+![CMS-1500 extraction demo — procedure code highlighted in the billing grid](docs/screenshots/grounded-extraction.png)
+
 ---
 
 ### 2. Indiana State Birth Record
@@ -42,6 +44,8 @@ This is the difference between a black box and an auditable extraction pipeline.
 **What it shows:** Signature block detection on a handwritten/printed mixed document. The schema distinguishes between the *printed name* field and the adjacent *cursive signature* — two visually adjacent fields that trip up most models. The demo includes a before/after tuning comparison showing how schema description specificity fixes extraction errors.
 
 → **[Open demo](https://pspdfkit.github.io/nutrient-extraction-samples/demos/birth_record_extraction/output/index.html)**
+
+![Indiana birth record demo — applicant signature field highlighted](docs/screenshots/birth-record-extraction.png)
 
 ---
 
@@ -54,6 +58,8 @@ This is the difference between a black box and an auditable extraction pipeline.
 
 → **[Open demo](https://pspdfkit.github.io/nutrient-extraction-samples/demos/rma_extraction/output/index.html)**
 
+![RMA extraction demo — monthly income field isolated in the 3-column financial table](docs/screenshots/rma-extraction.png)
+
 ---
 
 ### 4. CA SC-100 Small Claims Court
@@ -65,6 +71,8 @@ This is the difference between a black box and an auditable extraction pipeline.
 
 → **[Open demo](https://pspdfkit.github.io/nutrient-extraction-samples/demos/sc100_extraction/output/index.html)**
 
+![SC-100 extraction demo — plaintiff narrative paragraph highlighted across multiple lines](docs/screenshots/sc100-extraction.png)
+
 ---
 
 ### 5. Small Residential Income Property Appraisal Report
@@ -75,6 +83,8 @@ This is the difference between a black box and an auditable extraction pipeline.
 **What it shows:** Document decomposed into semantic blocks — paragraphs, section headers, tables — each with spatial coordinates. Demonstrates the RAG citation use case: every text block in the sidebar links back to its exact location in the document, so retrieval pipelines can cite the source precisely. Use Parse when structure-aware chunking is needed rather than field-level extraction.
 
 → **[Open demo](https://pspdfkit.github.io/nutrient-extraction-samples/demos/parse_citations/output/index.html)**
+
+![Parse citations demo — semantic block highlighted with its location in the appraisal document](docs/screenshots/parse-results.png)
 
 ---
 
@@ -224,8 +234,9 @@ The `output/` folder in each demo contains a pre-committed HTML file built from 
 
 ## API reference
 
-- [Data Extraction API docs](https://www.nutrient.io/api/data-extraction-api/)
-- [Parse API docs](https://www.nutrient.io/api/document-parsing/)
+- [Data Extraction API docs](https://www.nutrient.io/guides/dws-data-extraction/getting-started/)
+- [Parse API docs](https://www.nutrient.io/guides/dws-data-extraction/getting-started/)
+- [API reference](https://www.nutrient.io/api/reference/data-extraction/public/#description/introduction)
 - [Nutrient Studio](https://dashboard.nutrient.io/data-extraction-api/studio/extract) — test documents visually before writing code
 
 ---
