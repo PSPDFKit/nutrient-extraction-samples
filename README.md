@@ -233,3 +233,21 @@ The `output/` folder in each demo contains a pre-committed HTML file built from 
 ## Contributing
 
 To suggest a new document type, open an issue with the document name and the fields to extract.
+
+## Install the agent skill
+
+Agents can call the Data Extraction API directly through the `document-extraction-api` skill in
+[`PSPDFKit-labs/nutrient-skills`](https://github.com/PSPDFKit-labs/nutrient-skills), verified at
+revision `3da3211` (PR #27, merged 2026-07-23):
+
+```bash
+npx skills add pspdfkit-labs/nutrient-skills --skill document-extraction-api
+```
+
+The skill bundles a schema-driven extract script with per-field citations and a cost preflight, plus
+reference docs on schema design and reading the citation output. It is the right surface when an agent
+should run extractions itself; the demos in this repo are the right surface when a human wants to see
+grounded extraction with its highlights.
+
+Pinned deliberately: install resolves against upstream `main`, so record the revision you verified and
+re-review before moving the pin.
