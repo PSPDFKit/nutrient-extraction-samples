@@ -127,8 +127,8 @@ The `output/` folder in each demo contains a pre-committed HTML file built from 
 
 ## Prerequisites
 
-- Python 3.9+
-- `poppler` for PDF rendering: `brew install poppler`
+- Python 3.10+
+- `pypdfium2` bundles PDFium; the existing `pdf2image` demo generators still require `poppler` until they migrate
 - A [Nutrient API key](https://www.nutrient.io/api/)
 - Dependencies: `pip install -r requirements.txt`
 

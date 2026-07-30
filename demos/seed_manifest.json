@@ -1,0 +1,364 @@
+[
+  {
+    "demo": "grounded_extraction",
+    "source_file": "demos/grounded_extraction/output/metadata.json",
+    "pdf": "demos/grounded_extraction/data/CMS-1500.pdf",
+    "endpoint": "https://api.nutrient.io/extraction/extract",
+    "replay_config": {
+      "mode": "agentic",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "insured_id_number": {
+            "type": "string",
+            "description": "The insured's ID number found in Box 1a."
+          },
+          "patient_name": {
+            "type": "string",
+            "description": "The patient's name (Last Name, First Name, Middle Initial) from Box 2."
+          },
+          "prior_authorization_number": {
+            "type": "string",
+            "description": "The prior authorization number from Box 23."
+          },
+          "total_charge": {
+            "type": "object",
+            "properties": {
+              "amount": {
+                "type": "number"
+              },
+              "iso_4217_currency_code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "amount",
+              "iso_4217_currency_code"
+            ],
+            "description": "The total charges from Box 28."
+          },
+          "service_lines": {
+            "type": "array",
+            "description": "The list of service lines from the table in Box 24.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "date_of_service_from": {
+                  "type": "string",
+                  "description": "The start date of service from Box 24A (MM DD YY)."
+                },
+                "procedure_code": {
+                  "type": "string",
+                  "description": "The CPT or HCPCS procedure code from Box 24D."
+                },
+                "line_charges": {
+                  "type": "object",
+                  "properties": {
+                    "amount": {
+                      "type": "number"
+                    },
+                    "iso_4217_currency_code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "amount",
+                    "iso_4217_currency_code"
+                  ],
+                  "description": "The charges for this specific service line from Box 24F."
+                },
+                "rendering_provider_npi": {
+                  "type": "string",
+                  "description": "The NPI of the rendering provider from Box 24J."
+                }
+              },
+              "required": [
+                "date_of_service_from",
+                "procedure_code",
+                "line_charges",
+                "rendering_provider_npi"
+              ]
+            }
+          }
+        },
+        "required": [
+          "insured_id_number",
+          "patient_name",
+          "total_charge",
+          "service_lines"
+        ]
+      },
+      "citationsEnabled": true
+    },
+    "cache_key": "b8cec10a5a750bbe1e40e8a628e2f1bc9e6644e22fd7cd12a0397200eebc5dda-extraction-extract-9d969f5b8b34b9942b916be84e5e124a1c971cc584fa2803e2c8efc68aa4acec"
+  },
+  {
+    "demo": "birth_record_extraction",
+    "source_file": "demos/birth_record_extraction/output/metadata.json",
+    "pdf": "demos/birth_record_extraction/data/birth_record.pdf",
+    "endpoint": "https://api.nutrient.io/extraction/extract",
+    "replay_config": {
+      "mode": "agentic",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "full_name_at_birth": {
+            "type": "string",
+            "description": "The full name of the individual at birth, from the 'Full Name at Birth' input line near the top of the form."
+          },
+          "date_of_birth": {
+            "type": "string",
+            "description": "The date of birth entered in MM/DD/YYYY format from the 'Date of Birth (Month, Day, Year)' field."
+          },
+          "place_of_birth_city": {
+            "type": "string",
+            "description": "The city of birth listed in the 'Place of Birth: City' block."
+          },
+          "hospital_name": {
+            "type": "string",
+            "description": "The name of the hospital where the birth actually occurred, from the 'Name of Hospital' field."
+          },
+          "parent_1_name": {
+            "type": "string",
+            "description": "The full name of Parent 1 listed on the form."
+          },
+          "parent_2_name": {
+            "type": "string",
+            "description": "The full name of Parent 2 including their maiden name."
+          },
+          "purpose": {
+            "type": "string",
+            "description": "The purpose for which the birth record is to be used."
+          },
+          "relationship": {
+            "type": "string",
+            "description": "The applicant's relationship to the individual named on the certificate."
+          },
+          "applicant_name": {
+            "type": "string",
+            "description": "The printed name of the applicant from the 'Print Name of Applicant' field."
+          },
+          "mailing_address": {
+            "type": "string",
+            "description": "The full mailing address of the applicant including street, city, state, and ZIP code."
+          },
+          "telephone_number": {
+            "type": "string",
+            "description": "The applicant's daytime telephone number including area code."
+          },
+          "total_fee": {
+            "type": "object",
+            "properties": {
+              "amount": {
+                "type": "number"
+              },
+              "iso_4217_currency_code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "amount",
+              "iso_4217_currency_code"
+            ],
+            "description": "The total fee amount printed in the 'Total Fee' box at the bottom right of the form."
+          },
+          "applicant_signature_block": {
+            "type": "object",
+            "description": "The signature block details at the bottom of the form.",
+            "properties": {
+              "printed_name": {
+                "type": "string",
+                "description": "The name as printed or typed in the 'Print Name of Applicant' labeled field — NOT from the handwritten cursive signature next to it."
+              },
+              "signature_date": {
+                "type": "string",
+                "description": "The date written in the 'Today's Date (Month, Day, Year)' field."
+              },
+              "is_signed": {
+                "type": "string",
+                "description": "Whether a handwritten signature is visually present in the 'Signature of Applicant' box. Return YES or NO."
+              },
+              "title_or_role": {
+                "type": "string",
+                "description": "The label of the signature field, which should be 'Signature of Applicant'."
+              }
+            },
+            "required": [
+              "printed_name",
+              "signature_date",
+              "is_signed",
+              "title_or_role"
+            ]
+          }
+        },
+        "required": [
+          "full_name_at_birth",
+          "date_of_birth",
+          "applicant_name",
+          "mailing_address",
+          "applicant_signature_block"
+        ]
+      },
+      "citationsEnabled": true
+    },
+    "cache_key": "f958679b60de64a3c179dad7ed2af313e88638dae9820a8e01c31c25ce957a99-extraction-extract-763b42c827447e6166518d0ffb9b4c7952d2c75c15edcdb2b4332c14012af6c9"
+  },
+  {
+    "demo": "rma_extraction",
+    "source_file": "demos/rma_extraction/output/metadata.json",
+    "pdf": "demos/rma_extraction/data/rma_form.pdf",
+    "endpoint": "https://api.nutrient.io/extraction/extract",
+    "replay_config": {
+      "mode": "agentic",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "loan_id_number": {
+            "type": "string",
+            "description": "The Loan I.D. Number found in the header of page 1."
+          },
+          "servicer_name": {
+            "type": "string",
+            "description": "The Servicer name listed next to the Loan ID on page 1."
+          },
+          "borrower_name": {
+            "type": "string",
+            "description": "The primary borrower's full name from the BORROWER section on page 1."
+          },
+          "borrower_ssn": {
+            "type": "string",
+            "description": "The primary borrower's Social Security Number from the BORROWER section on page 1."
+          },
+          "property_address": {
+            "type": "string",
+            "description": "The full mailing/property address listed on page 1."
+          },
+          "hardship_explanation": {
+            "type": "string",
+            "description": "The handwritten or typed explanation for hardship written at the bottom of page 1 under the Hardship Affidavit section."
+          },
+          "household_size": {
+            "type": "string",
+            "description": "The Number of People in Household listed at the top of page 2."
+          },
+          "total_gross_income": {
+            "type": "object",
+            "properties": {
+              "amount": {
+                "type": "number"
+              },
+              "iso_4217_currency_code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "amount",
+              "iso_4217_currency_code"
+            ],
+            "description": "The Total Gross Income dollar amount from the LEFTMOST 'Monthly Household Income' table on page 2, from the row labeled 'Total (Gross Income)'. This is NOT the Total Assets value and NOT the Total Debt/Expenses value."
+          },
+          "total_monthly_expenses": {
+            "type": "object",
+            "properties": {
+              "amount": {
+                "type": "number"
+              },
+              "iso_4217_currency_code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "amount",
+              "iso_4217_currency_code"
+            ],
+            "description": "The Total Debt/Expenses dollar amount from the middle 'Monthly Household Expenses/Debt' table on page 2, from the row labeled 'Total Debt/Expenses'."
+          }
+        },
+        "required": [
+          "loan_id_number",
+          "borrower_name",
+          "property_address",
+          "hardship_explanation",
+          "total_gross_income",
+          "total_monthly_expenses"
+        ]
+      },
+      "citationsEnabled": true
+    },
+    "cache_key": "15ea438e22263407da910f88ac353855c205cfe4cf479ef17468cb74b683db8c-extraction-extract-86d304ba6f26d840d574134fccb1386eb3283c0474a5a4236093f02f0d93574e"
+  },
+  {
+    "demo": "sc100_extraction",
+    "source_file": "demos/sc100_extraction/data/reconstructed_response.json",
+    "pdf": "demos/sc100_extraction/data/sc100.pdf",
+    "endpoint": "https://api.nutrient.io/extraction/extract",
+    "replay_config": {
+      "mode": "agentic",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "plaintiff_name": {
+            "type": "string",
+            "description": "The full legal name of the person or business filing the claim, from the 'Plaintiff (the person suing)' section on page 1 or 2."
+          },
+          "defendant_name": {
+            "type": "string",
+            "description": "The full legal name of the person or business being sued, from the 'Defendant (the person you are suing)' section. This may be a company name or individual name."
+          },
+          "claim_amount": {
+            "type": "object",
+            "description": "The dollar amount the plaintiff is claiming as damages.",
+            "properties": {
+              "amount": {
+                "type": "string",
+                "description": "The numeric dollar amount claimed, as printed on the form (e.g. '1,850.00'). Do NOT include the dollar sign."
+              },
+              "iso_4217_currency_code": {
+                "type": "string",
+                "description": "The ISO 4217 currency code. For US court forms this is always 'USD'."
+              }
+            },
+            "required": [
+              "amount",
+              "iso_4217_currency_code"
+            ]
+          },
+          "incident_date": {
+            "type": "string",
+            "description": "The date on which the incident or dispute occurred, from the 'When did this happen?' labeled field. Return in MM/DD/YYYY format."
+          },
+          "incident_reason": {
+            "type": "string",
+            "description": "The plaintiff's full narrative explanation of why they are suing, from the 'Explain your claim' or 'Why are you suing the defendant?' free-text section. Extract the complete multi-sentence paragraph exactly as written — do not truncate."
+          }
+        },
+        "required": [
+          "plaintiff_name",
+          "defendant_name",
+          "claim_amount",
+          "incident_date",
+          "incident_reason"
+        ]
+      },
+      "citationsEnabled": true
+    },
+    "cache_key": "a9aef90334f7ad3a13acd7af72a39efd45f252f79e88ab108c4e536abc8467af-extraction-extract-9b8313dc6efd997e1fd06e5cc1b2b95a8acfc7e769006f8cc7e1c0bc12a110ec"
+  },
+  {
+    "demo": "parse_citations",
+    "source_file": "demos/parse_citations/data/appraisal_report_parse_results.json",
+    "pdf": "demos/parse_citations/data/appraisal_report.pdf",
+    "endpoint": "https://api.nutrient.io/parse",
+    "replay_config": {
+      "mode": "agentic",
+      "outputFormat": {
+        "elements": {
+          "bounds": true,
+          "confidence": true,
+          "text": true
+        }
+      }
+    },
+    "cache_key": "829ebf31fe9e6a24aaf2bce403220aec367fdc883ff4f335f0b6b49749b32ae2-extraction-parse-8972b5a5f8b0d4fd21a998424ebcd83289b3b06e188cac9916cc1b1c9b9d813e"
+  }
+]
