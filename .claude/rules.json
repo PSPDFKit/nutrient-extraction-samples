@@ -9,6 +9,6 @@
     "Pre-commit generated HTML files to the repo so developers can view demos without running any Python scripts.",
     "Shared helpers live in common/. New code should use them.",
     "Generated HTML must escape all document-derived text.",
-    "Committed cache files may store only the top-level fields status, requestId, and output."
+    "Committed cache files may store only the top-level fields status, requestId, output, and reconstructed."
   ]
 }
