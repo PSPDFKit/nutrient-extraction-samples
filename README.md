@@ -1,6 +1,6 @@
 # nutrient-extraction-samples
 
-Interactive demos for the [Nutrient Data Extraction API](https://www.nutrient.io/api/data-extraction/) and [Nutrient Parse API](https://www.nutrient.io/api/data-extraction/).
+Interactive demos for the [Nutrient Data Extraction API](https://www.nutrient.io/api/data-extraction-api/) and [Nutrient Parse API](https://www.nutrient.io/api/document-parsing/).
 
 Each demo is a Python script that calls the API, then generates a self-contained HTML file that opens in any browser — no server, no signup, no API key needed to view the output.
 
@@ -78,6 +78,80 @@ This is the difference between a black box and an auditable extraction pipeline.
 
 ---
 
+## Getting an API key
+
+Data Extraction uses a separate product key from the Nutrient Processor API key. Create a key in
+the [Data Extraction API signup, dashboard, and playground](https://www.nutrient.io/api/data-extraction-api/),
+then provide it to the demos through the `NUTRIENT_API_KEY` environment variable. The broader
+[Nutrient API documentation](https://www.nutrient.io/api/) covers the available APIs.
+
+The Parse demo still requires `NUTRIENT_API_KEY` to be set when it replays the committed parse
+result instead of calling the API.
+
+---
+
+## What a run costs
+
+Parse credits are charged by mode and page:
+
+| Mode | Parse credits per page |
+|---|---:|
+| `text` | 1 |
+| `structure` | 1.5 |
+| `understand` | 9 |
+| `agentic` | 18 |
+
+Extract requests add 6 credits per page on top of the Parse rate, so an `agentic` extraction costs
+24 credits per page.
+
+All five demos currently use `agentic` mode.
+
+| Demo | Pages | Credits in a normal run | Credits if run live |
+|---|---:|---:|---:|
+| CMS-1500 (`grounded_extraction`) | 1 | 24 | 24 |
+| Indiana Birth Record (`birth_record_extraction`) | 1 | 24 | 24 |
+| Request for Modification (`rma_extraction`) | 4 | 96 | 96 |
+| CA SC-100 (`sc100_extraction`) | 4 | 96 | 96 |
+| **Extraction subtotal** | **10** | **240** | **240** |
+| Appraisal Report (`parse_citations`) | 4 | 0 (replays the saved result) | 72 |
+| **Total** | **14** | **240** | **312** |
+
+The four extraction generators do not replay the committed cache files, so they call the API and
+re-spend 240 credits on every full run. The Parse demo replays
+`demos/parse_citations/data/appraisal_report_parse_results.json` while that file is present and
+calls the API only when it is missing. Its saved sidecar records
+`usage.data_extraction_credits.cost` as 72, which is the cost of a live four-page `agentic`
+Parse request. A normal all-demo run therefore costs 240 credits today; an all-five live run would
+cost 312 credits.
+
+The free tier includes 5,000 credits per month, enough for about 20 normal full runs at 240 credits
+each.
+
+---
+
+## Privacy and PII before you commit
+
+Review source PDFs and every generated derivative before committing them. That includes
+`metadata.json`, parse results JSON, `cache/*.json`, and rendered `output/index.html` files, because
+each can preserve document content or sensitive values.
+
+An SSN-formatted value, `000-45-6789`, is already committed in
+`demos/rma_extraction/output/metadata.json`, `demos/rma_extraction/cache/*.json`, and
+`demos/rma_extraction/output/index.html`. It appears synthetic because the SSA never issues SSNs
+with a `000` prefix, but it must be confirmed synthetic before publication.
+
+The committed `output/metadata.json` files do not all have the same shape:
+
+- `birth_record_extraction`, `grounded_extraction`, and `rma_extraction` contain full API
+  responses, including account usage and billing fields such as `remainingCredits` and price
+  composition.
+- `sc100_extraction` contains derived display-card data only.
+
+Review the three full-response metadata files, especially their account usage and billing fields,
+before making the repository public.
+
+---
+
 ## How to run any demo
 
 Each demo folder contains:
@@ -90,14 +164,26 @@ demo_name/
 └── README.md              # demo-specific notes and tuning story
 ```
 
+Use Python 3.10 or newer.
+
 ```bash
 cd demos/grounded_extraction    # or birth_record_extraction, rma_extraction, sc100_extraction, parse_citations
+# Install Poppler before running. Use the command for your platform:
+brew install poppler                  # macOS
+apt-get install poppler-utils         # Debian/Ubuntu
 pip install -r ../../requirements.txt
 # place your PDF in data/ matching the filename in docs.json
 export NUTRIENT_API_KEY=your_key
 python3 generate_demo.py
 open output/index.html
 ```
+
+---
+
+## Shared infrastructure status
+
+Shared helpers have landed in `common/`, but no current demo generator is wired to them. They are
+infrastructure for a future migration PR, not active demo behavior today.
 
 ---
 
@@ -128,7 +214,9 @@ The `output/` folder in each demo contains a pre-committed HTML file built from 
 ## Prerequisites
 
 - Python 3.10+
-- `pypdfium2` bundles PDFium; the existing `pdf2image` demo generators still require `poppler` until they migrate
+- Poppler: `brew install poppler` (macOS) or `apt-get install poppler-utils` (Debian/Ubuntu).
+  Install it first: on a live run, a missing Poppler installation raises
+  `PDFInfoNotInstalledError` during page rendering after the API request has already been billed.
 - A [Nutrient API key](https://www.nutrient.io/api/)
 - Dependencies: `pip install -r requirements.txt`
 
@@ -136,8 +224,8 @@ The `output/` folder in each demo contains a pre-committed HTML file built from 
 
 ## API reference
 
-- [Data Extraction API docs](https://www.nutrient.io/api/data-extraction/)
-- [Parse API docs](https://www.nutrient.io/api/data-extraction/)
+- [Data Extraction API docs](https://www.nutrient.io/api/data-extraction-api/)
+- [Parse API docs](https://www.nutrient.io/api/document-parsing/)
 - [Nutrient Studio](https://dashboard.nutrient.io/data-extraction-api/studio/extract) — test documents visually before writing code
 
 ---

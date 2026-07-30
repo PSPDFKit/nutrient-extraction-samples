@@ -6,6 +6,9 @@
     "Extracted field values are in output.data. Bounding box metadata is in output.metadata. Never use output.value.",
     "output.data and output.metadata mirror the same nested structure. Always traverse them simultaneously in lockstep.",
     "All HTML demos must be fully self-contained and open directly in a browser with no server required.",
-    "Pre-commit generated HTML files to the repo so developers can view demos without running any Python scripts."
+    "Pre-commit generated HTML files to the repo so developers can view demos without running any Python scripts.",
+    "Shared helpers live in common/. New code should use them.",
+    "Generated HTML must escape all document-derived text.",
+    "Committed cache files may store only the top-level fields status, requestId, output, and reconstructed."
   ]
 }
