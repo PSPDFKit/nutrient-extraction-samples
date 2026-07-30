@@ -78,6 +78,69 @@ This is the difference between a black box and an auditable extraction pipeline.
 
 ---
 
+## Getting an API key
+
+Data Extraction uses a separate product key from the Nutrient Processor API key. Create a key in
+the [Data Extraction API signup, dashboard, and playground](https://www.nutrient.io/api/data-extraction-api/),
+then provide it to the demos through the `NUTRIENT_API_KEY` environment variable. The broader
+[Nutrient API documentation](https://www.nutrient.io/api/) covers the available APIs.
+
+The Parse demo still requires `NUTRIENT_API_KEY` to be set when it replays the committed parse
+result instead of calling the API.
+
+---
+
+## What a run costs
+
+Data Extraction credits are charged by mode and page:
+
+| Mode | Credits per page |
+|---|---:|
+| `text` | 1 |
+| `structure` | 1.5 |
+| `understand` | 9 |
+| `agentic` | 18 |
+
+All five demos currently use `agentic` mode.
+
+| Demo | Pages | Credits in a normal run | Credits if run live |
+|---|---:|---:|---:|
+| CMS-1500 (`grounded_extraction`) | 1 | 18 | 18 |
+| Indiana Birth Record (`birth_record_extraction`) | 1 | 18 | 18 |
+| Request for Modification (`rma_extraction`) | 4 | 72 | 72 |
+| CA SC-100 (`sc100_extraction`) | 4 | 72 | 72 |
+| Appraisal Report (`parse_citations`) | 4 | 0 (replays the saved result) | 72 |
+| **Total** | **14** | **180** | **252** |
+
+The four extraction demos call the API and re-spend 180 credits on every full run; they do not
+have a cache path yet. The Parse demo replays
+`demos/parse_citations/data/appraisal_report_parse_results.json` while that file is present and
+calls the API only when it is missing. A normal all-demo run therefore costs 180 credits today;
+an all-five live run would cost 252 credits.
+
+---
+
+## Privacy and PII before you commit
+
+Review source PDFs and every generated derivative before committing them. That includes
+`metadata.json`, parse results JSON, and rendered `output/index.html` files, because each can
+preserve document content or sensitive values.
+
+The RMA schema includes a `borrower_ssn` field. A filled source form would put a real Social
+Security number into committed derivatives.
+
+The committed `output/metadata.json` files do not all have the same shape:
+
+- `birth_record_extraction`, `grounded_extraction`, and `rma_extraction` contain full API
+  responses, including account usage and billing fields such as `remainingCredits` and price
+  composition.
+- `sc100_extraction` contains derived display-card data only.
+
+Review the three full-response metadata files, especially their account usage and billing fields,
+before making the repository public.
+
+---
+
 ## How to run any demo
 
 Each demo folder contains:
@@ -90,6 +153,8 @@ demo_name/
 └── README.md              # demo-specific notes and tuning story
 ```
 
+Use Python 3.10 or newer.
+
 ```bash
 cd demos/grounded_extraction    # or birth_record_extraction, rma_extraction, sc100_extraction, parse_citations
 pip install -r ../../requirements.txt
@@ -98,6 +163,13 @@ export NUTRIENT_API_KEY=your_key
 python3 generate_demo.py
 open output/index.html
 ```
+
+---
+
+## Shared infrastructure status
+
+Shared helpers have landed in `common/`, but no current demo generator is wired to them. They are
+infrastructure for a future migration PR, not active demo behavior today.
 
 ---
 

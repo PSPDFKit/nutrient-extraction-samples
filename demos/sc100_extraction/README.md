@@ -31,8 +31,8 @@ grounded to the exact region on the document.
 ### Cross-Page Extraction
 
 Fields are pulled from pages 2 and 3 of a 4-page form. Each citation shows which page the value
-came from. The demo renders page 2 (where plaintiff, defendant, claim amount, and the narrative
-all appear), so hovering those cards shows live highlights.
+came from. The demo renders all four pages, so hovering any card shows a live highlight on its
+source page.
 
 ### Legal Entity Handling
 
