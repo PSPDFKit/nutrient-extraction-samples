@@ -122,8 +122,9 @@ def render_html_template(result_data, pages_info, doc_config):
     with open(output_dir / "index.html", "w") as f:
         f.write(html_output)
 
+    safe_data = {k: v for k, v in result_data.items() if k != "usage"}
     with open(output_dir / "metadata.json", "w") as f:
-        json.dump(result_data, f, indent=2)
+        json.dump(safe_data, f, indent=2)
 
     print(f"Generated {len(cards)} field highlights across {len(pages_info)} page(s).")
     print("Open output/index.html in a browser to view the demo.")
