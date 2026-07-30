@@ -136,8 +136,9 @@ The `output/` folder in each demo contains a pre-committed HTML file built from 
 
 ## API reference
 
-- [Data Extraction API docs](https://www.nutrient.io/api/data-extraction/)
-- [Parse API docs](https://www.nutrient.io/api/data-extraction/)
+- [Data Extraction API docs](https://www.nutrient.io/guides/dws-data-extraction/getting-started/)
+- [Parse API docs](https://www.nutrient.io/guides/dws-data-extraction/getting-started/)
+- [API reference](https://www.nutrient.io/api/reference/data-extraction/public/#description/introduction)
 - [Nutrient Studio](https://dashboard.nutrient.io/data-extraction-api/studio/extract) — test documents visually before writing code
 
 ---
