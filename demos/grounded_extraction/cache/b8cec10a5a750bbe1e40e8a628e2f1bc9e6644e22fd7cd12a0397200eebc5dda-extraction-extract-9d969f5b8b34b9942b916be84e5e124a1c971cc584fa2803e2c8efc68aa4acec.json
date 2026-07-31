@@ -1,6 +1,6 @@
 {
   "status": 200,
-  "requestId": "GMbJtV9XG2QIGKUAAOay",
+  "requestId": "GMdeKhOpqCtG5HMAAG0B",
   "output": {
     "data": {
       "insured_id_number": "XW1234567",
@@ -55,7 +55,7 @@
               "x": 1029.7008056640625,
               "y": 302
             },
-            "block_id": "b88",
+            "block_id": "b87",
             "pageIndex": 0,
             "pageNumber": 1
           }
@@ -65,8 +65,8 @@
         "bbox": {
           "height": 25,
           "width": 189,
-          "x": 52,
-          "y": 369
+          "x": 1030,
+          "y": 363
         },
         "confidence": 0.95,
         "confidenceComponents": {
@@ -79,12 +79,12 @@
         "source_bboxes": [
           {
             "bbox": {
-              "height": 26.305633544921875,
-              "width": 189.42306518554688,
-              "x": 52,
-              "y": 367.6943664550781
+              "height": 25.166778564453125,
+              "width": 236,
+              "x": 983,
+              "y": 363
             },
-            "block_id": "b9",
+            "block_id": "b89",
             "pageIndex": 0,
             "pageNumber": 1
           }
@@ -113,7 +113,7 @@
               "x": 1029.5924072265625,
               "y": 1371.4744873046875
             },
-            "block_id": "b120",
+            "block_id": "b119",
             "pageIndex": 0,
             "pageNumber": 1
           }
@@ -144,7 +144,7 @@
                 "x": 55,
                 "y": 1901.9388427734375
               },
-              "block_id": "b52",
+              "block_id": "b51",
               "pageIndex": 0,
               "pageNumber": 1
             }
@@ -173,7 +173,7 @@
                 "x": 55,
                 "y": 1901.9388427734375
               },
-              "block_id": "b52",
+              "block_id": "b51",
               "pageIndex": 0,
               "pageNumber": 1
             }
@@ -205,7 +205,7 @@
                   "x": 69,
                   "y": 1502.4464111328125
                 },
-                "block_id": "b47",
+                "block_id": "b46",
                 "pageIndex": 0,
                 "pageNumber": 1
               }
@@ -234,7 +234,7 @@
                   "x": 542.2517700195312,
                   "y": 1503.38427734375
                 },
-                "block_id": "b68",
+                "block_id": "b67",
                 "pageIndex": 0,
                 "pageNumber": 1
               }
@@ -265,7 +265,7 @@
                     "x": 1083,
                     "y": 1499.1651611328125
                   },
-                  "block_id": "b122",
+                  "block_id": "b121",
                   "pageIndex": 0,
                   "pageNumber": 1
                 }
@@ -294,7 +294,7 @@
                     "x": 1083,
                     "y": 1499.1651611328125
                   },
-                  "block_id": "b122",
+                  "block_id": "b121",
                   "pageIndex": 0,
                   "pageNumber": 1
                 }
@@ -324,7 +324,7 @@
                   "x": 1391,
                   "y": 1501.830078125
                 },
-                "block_id": "b142",
+                "block_id": "b141",
                 "pageIndex": 0,
                 "pageNumber": 1
               }
@@ -355,7 +355,7 @@
                   "x": 68.68058013916016,
                   "y": 1569.2484130859375
                 },
-                "block_id": "b48",
+                "block_id": "b47",
                 "pageIndex": 0,
                 "pageNumber": 1
               }
@@ -384,7 +384,7 @@
                   "x": 542.5648803710938,
                   "y": 1569.9234619140625
                 },
-                "block_id": "b69",
+                "block_id": "b68",
                 "pageIndex": 0,
                 "pageNumber": 1
               }
@@ -415,7 +415,7 @@
                     "x": 1092.2169189453125,
                     "y": 1569.454833984375
                   },
-                  "block_id": "b123",
+                  "block_id": "b122",
                   "pageIndex": 0,
                   "pageNumber": 1
                 }
@@ -444,7 +444,7 @@
                     "x": 1092.2169189453125,
                     "y": 1569.454833984375
                   },
-                  "block_id": "b123",
+                  "block_id": "b122",
                   "pageIndex": 0,
                   "pageNumber": 1
                 }
@@ -474,7 +474,7 @@
                   "x": 1391,
                   "y": 1570.528564453125
                 },
-                "block_id": "b143",
+                "block_id": "b142",
                 "pageIndex": 0,
                 "pageNumber": 1
               }
@@ -502,6 +502,6 @@
   },
   "metrics": {
     "pagesProcessed": 1,
-    "processingTimeMs": 17886
+    "processingTimeMs": 18411
   }
 }
