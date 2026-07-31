@@ -434,5 +434,18 @@
         "width": 4718
       }
     ]
+  },
+  "configuration": {
+    "apiVersion": "2026-05-25",
+    "engine": {
+      "requestedEngineVersion": "stable"
+    },
+    "maxLanguages": 2,
+    "maxScripts": 2,
+    "mode": "understand"
+  },
+  "metrics": {
+    "pagesProcessed": 4,
+    "processingTimeMs": 63189
   }
 }

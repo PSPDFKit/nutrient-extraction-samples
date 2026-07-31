@@ -30,14 +30,18 @@ elements; `build_blocks()` drops elements with empty text or no bounds.
 
 ## Running the Demo Yourself
 
-1. Place the PDF at `data/appraisal_report.pdf`
-2. Install Poppler first: `brew install poppler` (macOS) or
-   `apt-get install poppler-utils` (Debian/Ubuntu). Without it, page rendering raises
-   `PDFInfoNotInstalledError` after a live API request has already been billed.
-3. Install dependencies: `pip install -r ../../requirements.txt`
-4. Set your API key: add `NUTRIENT_API_KEY=your_key_here` to `.env` at the repo root
-5. Run from this folder: `python3 generate_demo.py`
-6. Open `output/index.html` in your browser
+1. Use Python 3.10 or newer.
+2. Install dependencies: `pip install -r ../../requirements.txt`
+3. From this folder, replay the committed response cache (no API key or network
+   request required): `python3 generate_demo.py`
+4. Open `output/index.html` in your browser.
+
+To parse a replacement document, place it at `data/appraisal_report.pdf` and opt in to
+the keyed network path:
+
+```bash
+NUTRIENT_API_KEY=your_key_here python3 generate_demo.py --refresh
+```
 
 Get an API key at [nutrient.io](https://www.nutrient.io/api/).
 

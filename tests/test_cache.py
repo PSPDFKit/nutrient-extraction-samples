@@ -50,6 +50,10 @@ def _load_json(path: Path) -> Any:
         return json.load(source_file)
 
 
+def _write_json(path: Path, value: Any) -> None:
+    path.write_text(json.dumps(value), encoding="utf-8")
+
+
 def _fail_transport(*_args: object, **_kwargs: object) -> dict[str, Any]:
     raise AssertionError("cache replay must not call a transport")
 
@@ -145,6 +149,73 @@ def test_malformed_cache_fails_closed_without_transport(
     assert "--refresh" in str(error.value)
 
 
+def test_symlinked_cache_entry_is_rejected(tmp_path: Path) -> None:
+    cache_file = tmp_path / "linked.json"
+    cache_file.symlink_to("/dev/zero")
+
+    with pytest.raises(cache.CacheError, match="symbolic link"):
+        cache.read_cached_response(cache_file, EXTRACT_ENDPOINT)
+
+
+def test_oversized_cache_entry_is_rejected(tmp_path: Path) -> None:
+    cache_file = tmp_path / "oversized.json"
+    with cache_file.open("wb") as oversized_cache:
+        oversized_cache.truncate(cache.MAX_CACHE_BYTES + 1)
+
+    with pytest.raises(cache.CacheError, match="exceeds") as raised:
+        cache.read_cached_response(cache_file, EXTRACT_ENDPOINT)
+
+    assert str(cache.MAX_CACHE_BYTES) in str(raised.value)
+
+
+@pytest.mark.parametrize("kind", ["directory", "fifo"])
+def test_non_regular_cache_entry_is_rejected(
+    tmp_path: Path,
+    kind: str,
+) -> None:
+    cache_file = tmp_path / kind
+    if kind == "directory":
+        cache_file.mkdir()
+    else:
+        os.mkfifo(cache_file)
+
+    with pytest.raises(cache.CacheError, match="not a regular file"):
+        cache.read_cached_response(cache_file, EXTRACT_ENDPOINT)
+
+
+def test_deeply_nested_cached_response_is_rejected(tmp_path: Path) -> None:
+    nested: Any = "leaf"
+    for _ in range(cache.MAX_RESPONSE_DEPTH + 1):
+        nested = {"child": nested}
+    cache_file = tmp_path / "deep.json"
+    _write_json(cache_file, _extract_response(nested))
+
+    with pytest.raises(cache.CacheError, match="depth limit"):
+        cache.read_cached_response(cache_file, EXTRACT_ENDPOINT)
+
+
+def test_overlong_string_in_cached_response_is_rejected(tmp_path: Path) -> None:
+    cache_file = tmp_path / "long-string.json"
+    _write_json(
+        cache_file,
+        _extract_response("x" * (cache.MAX_RESPONSE_STRING_LENGTH + 1)),
+    )
+
+    with pytest.raises(cache.CacheError, match="character limit"):
+        cache.read_cached_response(cache_file, EXTRACT_ENDPOINT)
+
+
+def test_cached_response_node_limit_is_enforced(tmp_path: Path) -> None:
+    cache_file = tmp_path / "many-nodes.json"
+    _write_json(
+        cache_file,
+        _extract_response([None] * cache.MAX_RESPONSE_NODES),
+    )
+
+    with pytest.raises(cache.CacheError, match="node limit"):
+        cache.read_cached_response(cache_file, EXTRACT_ENDPOINT)
+
+
 @pytest.mark.parametrize(
     ("demo", "source_file", "endpoint"),
     SEEDED_FIXTURES,
@@ -188,6 +259,58 @@ def test_seeded_cache_round_trips_committed_response(
         )
     )
     assert cache.canonical_json(actual) == cache.canonical_json(expected)
+
+
+def test_seed_never_persists_usage_from_source_response(tmp_path: Path) -> None:
+    pdf_path = tmp_path / "document.pdf"
+    pdf_path.write_bytes(b"offline-pdf")
+    safe_response = {
+        **_extract_response(),
+        "configuration": {"mode": "agentic"},
+        "metrics": {"pagesProcessed": 1},
+    }
+    source_response = {
+        **safe_response,
+        "usage": {
+            "remainingCredits": 123,
+            "price_composition": {"total": 24},
+        },
+    }
+
+    cache_file = cache.seed_cached_response(
+        pdf_path,
+        EXTRACT_ENDPOINT,
+        _extract_instructions(),
+        source_response,
+        tmp_path / "cache",
+    )
+
+    persisted = _load_json(cache_file)
+    assert persisted == safe_response
+    assert "usage" not in persisted
+    persisted_text = cache_file.read_text(encoding="utf-8")
+    assert "remainingCredits" not in persisted_text
+    assert "price_composition" not in persisted_text
+
+
+@pytest.mark.parametrize(
+    "denied_key",
+    [
+        "credit",
+        "unitPrice",
+        "processing_cost",
+        "remainingQuota",
+        "accountBalance",
+    ],
+)
+def test_projection_rejects_nested_billing_keys(denied_key: str) -> None:
+    response = {
+        **_extract_response(),
+        "metrics": {"future": {"billing": {denied_key: 1}}},
+    }
+
+    with pytest.raises(cache.CacheError, match="denied key"):
+        cache.cache_response_projection(response)
 
 
 def test_sentinel_key_is_refused_and_never_persisted_or_exposed(
@@ -322,10 +445,17 @@ def test_refresh_supports_sync_transport_and_uses_hashed_pdf_bytes_once(
     replacement_pdf_bytes = b"replacement-pdf-bytes"
     pdf_path.write_bytes(original_pdf_bytes)
     instructions = _extract_instructions()
-    response = {
+    safe_response = {
         **_extract_response(),
-        "usage": {"remainingCredits": 1},
-        "metrics": {"price_composition": {"total": 1}},
+        "configuration": {"mode": "agentic"},
+        "metrics": {"pagesProcessed": 1},
+    }
+    response = {
+        **safe_response,
+        "usage": {
+            "remainingCredits": 1,
+            "price_composition": {"total": 1},
+        },
     }
     monkeypatch.setenv("NUTRIENT_API_KEY", "test-key")
 
@@ -359,9 +489,17 @@ def test_refresh_supports_sync_transport_and_uses_hashed_pdf_bytes_once(
         f"{hashlib.sha256(cache.canonical_json(instructions).encode()).hexdigest()}"
     )
     expected_path = tmp_path / "cache" / f"{expected_key}.json"
-    assert actual == _extract_response()
+    assert actual == safe_response
     assert expected_path.is_file()
-    assert set(_load_json(expected_path)) == {"status", "requestId", "output"}
+    persisted = _load_json(expected_path)
+    assert set(persisted) == {
+        "status",
+        "requestId",
+        "output",
+        "configuration",
+        "metrics",
+    }
+    assert "usage" not in persisted
 
 
 def test_missing_pdf_error_names_path_and_is_not_a_transport_error(

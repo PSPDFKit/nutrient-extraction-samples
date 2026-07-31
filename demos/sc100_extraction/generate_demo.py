@@ -1,146 +1,169 @@
-import os
-import json
+from __future__ import annotations
+
+import argparse
 import asyncio
-import aiohttp
+import json
+import sys
 from pathlib import Path
-from jinja2 import Environment, FileSystemLoader
-from pdf2image import convert_from_path
+from typing import Any
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 from dotenv import load_dotenv
 
-load_dotenv(Path(__file__).parent.parent.parent / ".env")
+from common.api import EXTRACT_ENDPOINT, build_extract_instructions
+from common.cache import get_cached_response
+from common.html_env import coerce_num, create_html_env
+from common.render import ensure_page_png
 
-API_URL = "https://api.nutrient.io/extraction/extract"
+load_dotenv(REPO_ROOT / ".env")
+
+DEMO_DIR = Path(__file__).parent
 
 
-async def process_document(doc_config, api_key):
-    pdf_path = (Path(__file__).parent / doc_config["file"]).resolve()
-    print(f"Uploading and extracting: {pdf_path}")
+def _number(value: Any) -> float | int:
+    kind = "int" if isinstance(value, int) and not isinstance(value, bool) else "float"
+    return coerce_num(value, kind=kind)
 
-    headers = {"Authorization": f"Bearer {api_key}"}
 
-    data = aiohttp.FormData()
-    data.add_field(
-        "file",
-        open(pdf_path, "rb"),
-        filename=pdf_path.name,
-        content_type="application/pdf",
+async def process_document(
+    doc_config: dict[str, Any],
+    refresh: bool = False,
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    pdf_path = (DEMO_DIR / doc_config["file"]).resolve()
+    instructions = build_extract_instructions(
+        doc_config["mode"],
+        doc_config["schema"],
+    )
+    result_json = await get_cached_response(
+        pdf_path,
+        EXTRACT_ENDPOINT,
+        instructions,
+        DEMO_DIR / "cache",
+        refresh=refresh,
     )
 
-    instructions = {
-        "mode": doc_config["mode"],
-        "schema": doc_config["schema"],
-        "citationsEnabled": True,
-    }
-    data.add_field("instructions", json.dumps(instructions), content_type="application/json")
-
-    async with aiohttp.ClientSession() as session:
-        async with session.post(API_URL, headers=headers, data=data) as response:
-            if response.status != 200:
-                text = await response.text()
-                raise Exception(f"API Error ({response.status}): {text}")
-            result_json = await response.json()
-
-    output_dir = Path(__file__).parent / "output"
+    output_dir = DEMO_DIR / "output"
     output_dir.mkdir(exist_ok=True)
-
-    all_pages = convert_from_path(pdf_path)
     pages_info = []
-    for i, page_img in enumerate(all_pages):
-        img_filename = f"{doc_config['id']}_page_{i}.png"
-        page_img.save(output_dir / img_filename, "PNG")
-        page_data = result_json["output"]["pages"][i]
-        pages_info.append({
-            "index": i,
-            "src": img_filename,
-            "width": page_data["width"],
-            "height": page_data["height"],
-        })
+    for page_index, page_data in enumerate(result_json["output"]["pages"]):
+        safe_page_index = coerce_num(page_index, kind="int")
+        width = _number(page_data["width"])
+        height = _number(page_data["height"])
+        img_filename = f"{doc_config['id']}_page_{safe_page_index}.png"
+        img_path = output_dir / img_filename
+        if refresh or not img_path.exists():
+            ensure_page_png(
+                pdf_path,
+                safe_page_index,
+                img_path,
+                page_dims={"width": width, "height": height},
+                refresh=refresh,
+            )
+        pages_info.append(
+            {
+                "index": safe_page_index,
+                "src": img_filename,
+                "width": width,
+                "height": height,
+            }
+        )
 
     return result_json, pages_info
 
 
-def build_cards(data_node, meta_node, path=""):
+def build_cards(
+    data_node: Any,
+    meta_node: Any,
+    path: str = "",
+) -> list[dict[str, Any]]:
     cards = []
 
     if isinstance(data_node, dict):
-        for k, v in data_node.items():
-            child_meta = meta_node.get(k, {}) if isinstance(meta_node, dict) else {}
-            child_path = f"{path}.{k}" if path else k
-            cards.extend(build_cards(v, child_meta, child_path))
-
+        for key, value in data_node.items():
+            child_meta = meta_node.get(key, {}) if isinstance(meta_node, dict) else {}
+            child_path = f"{path}.{key}" if path else key
+            cards.extend(build_cards(value, child_meta, child_path))
     elif isinstance(data_node, list):
         meta_list = meta_node if isinstance(meta_node, list) else []
-        for i, item in enumerate(data_node):
-            child_meta = meta_list[i] if i < len(meta_list) else {}
-            cards.extend(build_cards(item, child_meta, f"{path}[{i}]"))
-
+        for index, item in enumerate(data_node):
+            child_meta = meta_list[index] if index < len(meta_list) else {}
+            cards.extend(build_cards(item, child_meta, f"{path}[{index}]"))
     else:
         if not isinstance(meta_node, dict):
             return cards
         bbox = meta_node.get("bbox")
-        confidence = meta_node.get("confidence", 1.0)
-        page_index = meta_node.get("pageIndex", 0)
-
+        if bbox is not None and not isinstance(bbox, dict):
+            raise ValueError("value must be numeric")
         if bbox:
-            display = "—" if data_node is None else str(data_node)
-            cards.append({
-                "path": path,
-                "value": display,
-                "confidence": int(confidence * 100),
-                "x": bbox["x"],
-                "y": bbox["y"],
-                "width": bbox["width"],
-                "height": bbox["height"],
-                "page_index": page_index,
-            })
+            confidence = coerce_num(meta_node.get("confidence", 1.0))
+            page_index = coerce_num(meta_node.get("pageIndex", 0), kind="int")
+            display_value = "—" if data_node is None else str(data_node)
+            cards.append(
+                {
+                    "path": path,
+                    "value": display_value,
+                    "confidence": int(confidence * 100),
+                    "x": _number(bbox["x"]),
+                    "y": _number(bbox["y"]),
+                    "width": _number(bbox["width"]),
+                    "height": _number(bbox["height"]),
+                    "page_index": page_index,
+                }
+            )
 
     return cards
 
 
-def render_html(cards, pages_info, doc_config):
-    template_dir = Path(__file__).parent
-    env = Environment(loader=FileSystemLoader(str(template_dir)))
-    template = env.get_template("template.html")
-
+def render_html(
+    cards: list[dict[str, Any]],
+    pages_info: list[dict[str, Any]],
+    doc_config: dict[str, Any],
+) -> None:
+    template = create_html_env(DEMO_DIR).get_template("template.html")
     html_output = template.render(
         doc_name=doc_config["name"],
         pages=pages_info,
         cards=cards,
     )
 
-    output_dir = Path(__file__).parent / "output"
-    with open(output_dir / "index.html", "w") as f:
-        f.write(html_output)
+    output_dir = DEMO_DIR / "output"
+    with (output_dir / "index.html").open("w", encoding="utf-8") as output_file:
+        output_file.write(html_output)
+    with (output_dir / "metadata.json").open("w", encoding="utf-8") as metadata_file:
+        json.dump(cards, metadata_file, indent=2)
 
-    with open(output_dir / "metadata.json", "w") as f:
-        json.dump(cards, f, indent=2)
-
-    print(f"Generated {len(cards)} grounded field highlights across {len(pages_info)} page(s).")
+    print(
+        f"Generated {len(cards)} grounded field highlights across "
+        f"{len(pages_info)} page(s)."
+    )
     print("Open output/index.html in a browser to view the demo.")
 
 
-async def main():
-    api_key = os.getenv("NUTRIENT_API_KEY")
-    if not api_key:
-        raise SystemExit("Error: NUTRIENT_API_KEY is not set. Copy .env.example to .env and add your key.")
-
-    docs_path = Path(__file__).parent / "docs.json"
-    with open(docs_path) as f:
-        configs = json.load(f)
-
-    config = configs[0]
-    pdf_path = (Path(__file__).parent / config["file"]).resolve()
-    if not pdf_path.exists():
-        raise SystemExit(f"PDF not found at {pdf_path}. Add the file and retry.")
-
-    result_data, pages_info = await process_document(config, api_key)
-
+async def main(refresh: bool = False) -> None:
+    with (DEMO_DIR / "docs.json").open(encoding="utf-8") as docs_file:
+        config = json.load(docs_file)[0]
+    result_data, pages_info = await process_document(config, refresh=refresh)
     extracted = result_data.get("output", {}).get("data", {})
     metadata = result_data.get("output", {}).get("metadata", {})
     cards = build_cards(extracted, metadata)
-
     render_html(cards, pages_info, config)
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Generate the SC-100 extraction demo."
+    )
+    parser.add_argument(
+        "--refresh",
+        action="store_true",
+        help="Call the live API and replace the committed cache entry.",
+    )
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
-    asyncio.run(main())
+    args = parse_args()
+    asyncio.run(main(refresh=args.refresh))
