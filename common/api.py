@@ -9,7 +9,7 @@ from typing import Any
 import aiohttp
 
 EXTRACT_URL = "https://api.nutrient.io/extraction/extract"
-PARSE_URL = "https://api.nutrient.io/parse"
+PARSE_URL = "https://api.nutrient.io/extraction/parse"
 
 EXTRACT_ENDPOINT = "extraction-extract"
 PARSE_ENDPOINT = "extraction-parse"
