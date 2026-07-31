@@ -540,7 +540,7 @@
     "reading_order": 47
   },
   {
-    "text": "HOA$",
+    "text": "HOAS",
     "type": "paragraph",
     "role": "Text",
     "confidence": 67,
@@ -1284,7 +1284,7 @@
     "reading_order": 109
   },
   {
-    "text": "Vacant (over 5%)",
+    "text": "Vacant over 5%",
     "type": "paragraph",
     "role": "CheckboxUnselected",
     "confidence": 84,

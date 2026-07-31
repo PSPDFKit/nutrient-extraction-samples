@@ -196,7 +196,7 @@ Extraction lifts document values into every derivative, so review more than the 
 
 Two things to know about what is already committed here:
 
-**An SSN-formatted value.** `000-45-6789` appears in `rma_extraction`'s `metadata.json`, `cache/*.json`, and `output/index.html`. The SSA never issues SSNs with a `000` prefix, so it reads as synthetic — confirm that before publishing. The RMA schema requests `borrower_ssn`, so a filled source form would commit a real one.
+**An SSN-formatted value.** `000-45-6789` appears in `rma_extraction`'s `metadata.json`, `cache/*.json`, and `output/index.html`. The `000-` prefix is never issued by the SSA — this is a synthetic value from the sample form used for demonstration purposes. The RMA schema requests `borrower_ssn`, so if replacing the source PDF with a real document, confirm the form contains no actual SSN before committing.
 
 **The metadata files don't all have the same shape.** `birth_record_extraction`, `grounded_extraction`, and `rma_extraction` contain the safe persisted response fields; `sc100_extraction` contains derived display-card data only. The cache projection excludes the API's top-level `usage` field and its account billing data.
 
@@ -224,6 +224,18 @@ The pin is deliberate: install resolves against upstream `main`, so record the r
 - [Parse API docs](https://www.nutrient.io/guides/dws-data-extraction/getting-started/)
 - [API reference](https://www.nutrient.io/api/reference/data-extraction/public/#description/introduction)
 - [Nutrient Studio](https://dashboard.nutrient.io/data-extraction-api/studio/extract) — test documents visually before writing code
+
+## Sample code disclaimer
+
+All documents, names, identifiers, and records in this repository are public-source or synthetic. Extraction results are illustrative only.
+
+This repository is sample code, not a production-ready workflow. Before processing real documents:
+
+- Validate extracted outputs before using them in automation
+- Ensure handling of regulated or personal data complies with applicable laws (HIPAA, GDPR, CCPA, and others)
+- Review all derivatives — `metadata.json`, cache files, and rendered HTML — for sensitive values before committing
+
+---
 
 ## Contributing
 
