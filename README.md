@@ -126,21 +126,17 @@ The document decomposed into semantic blocks — paragraphs, section headers, ta
 Just want to look? Every `output/index.html` is committed — open one in a browser and you're done. To regenerate against your own documents:
 
 ```bash
-# 1. Poppler first. pdf2image shells out to it, and the failure lands
-#    AFTER the API call has already been billed.
-brew install poppler                  # macOS
-apt-get install poppler-utils         # Debian/Ubuntu
-
-# 2. Python 3.10+
+# 1. Python 3.10+
 pip install -r requirements.txt
 
-# 3. Your Data Extraction key (separate from the Processor API key)
-export NUTRIENT_API_KEY=your_key
-
-# 4. Drop your PDF in data/, point docs.json at it, run
+# 2. Replay the committed cache (no API key or credits required)
 cd demos/grounded_extraction
 python3 generate_demo.py
 open output/index.html
+
+# 3. To replace the cache with a live response, provide your Data Extraction
+#    key (separate from the Processor API key) and opt in explicitly
+NUTRIENT_API_KEY=your_key python3 generate_demo.py --refresh
 ```
 
 Every demo folder is the same four files:
@@ -148,12 +144,12 @@ Every demo folder is the same four files:
 ```
 demo_name/
 ├── docs.json          # extraction schema (or parse config)
-├── generate_demo.py   # calls the API, writes the HTML
+├── generate_demo.py   # replays cache; --refresh calls API
 ├── template.html      # visual layout
 └── README.md          # demo notes and tuning story
 ```
 
-**Getting a key.** Data Extraction uses a **separate product key from the Processor API key**. Sign up, open the dashboard, or try the playground on the [Data Extraction API page](https://www.nutrient.io/api/data-extraction-api/). The Parse demo needs `NUTRIENT_API_KEY` set even when it replays its saved result.
+**Getting a key.** Data Extraction uses a **separate product key from the Processor API key**. You only need one for a live `--refresh` run. Sign up, open the dashboard, or try the playground on the [Data Extraction API page](https://www.nutrient.io/api/data-extraction-api/).
 
 Prefer to try before writing code? Test documents visually in [Nutrient Studio](https://dashboard.nutrient.io/data-extraction-api/studio/extract).
 
@@ -174,17 +170,17 @@ All five demos use `agentic` mode.
 
 | Demo | Pages | Normal run | If run live |
 |---|---:|---:|---:|
-| CMS-1500 | 1 | 24 | 24 |
-| Indiana Birth Record | 1 | 24 | 24 |
-| Request for Modification | 4 | 96 | 96 |
-| CA SC-100 | 4 | 96 | 96 |
-| **Extraction subtotal** | **10** | **240** | **240** |
-| Appraisal Report (Parse) | 4 | 0 (replays saved result) | 72 |
-| **Total** | **14** | **240** | **312** |
+| CMS-1500 | 1 | 0 | 24 |
+| Indiana Birth Record | 1 | 0 | 24 |
+| Request for Modification | 4 | 0 | 96 |
+| CA SC-100 | 4 | 0 | 96 |
+| **Extraction subtotal** | **10** | **0** | **240** |
+| Appraisal Report (Parse) | 4 | 0 | 72 |
+| **Total** | **14** | **0** | **312** |
 
-The four extraction generators don't replay the committed cache files, so they call the API and **re-spend 240 credits on every full run**. The Parse demo replays `demos/parse_citations/data/appraisal_report_parse_results.json` while that file is present, and calls the API only when it's missing — its saved sidecar records the cost of a live four-page `agentic` Parse request as 72.
+Every normal generator run replays its committed cache and costs **0 credits**. Network access is opt-in through `--refresh`: refreshing the four extraction demos costs 240 credits, and refreshing all five costs 312 credits.
 
-The free tier includes 5,000 credits per month, enough for about **20 full runs**.
+The free tier includes 5,000 credits per month, enough for about **16 live all-five refreshes**.
 
 ---
 
@@ -193,7 +189,7 @@ The free tier includes 5,000 credits per month, enough for about **20 full runs*
 Extraction lifts document values into every derivative, so review more than the PDFs. Before committing a document swap, check:
 
 - `demos/*/data/*.pdf` — public-source or synthetic only
-- `demos/*/output/metadata.json` — document values, and API usage fields
+- `demos/*/output/metadata.json` — document values and non-billing response metadata
 - `demos/parse_citations/data/*_parse_results.json` — document text
 - `demos/*/cache/*.json` — the full `output` payload
 - `demos/*/output/index.html` — rendered field values
@@ -202,7 +198,7 @@ Two things to know about what is already committed here:
 
 **An SSN-formatted value.** `000-45-6789` appears in `rma_extraction`'s `metadata.json`, `cache/*.json`, and `output/index.html`. The SSA never issues SSNs with a `000` prefix, so it reads as synthetic — confirm that before publishing. The RMA schema requests `borrower_ssn`, so a filled source form would commit a real one.
 
-**The metadata files don't all have the same shape.** `birth_record_extraction`, `grounded_extraction`, and `rma_extraction` contain full API responses including account usage and billing fields; `sc100_extraction` contains derived display-card data only. Review the three full-response files before making the repository public.
+**The metadata files don't all have the same shape.** `birth_record_extraction`, `grounded_extraction`, and `rma_extraction` contain the safe persisted response fields; `sc100_extraction` contains derived display-card data only. The cache projection excludes the API's top-level `usage` field and its account billing data.
 
 Full pre-publication procedure: [`docs/launch-checklist.md`](docs/launch-checklist.md).
 
@@ -233,7 +229,7 @@ The pin is deliberate: install resolves against upstream `main`, so record the r
 
 To suggest a new document type, open an issue with the document name and the fields to extract. To add one yourself, copy an existing demo folder, swap the PDF and `docs.json`, and run the generator — then run the PII review above before committing.
 
-Shared helpers live in `common/` (cache, escaping, rendering). They are landed and tested but **not yet wired into any demo generator**; that is a future migration PR, not current demo behavior.
+Shared helpers live in `common/` (cache, escaping, rendering), and all five demo generators use them.
 
 ## License
 

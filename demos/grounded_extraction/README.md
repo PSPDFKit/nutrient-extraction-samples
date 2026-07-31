@@ -36,15 +36,18 @@ This one-page sample is filled with synthetic data.
 
 ## Running the Demo Yourself
 
-1. Use Python 3.10 or newer
-2. Place the PDF at `data/CMS-1500.pdf`
-3. Install Poppler first: `brew install poppler` (macOS) or
-   `apt-get install poppler-utils` (Debian/Ubuntu). Without it, page rendering raises
-   `PDFInfoNotInstalledError` after a live API request has already been billed.
-4. Install dependencies: `pip install -r ../../requirements.txt`
-5. Set your API key: `export NUTRIENT_API_KEY=your_key_here`
-6. Run from this folder: `python3 generate_demo.py`
-7. Open `output/index.html` in your browser
+1. Use Python 3.10 or newer.
+2. Install dependencies: `pip install -r ../../requirements.txt`
+3. From this folder, replay the committed response cache (no API key or network
+   request required): `python3 generate_demo.py`
+4. Open `output/index.html` in your browser.
+
+To extract a replacement document, place it at `data/CMS-1500.pdf` and opt in to the
+keyed network path:
+
+```bash
+NUTRIENT_API_KEY=your_key_here python3 generate_demo.py --refresh
+```
 
 Get a Data Extraction API key at
 [nutrient.io](https://www.nutrient.io/api/data-extraction-api/).

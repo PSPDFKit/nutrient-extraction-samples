@@ -1,125 +1,127 @@
-import os
-import json
+from __future__ import annotations
+
+import argparse
 import asyncio
-import aiohttp
+import json
+import sys
 from pathlib import Path
-from jinja2 import Environment, FileSystemLoader
-from pdf2image import convert_from_path
+from typing import Any
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 from dotenv import load_dotenv
 
-load_dotenv(Path(__file__).parent.parent.parent / ".env")
+from common.api import PARSE_ENDPOINT, build_parse_instructions
+from common.cache import get_cached_response
+from common.html_env import coerce_num, create_html_env
+from common.render import ensure_page_png
 
-PARSE_API_URL = "https://api.nutrient.io/parse"
+load_dotenv(REPO_ROOT / ".env")
+
+DEMO_DIR = Path(__file__).parent
 
 
-async def call_api(pdf_path, doc_config, api_key):
-    print(f"Uploading and parsing via API: {pdf_path}")
+def _number(value: Any) -> float | int:
+    kind = "int" if isinstance(value, int) and not isinstance(value, bool) else "float"
+    return coerce_num(value, kind=kind)
 
-    headers = {"Authorization": f"Bearer {api_key}"}
 
-    data = aiohttp.FormData()
-    data.add_field(
-        "file",
-        open(pdf_path, "rb"),
-        filename=pdf_path.name,
-        content_type="application/pdf",
+async def process_document(
+    doc_config: dict[str, Any],
+    refresh: bool = False,
+) -> tuple[dict[str, Any], str, float | int, float | int]:
+    pdf_path = (DEMO_DIR / doc_config["file"]).resolve()
+    result_json = await get_cached_response(
+        pdf_path,
+        PARSE_ENDPOINT,
+        build_parse_instructions(doc_config["mode"]),
+        DEMO_DIR / "cache",
+        refresh=refresh,
     )
 
-    instructions = {
-        "mode": doc_config["mode"],
-        "outputFormat": {
-            "elements": {
-                "bounds": True,
-                "confidence": True,
-                "text": True,
-            }
-        },
-    }
-    data.add_field("instructions", json.dumps(instructions), content_type="application/json")
+    page_width = _number(1700)
+    page_height = _number(2200)
+    found_page_dimensions = False
+    for element in result_json.get("output", {}).get("elements", []):
+        page = element.get("page")
+        if page is not None and not isinstance(page, dict):
+            raise ValueError("value must be numeric")
+        if page:
+            element_page_width = _number(page["width"])
+            element_page_height = _number(page["height"])
+            if not found_page_dimensions:
+                page_width = element_page_width
+                page_height = element_page_height
+                found_page_dimensions = True
 
-    async with aiohttp.ClientSession() as session:
-        async with session.post(PARSE_API_URL, headers=headers, data=data) as response:
-            if response.status != 200:
-                text = await response.text()
-                raise Exception(f"API Error ({response.status}): {text}")
-            return await response.json()
-
-
-async def process_document(doc_config, api_key):
-    pdf_path = (Path(__file__).parent / doc_config["file"]).resolve()
-
-    # If a saved Studio JSON result exists, use it — avoids the API call
-    saved_json_path = pdf_path.parent / f"{pdf_path.stem}_parse_results.json"
-    if saved_json_path.exists():
-        print(f"Using saved parse result: {saved_json_path}")
-        with open(saved_json_path) as f:
-            result_json = json.load(f)
-    else:
-        if not api_key:
-            raise SystemExit(
-                f"No saved result at {saved_json_path} and NUTRIENT_API_KEY is not set.\n"
-                "Either save the Studio JSON there or set NUTRIENT_API_KEY."
-            )
-        result_json = await call_api(pdf_path, doc_config, api_key)
-
-    output_dir = Path(__file__).parent / "output"
+    output_dir = DEMO_DIR / "output"
     output_dir.mkdir(exist_ok=True)
-
-    pages = convert_from_path(pdf_path, first_page=1, last_page=1)
     img_filename = f"{doc_config['id']}_page_0.png"
-    pages[0].save(output_dir / img_filename, "PNG")
-
-    # Get page dimensions from the first element that reports page info
-    page_width, page_height = 1700, 2200
-    elements = result_json.get("output", {}).get("elements", [])
-    for el in elements:
-        if el.get("page"):
-            page_width = el["page"]["width"]
-            page_height = el["page"]["height"]
-            break
-
+    img_path = output_dir / img_filename
+    if refresh or not img_path.exists():
+        ensure_page_png(
+            pdf_path,
+            0,
+            img_path,
+            page_dims={"width": page_width, "height": page_height},
+            refresh=refresh,
+        )
     return result_json, img_filename, page_width, page_height
 
 
-def build_blocks(result_data):
+def build_blocks(result_data: dict[str, Any]) -> list[dict[str, Any]]:
     elements = result_data.get("output", {}).get("elements", [])
     blocks = []
 
-    for el in elements:
-        # Only page 1 (index 0) — we only render one page image
-        if el.get("page", {}).get("pageIndex", 0) != 0:
+    for element in elements:
+        page = element.get("page", {})
+        if not isinstance(page, dict):
+            raise ValueError("value must be numeric")
+        page_index = coerce_num(page.get("pageIndex", 0), kind="int")
+        if page_index != 0:
             continue
 
-        text = el.get("text", "").strip()
+        text = element.get("text", "").strip()
         if not text:
             continue
 
-        bounds = el.get("bounds", {})
+        bounds = element.get("bounds")
+        if bounds is not None and not isinstance(bounds, dict):
+            raise ValueError("value must be numeric")
         if not bounds:
             continue
 
-        blocks.append({
-            "text": text,
-            "type": el.get("type", "paragraph"),
-            "role": el.get("role", ""),
-            "confidence": int(el.get("confidence", 0.0) * 100),
-            "x": bounds.get("x", 0),
-            "y": bounds.get("y", 0),
-            "width": bounds.get("width", 0),
-            "height": bounds.get("height", 0),
-            "page_index": el.get("page", {}).get("pageIndex", 0),
-            "reading_order": el.get("readingOrder", 0),
-        })
+        confidence = coerce_num(element.get("confidence", 0.0))
+        reading_order = coerce_num(element.get("readingOrder", 0), kind="int")
+        blocks.append(
+            {
+                "text": text,
+                "type": element.get("type", "paragraph"),
+                "role": element.get("role", ""),
+                "confidence": int(confidence * 100),
+                "x": _number(bounds["x"]),
+                "y": _number(bounds["y"]),
+                "width": _number(bounds["width"]),
+                "height": _number(bounds["height"]),
+                "page_index": page_index,
+                "reading_order": reading_order,
+            }
+        )
 
-    blocks.sort(key=lambda b: b["reading_order"])
+    blocks.sort(key=lambda block: block["reading_order"])
     return blocks
 
 
-def render_html(blocks, img_filename, page_width, page_height, doc_config):
-    template_dir = Path(__file__).parent
-    env = Environment(loader=FileSystemLoader(str(template_dir)))
-    template = env.get_template("template.html")
-
+def render_html(
+    blocks: list[dict[str, Any]],
+    img_filename: str,
+    page_width: float | int,
+    page_height: float | int,
+    doc_config: dict[str, Any],
+) -> None:
+    template = create_html_env(DEMO_DIR).get_template("template.html")
     html_output = template.render(
         doc_name=doc_config["name"],
         image_src=img_filename,
@@ -128,35 +130,45 @@ def render_html(blocks, img_filename, page_width, page_height, doc_config):
         blocks=blocks,
     )
 
-    output_dir = Path(__file__).parent / "output"
-    with open(output_dir / "index.html", "w") as f:
-        f.write(html_output)
-
-    with open(output_dir / "elements.json", "w") as f:
-        json.dump(blocks, f, indent=2)
+    output_dir = DEMO_DIR / "output"
+    with (output_dir / "index.html").open("w", encoding="utf-8") as output_file:
+        output_file.write(html_output)
+    with (output_dir / "elements.json").open("w", encoding="utf-8") as elements_file:
+        json.dump(blocks, elements_file, indent=2)
 
     print(f"Generated {len(blocks)} cited blocks.")
     print("Open output/index.html in a browser to view the demo.")
 
 
-async def main():
-    api_key = os.getenv("NUTRIENT_API_KEY")
-    if not api_key:
-        raise SystemExit("Error: NUTRIENT_API_KEY is not set. Copy .env.example to .env and add your key.")
-
-    docs_path = Path(__file__).parent / "docs.json"
-    with open(docs_path, "r") as f:
-        configs = json.load(f)
-
-    config = configs[0]
-    pdf_path = (Path(__file__).parent / config["file"]).resolve()
-    if not pdf_path.exists():
-        raise SystemExit(f"PDF not found at {pdf_path}. Add the file and retry.")
-
-    result_data, img_filename, page_width, page_height = await process_document(config, api_key)
+async def main(refresh: bool = False) -> None:
+    with (DEMO_DIR / "docs.json").open(encoding="utf-8") as docs_file:
+        config = json.load(docs_file)[0]
+    result_data, img_filename, page_width, page_height = await process_document(
+        config,
+        refresh=refresh,
+    )
     blocks = build_blocks(result_data)
-    render_html(blocks, img_filename, page_width, page_height, config)
+    render_html(
+        blocks,
+        img_filename,
+        page_width,
+        page_height,
+        config,
+    )
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Generate the parse citations demo."
+    )
+    parser.add_argument(
+        "--refresh",
+        action="store_true",
+        help="Call the live API and replace the committed cache entry.",
+    )
+    return parser.parse_args()
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    args = parse_args()
+    asyncio.run(main(refresh=args.refresh))

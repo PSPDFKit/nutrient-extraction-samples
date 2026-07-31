@@ -18,7 +18,9 @@ from .atomic import atomic_write
 
 DEFAULT_SCALE = 200 / 72
 MAX_RENDER_WIDTH = 10_000
-MAX_RENDER_PIXELS = 50_000_000
+# 25M pixels * 4 bytes per RGBA pixel = 100 MB for one packed bitmap;
+# PDFium's bitmap plus PNG scanline/compression buffers require additional memory.
+MAX_RENDER_PIXELS = 25_000_000
 
 
 def _target_width(page_dims: Any) -> float | None:

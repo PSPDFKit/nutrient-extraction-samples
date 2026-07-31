@@ -142,6 +142,48 @@ def test_target_width_rejects_over_cap() -> None:
         render._target_width({"width": render.MAX_RENDER_WIDTH + 1})
 
 
+def test_render_width_cap_is_enforced_directly() -> None:
+    _, image_size = render._render_geometry(
+        100,
+        1,
+        {"width": render.MAX_RENDER_WIDTH},
+    )
+    assert image_size == (render.MAX_RENDER_WIDTH, 100)
+
+    with pytest.raises(ValueError, match=str(render.MAX_RENDER_WIDTH)):
+        render._render_geometry(
+            100,
+            1,
+            {"width": render.MAX_RENDER_WIDTH + 1},
+        )
+
+    with pytest.raises(ValueError, match="render width"):
+        render._render_geometry(
+            (render.MAX_RENDER_WIDTH / render.DEFAULT_SCALE) + 1,
+            1,
+            None,
+        )
+
+
+def test_render_pixel_cap_is_enforced_directly() -> None:
+    assert render.MAX_RENDER_PIXELS == 25_000_000
+    assert render.MAX_RENDER_PIXELS * 4 == 100_000_000
+
+    _, image_size = render._render_geometry(
+        100,
+        25,
+        {"width": render.MAX_RENDER_WIDTH},
+    )
+    assert image_size[0] * image_size[1] == render.MAX_RENDER_PIXELS
+
+    with pytest.raises(ValueError, match=str(render.MAX_RENDER_PIXELS)):
+        render._render_geometry(
+            100,
+            25.01,
+            {"width": render.MAX_RENDER_WIDTH},
+        )
+
+
 def test_render_rejects_over_pixel_cap_before_rasterizing(tmp_path: Path) -> None:
     pdf_path = tmp_path / "tall.pdf"
     _one_page_pdf(pdf_path, width=100, height=1_000)
@@ -155,6 +197,16 @@ def test_render_rejects_over_pixel_cap_before_rasterizing(tmp_path: Path) -> Non
         )
 
     assert not (tmp_path / "tall.png").exists()
+
+
+@pytest.mark.parametrize("page_index", [-1, True, 0.0, "0", None])
+def test_page_index_guard_rejects_invalid_values(page_index: object) -> None:
+    with pytest.raises(ValueError, match="non-negative integer"):
+        render._validate_page_index(page_index)  # type: ignore[arg-type]
+
+
+def test_page_index_guard_accepts_zero() -> None:
+    render._validate_page_index(0)
 
 
 @pytest.mark.parametrize("page_index", [-1, True])
@@ -175,3 +227,9 @@ def test_rasterize_rejects_out_of_range_page_index(tmp_path: Path) -> None:
 
     with pytest.raises(IndexError, match="outside"):
         render._rasterize_page(pdf_path, 1)
+
+
+@pytest.mark.parametrize("width", ["not-a-number", object()])
+def test_target_width_rejects_non_numeric_values(width: object) -> None:
+    with pytest.raises(ValueError, match="numeric"):
+        render._target_width({"width": width})

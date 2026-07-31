@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
+import errno
 import hashlib
 import inspect
 import json
 import os
+import re
+import stat
 from collections.abc import Awaitable, Callable, Mapping
 from pathlib import Path
 from typing import Any
@@ -25,7 +28,21 @@ Transport = Callable[
 ]
 
 MAX_PDF_BYTES = 100 * 1024 * 1024
-PERSISTED_RESPONSE_KEYS = ("status", "requestId", "output")
+# Current committed caches top out near 1.5 MiB; 25 MiB leaves ample headroom
+# without allowing an ordinary offline replay to allocate an unbounded payload.
+MAX_CACHE_BYTES = 25 * 1024 * 1024
+# These limits keep traversal/template work bounded independently of byte size.
+MAX_RESPONSE_DEPTH = 64
+MAX_RESPONSE_NODES = 250_000
+MAX_RESPONSE_STRING_LENGTH = 1_000_000
+PERSISTED_RESPONSE_KEYS = (
+    "status",
+    "requestId",
+    "output",
+    "configuration",
+    "metrics",
+)
+DENIED_CACHE_KEY = re.compile(r"credit|price|cost|remaining|balance", re.IGNORECASE)
 
 
 class CacheError(ValueError):
@@ -89,6 +106,7 @@ def validate_response(response: Any, endpoint: str) -> dict[str, Any]:
     """Validate the minimum persisted response shape for an endpoint."""
 
     _require_supported_endpoint(endpoint)
+    _validate_response_limits(response)
     if not isinstance(response, dict):
         raise ValueError("response must be a JSON object")
 
@@ -124,7 +142,145 @@ def cache_response_projection(response: Mapping[str, Any]) -> dict[str, Any]:
     }
     if "reconstructed" in response:
         projected["reconstructed"] = response["reconstructed"]
+    _validate_response_limits(projected)
+    _reject_denied_cache_keys(projected)
     return projected
+
+
+def _validate_response_limits(response: Any) -> None:
+    """Bound decoded response work before construction or template rendering."""
+
+    node_count = 0
+    pending: list[tuple[Any, int]] = [(response, 0)]
+    while pending:
+        value, depth = pending.pop()
+        node_count += 1
+        if node_count > MAX_RESPONSE_NODES:
+            raise CacheError(
+                f"Response exceeds the {MAX_RESPONSE_NODES}-node limit."
+            )
+        if depth > MAX_RESPONSE_DEPTH:
+            raise CacheError(
+                f"Response exceeds the {MAX_RESPONSE_DEPTH}-level depth limit."
+            )
+
+        if isinstance(value, str):
+            if len(value) > MAX_RESPONSE_STRING_LENGTH:
+                raise CacheError(
+                    "Response contains a string exceeding the "
+                    f"{MAX_RESPONSE_STRING_LENGTH}-character limit."
+                )
+        elif isinstance(value, dict):
+            node_count += len(value)
+            if node_count > MAX_RESPONSE_NODES:
+                raise CacheError(
+                    f"Response exceeds the {MAX_RESPONSE_NODES}-node limit."
+                )
+            for key, child in value.items():
+                if isinstance(key, str) and len(key) > MAX_RESPONSE_STRING_LENGTH:
+                    raise CacheError(
+                        "Response contains a string exceeding the "
+                        f"{MAX_RESPONSE_STRING_LENGTH}-character limit."
+                    )
+                pending.append((child, depth + 1))
+        elif isinstance(value, (list, tuple)):
+            pending.extend((child, depth + 1) for child in value)
+
+
+def _reject_denied_cache_keys(response: Any) -> None:
+    """Reject billing-like keys anywhere in a projected cache response."""
+
+    pending = [response]
+    seen_containers: set[int] = set()
+    while pending:
+        value = pending.pop()
+        if isinstance(value, dict):
+            identity = id(value)
+            if identity in seen_containers:
+                continue
+            seen_containers.add(identity)
+            for key, child in value.items():
+                if isinstance(key, str) and DENIED_CACHE_KEY.search(key):
+                    raise CacheError(
+                        f"Cache response contains denied key {key!r}."
+                    )
+                pending.append(child)
+        elif isinstance(value, (list, tuple)):
+            identity = id(value)
+            if identity in seen_containers:
+                continue
+            seen_containers.add(identity)
+            pending.extend(value)
+
+
+def _read_cache_bytes(source_path: Path) -> bytes:
+    """Read a bounded regular cache file through a non-following descriptor."""
+
+    flags = os.O_RDONLY
+    flags |= getattr(os, "O_CLOEXEC", 0)
+    flags |= getattr(os, "O_NONBLOCK", 0)
+    nofollow = getattr(os, "O_NOFOLLOW", 0)
+    flags |= nofollow
+
+    if not nofollow:
+        try:
+            if stat.S_ISLNK(os.lstat(source_path).st_mode):
+                raise CacheError(
+                    f"Cache path must not be a symbolic link: {source_path}"
+                )
+        except CacheError:
+            raise
+        except OSError as error:
+            raise CacheError(
+                f"Could not securely inspect cache file {source_path}: {error}"
+            ) from None
+
+    try:
+        descriptor = os.open(source_path, flags)
+    except OSError as error:
+        if nofollow and error.errno == errno.ELOOP:
+            raise CacheError(
+                f"Cache path must not be a symbolic link: {source_path}"
+            ) from None
+        raise CacheError(
+            f"Could not securely open cache file {source_path}: {error}"
+        ) from None
+
+    try:
+        file_status = os.fstat(descriptor)
+        if not stat.S_ISREG(file_status.st_mode):
+            raise CacheError(
+                f"Cache path is not a regular file: {source_path}"
+            )
+        if file_status.st_size > MAX_CACHE_BYTES:
+            raise CacheError(
+                f"Cache file exceeds the {MAX_CACHE_BYTES}-byte limit: "
+                f"{source_path}"
+            )
+
+        chunks: list[bytes] = []
+        bytes_read = 0
+        while bytes_read <= MAX_CACHE_BYTES:
+            chunk = os.read(
+                descriptor,
+                min(1024 * 1024, MAX_CACHE_BYTES + 1 - bytes_read),
+            )
+            if not chunk:
+                break
+            chunks.append(chunk)
+            bytes_read += len(chunk)
+        if bytes_read > MAX_CACHE_BYTES:
+            raise CacheError(
+                f"Cache file exceeds the {MAX_CACHE_BYTES}-byte limit: "
+                f"{source_path}"
+            )
+        return b"".join(chunks)
+    except OSError as error:
+        raise CacheError(
+            f"Could not securely read cache file {source_path}: {error}"
+        ) from None
+    finally:
+        os.close(descriptor)
 
 
 def read_cached_response(cache_file: str | Path, endpoint: str) -> dict[str, Any]:
@@ -132,10 +288,21 @@ def read_cached_response(cache_file: str | Path, endpoint: str) -> dict[str, Any
 
     source_path = Path(cache_file)
     try:
-        with source_path.open(encoding="utf-8") as response_file:
-            response = json.load(response_file)
-        return validate_response(response, endpoint)
-    except (OSError, UnicodeError, json.JSONDecodeError, ValueError, TypeError):
+        payload = _read_cache_bytes(source_path)
+        response = json.loads(payload.decode("utf-8"))
+        validated_response = validate_response(response, endpoint)
+        _reject_denied_cache_keys(validated_response)
+        return validated_response
+    except CacheError:
+        raise
+    except (
+        OSError,
+        UnicodeError,
+        json.JSONDecodeError,
+        RecursionError,
+        ValueError,
+        TypeError,
+    ):
         raise CacheError(
             f"Malformed cache file {source_path}; rerun with --refresh to replace it."
         ) from None
