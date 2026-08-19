@@ -1,0 +1,72 @@
+{
+  "mode": "agentic",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "insured_id_number": {
+        "type": "string",
+        "description": "The insured's ID number found in Box 1a."
+      },
+      "patient_name": {
+        "type": "string",
+        "description": "The patient's name (Last Name, First Name, Middle Initial) from Box 2."
+      },
+      "prior_authorization_number": {
+        "type": "string",
+        "description": "The prior authorization number from Box 23."
+      },
+      "total_charge": {
+        "type": "object",
+        "properties": {
+          "amount": { "type": "number" },
+          "iso_4217_currency_code": { "type": "string" }
+        },
+        "required": ["amount", "iso_4217_currency_code"],
+        "description": "The total charges from Box 28."
+      },
+      "service_lines": {
+        "type": "array",
+        "description": "The list of service lines from the table in Box 24.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "date_of_service_from": {
+              "type": "string",
+              "description": "The start date of service from Box 24A (MM DD YY)."
+            },
+            "procedure_code": {
+              "type": "string",
+              "description": "The CPT or HCPCS procedure code from Box 24D."
+            },
+            "line_charges": {
+              "type": "object",
+              "properties": {
+                "amount": { "type": "number" },
+                "iso_4217_currency_code": { "type": "string" }
+              },
+              "required": ["amount", "iso_4217_currency_code"],
+              "description": "The charges for this specific service line from Box 24F."
+            },
+            "rendering_provider_npi": {
+              "type": "string",
+              "description": "The NPI of the rendering provider from Box 24J."
+            }
+          },
+          "required": [
+            "date_of_service_from",
+            "procedure_code",
+            "line_charges",
+            "rendering_provider_npi"
+          ]
+        }
+      }
+    },
+    "required": [
+      "insured_id_number",
+      "patient_name",
+      "total_charge",
+      "service_lines"
+    ]
+  },
+  "citationsEnabled": true
+}

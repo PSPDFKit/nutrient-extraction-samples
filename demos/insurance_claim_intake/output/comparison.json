@@ -1,0 +1,14 @@
+{
+  "artifactVersion": 1,
+  "comparison": {
+    "exitCode": 0,
+    "expectedLeaves": 11,
+    "groundedLeaves": 11,
+    "issues": [],
+    "matchedLeaves": 11,
+    "passed": true
+  },
+  "evidenceKind": "live",
+  "evidenceLabel": "REVIEWED LIVE API RESPONSE",
+  "reviewed": true
+}

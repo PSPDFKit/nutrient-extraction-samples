@@ -1,0 +1,247 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+6 0 obj
+<< /Length 2935 >>
+stream
+q
+0.965 0.953 0.914 rg
+0 0 612 792 re f
+0.075 0.082 0.092 rg
+0 680 612 112 re f
+BT
+/F2 22 Tf
+0.97 0.96 0.91 rg
+1 0 0 1 42 730 Tm
+(Synthetic Prior Authorization Request) Tj
+ET
+BT
+/F1 9 Tf
+0.72 0.75 0.78 rg
+1 0 0 1 42 708 Tm
+(Intake and human-review fixture - not a clinical determination) Tj
+ET
+0.995 0.991 0.974 rg
+42 569 256 73 re f
+0.83 0.81 0.74 RG
+0.65 w
+42 569 256 73 re S
+BT
+/F2 8 Tf
+0.28 0.31 0.35 rg
+1 0 0 1 54 624 Tm
+(REQUEST ID) Tj
+ET
+BT
+/F1 12 Tf
+0.05 0.06 0.07 rg
+1 0 0 1 54 603 Tm
+(PA-2026-0904) Tj
+ET
+0.995 0.991 0.974 rg
+314 569 256 73 re f
+0.83 0.81 0.74 RG
+0.65 w
+314 569 256 73 re S
+BT
+/F2 8 Tf
+0.28 0.31 0.35 rg
+1 0 0 1 326 624 Tm
+(PATIENT FULL NAME) Tj
+ET
+BT
+/F1 12 Tf
+0.05 0.06 0.07 rg
+1 0 0 1 326 603 Tm
+(Elena Brooks) Tj
+ET
+0.995 0.991 0.974 rg
+42 487 256 73 re f
+0.83 0.81 0.74 RG
+0.65 w
+42 487 256 73 re S
+BT
+/F2 8 Tf
+0.28 0.31 0.35 rg
+1 0 0 1 54 542 Tm
+(MEMBER ID) Tj
+ET
+BT
+/F1 12 Tf
+0.05 0.06 0.07 rg
+1 0 0 1 54 521 Tm
+(DEMO-MBR-771204) Tj
+ET
+0.995 0.991 0.974 rg
+314 487 256 73 re f
+0.83 0.81 0.74 RG
+0.65 w
+314 487 256 73 re S
+BT
+/F2 8 Tf
+0.28 0.31 0.35 rg
+1 0 0 1 326 542 Tm
+(PATIENT DATE OF BIRTH) Tj
+ET
+BT
+/F1 12 Tf
+0.05 0.06 0.07 rg
+1 0 0 1 326 521 Tm
+(04/18/1987) Tj
+ET
+0.995 0.991 0.974 rg
+42 405 256 73 re f
+0.83 0.81 0.74 RG
+0.65 w
+42 405 256 73 re S
+BT
+/F2 8 Tf
+0.28 0.31 0.35 rg
+1 0 0 1 54 460 Tm
+(REQUESTED SERVICE) Tj
+ET
+BT
+/F1 12 Tf
+0.05 0.06 0.07 rg
+1 0 0 1 54 439 Tm
+(MRI lumbar spine without contrast) Tj
+ET
+0.995 0.991 0.974 rg
+314 405 256 73 re f
+0.83 0.81 0.74 RG
+0.65 w
+314 405 256 73 re S
+BT
+/F2 8 Tf
+0.28 0.31 0.35 rg
+1 0 0 1 326 460 Tm
+(DIAGNOSIS CODE) Tj
+ET
+BT
+/F1 12 Tf
+0.05 0.06 0.07 rg
+1 0 0 1 326 439 Tm
+(M54.16) Tj
+ET
+0.995 0.991 0.974 rg
+42 323 256 73 re f
+0.83 0.81 0.74 RG
+0.65 w
+42 323 256 73 re S
+BT
+/F2 8 Tf
+0.28 0.31 0.35 rg
+1 0 0 1 54 378 Tm
+(PROCEDURE CODE) Tj
+ET
+BT
+/F1 12 Tf
+0.05 0.06 0.07 rg
+1 0 0 1 54 357 Tm
+(72148) Tj
+ET
+0.995 0.991 0.974 rg
+314 323 256 73 re f
+0.83 0.81 0.74 RG
+0.65 w
+314 323 256 73 re S
+BT
+/F2 8 Tf
+0.28 0.31 0.35 rg
+1 0 0 1 326 378 Tm
+(URGENCY) Tj
+ET
+BT
+/F1 12 Tf
+0.05 0.06 0.07 rg
+1 0 0 1 326 357 Tm
+(Standard) Tj
+ET
+0.995 0.991 0.974 rg
+42 241 256 73 re f
+0.83 0.81 0.74 RG
+0.65 w
+42 241 256 73 re S
+BT
+/F2 8 Tf
+0.28 0.31 0.35 rg
+1 0 0 1 54 296 Tm
+(REQUESTED SERVICE DATE) Tj
+ET
+BT
+/F1 12 Tf
+0.05 0.06 0.07 rg
+1 0 0 1 54 275 Tm
+(09/04/2026) Tj
+ET
+0.995 0.991 0.974 rg
+314 241 256 73 re f
+0.83 0.81 0.74 RG
+0.65 w
+314 241 256 73 re S
+BT
+/F2 8 Tf
+0.28 0.31 0.35 rg
+1 0 0 1 326 296 Tm
+(ORDERING PROVIDER) Tj
+ET
+BT
+/F1 12 Tf
+0.05 0.06 0.07 rg
+1 0 0 1 326 275 Tm
+(Priya Raman, MD) Tj
+ET
+0.995 0.991 0.974 rg
+42 159 256 73 re f
+0.83 0.81 0.74 RG
+0.65 w
+42 159 256 73 re S
+BT
+/F2 8 Tf
+0.28 0.31 0.35 rg
+1 0 0 1 54 214 Tm
+(ORDERING FACILITY) Tj
+ET
+BT
+/F1 12 Tf
+0.05 0.06 0.07 rg
+1 0 0 1 54 193 Tm
+(Example Regional Imaging Center) Tj
+ET
+BT
+/F1 7 Tf
+0.38 0.4 0.42 rg
+1 0 0 1 42 20 Tm
+(Synthetic fixture - no real personal or customer data) Tj
+ET
+Q
+endstream
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000257 00000 n 
+0000000327 00000 n 
+0000000402 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+3388
+%%EOF

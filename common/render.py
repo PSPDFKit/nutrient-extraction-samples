@@ -131,6 +131,10 @@ def _rasterize_page(
     _validate_page_index(page_index)
 
     document = pdfium.PdfDocument(Path(pdf_path))
+    # Form widgets are not part of the normal page-content render. The form
+    # environment must be initialized before retrieving a page so filled
+    # AcroForm values appear in the generated proof image.
+    document.init_forms()
     page = None
     bitmap = None
     try:
@@ -143,6 +147,7 @@ def _rasterize_page(
         scale, expected_size = _render_geometry(page_width, page_height, page_dims)
         bitmap = page.render(
             scale=scale,
+            may_draw_forms=True,
             fill_color=(255, 255, 255, 255),
             force_bitmap_format=raw.FPDFBitmap_BGRA,
             rev_byteorder=True,

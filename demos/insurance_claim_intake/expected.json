@@ -1,0 +1,21 @@
+{
+  "crash": {
+    "date": "08/03/2026"
+  },
+  "federal_vehicle": {
+    "damage": "Rear bumper and liftgate dented; vehicle remains drivable.",
+    "driver_name": "Alvarez, Noah",
+    "estimated_repair_cost": "2750.00",
+    "make": "Subaru",
+    "model": "Outback",
+    "tag_id": "GSA-48312",
+    "year": "2023"
+  },
+  "other_vehicle": {
+    "driver_name": "Chen, Maya",
+    "insurance": {
+      "company": "Prairie Mutual Insurance",
+      "policy_number": "PN-84-221907"
+    }
+  }
+}

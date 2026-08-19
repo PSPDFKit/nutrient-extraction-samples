@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pypdfium2 as pdfium
 import pytest
+from pypdfium2 import raw
 
 from common import render
 
@@ -47,6 +48,41 @@ def test_grounded_page_matches_committed_png_dimensions(tmp_path: Path) -> None:
     assert result == rendered_path
     assert _png_dimensions(rendered_path) == _png_dimensions(COMMITTED_PNG)
     assert _png_dimensions(rendered_path) == (1700, 2200)
+
+
+def _cms_rgba(*, may_draw_forms: bool) -> bytes:
+    document = pdfium.PdfDocument(GROUNDED_PDF)
+    document.init_forms()
+    page = None
+    bitmap = None
+    try:
+        page = document[0]
+        bitmap = page.render(
+            scale=1700 / page.get_size()[0],
+            may_draw_forms=may_draw_forms,
+            fill_color=(255, 255, 255, 255),
+            force_bitmap_format=raw.FPDFBitmap_BGRA,
+            rev_byteorder=True,
+        )
+        return bytes(bitmap.buffer)
+    finally:
+        if bitmap is not None:
+            bitmap.close()
+        if page is not None:
+            page.close()
+        document.close()
+
+
+def test_grounded_page_render_includes_acroform_values() -> None:
+    rendered, image_size = render._rasterize_page(
+        GROUNDED_PDF,
+        0,
+        page_dims={"width": 1700, "height": 2200},
+    )
+
+    assert image_size == (1700, 2200)
+    assert rendered == _cms_rgba(may_draw_forms=True)
+    assert rendered != _cms_rgba(may_draw_forms=False)
 
 
 def test_missing_api_dimensions_use_200_dpi_scale(tmp_path: Path) -> None:

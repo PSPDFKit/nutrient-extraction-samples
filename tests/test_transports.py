@@ -160,7 +160,7 @@ def test_parse_transport_pins_exact_multipart_request(
     assert captured == [
         CapturedRequest(
             method="POST",
-            url="https://api.nutrient.io/parse",
+            url="https://api.nutrient.io/extraction/parse",
             headers={"Authorization": "Bearer transport-test-key"},
             part_names=["file", "instructions"],
             file_name="appraisal.pdf",

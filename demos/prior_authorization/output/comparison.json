@@ -1,0 +1,25 @@
+{
+  "artifactVersion": 1,
+  "comparison": {
+    "exitCode": 1,
+    "expectedLeaves": 11,
+    "groundedLeaves": 11,
+    "issues": [
+      {
+        "code": "WRONG",
+        "message": "expected 'Acknowledged', got 'Not acknowledged'",
+        "path": "$.request.part_d_acknowledgement"
+      },
+      {
+        "code": "WRONG",
+        "message": "expected 'Wegovy Injection', got 'Wegovy® InjectionInjection'",
+        "path": "$.request.requested_drug"
+      }
+    ],
+    "matchedLeaves": 9,
+    "passed": false
+  },
+  "evidenceKind": "live",
+  "evidenceLabel": "REVIEWED LIVE API RESPONSE",
+  "reviewed": true
+}

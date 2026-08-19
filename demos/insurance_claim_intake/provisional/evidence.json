@@ -1,0 +1,146 @@
+{
+  "response": {
+    "output": {
+      "data": {
+        "crash": {
+          "date": "08/03/2026"
+        },
+        "federal_vehicle": {
+          "damage": "Rear bumper and liftgate dented; vehicle remains drivable.",
+          "driver_name": "Alvarez, Noah",
+          "estimated_repair_cost": "2750.00",
+          "make": "Subaru",
+          "model": "Outback",
+          "tag_id": "GSA-48312",
+          "year": "2023"
+        },
+        "other_vehicle": {
+          "driver_name": "Chen, Maya",
+          "insurance": {
+            "company": "Prairie Mutual Insurance",
+            "policy_number": "PN-84-221907"
+          }
+        }
+      },
+      "metadata": {
+        "crash": {
+          "date": {
+            "bbox": {
+              "height": 11.57,
+              "width": 88.23,
+              "x": 478.15,
+              "y": 127.89
+            },
+            "pageIndex": 0
+          }
+        },
+        "federal_vehicle": {
+          "damage": {
+            "bbox": {
+              "height": 12.31,
+              "width": 538.34,
+              "x": 36.86,
+              "y": 196.6
+            },
+            "pageIndex": 0
+          },
+          "driver_name": {
+            "bbox": {
+              "height": 12.31,
+              "width": 261.27,
+              "x": 36.86,
+              "y": 127.86
+            },
+            "pageIndex": 0
+          },
+          "estimated_repair_cost": {
+            "bbox": {
+              "height": 12.31,
+              "width": 86.39,
+              "x": 188.51,
+              "y": 175.63
+            },
+            "pageIndex": 0
+          },
+          "make": {
+            "bbox": {
+              "height": 12.31,
+              "width": 65.13,
+              "x": 353.52,
+              "y": 175.63
+            },
+            "pageIndex": 0
+          },
+          "model": {
+            "bbox": {
+              "height": 12.31,
+              "width": 64.81,
+              "x": 421.16,
+              "y": 175.63
+            },
+            "pageIndex": 0
+          },
+          "tag_id": {
+            "bbox": {
+              "height": 12.31,
+              "width": 137.58,
+              "x": 36.86,
+              "y": 175.63
+            },
+            "pageIndex": 0
+          },
+          "year": {
+            "bbox": {
+              "height": 12.31,
+              "width": 73.1,
+              "x": 277.8,
+              "y": 175.63
+            },
+            "pageIndex": 0
+          }
+        },
+        "other_vehicle": {
+          "driver_name": {
+            "bbox": {
+              "height": 12.31,
+              "width": 216.02,
+              "x": 36.86,
+              "y": 245.06
+            },
+            "pageIndex": 0
+          },
+          "insurance": {
+            "company": {
+              "bbox": {
+                "height": 35.06,
+                "width": 380.8,
+                "x": 36.86,
+                "y": 363.71
+              },
+              "pageIndex": 0
+            },
+            "policy_number": {
+              "bbox": {
+                "height": 12.31,
+                "width": 155.32,
+                "x": 420.61,
+                "y": 363.73
+              },
+              "pageIndex": 0
+            }
+          }
+        }
+      },
+      "pages": [
+        {
+          "height": 792.0,
+          "width": 612.0
+        }
+      ]
+    },
+    "reconstructed": false,
+    "requestId": "provisional-layout-insurance_claim_intake-d32ef14cf081",
+    "status": 200
+  },
+  "sourceStatus": "provisional-layout"
+}

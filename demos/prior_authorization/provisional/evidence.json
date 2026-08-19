@@ -1,0 +1,142 @@
+{
+  "response": {
+    "output": {
+      "data": {
+        "patient": {
+          "address": "742 Demo Street, Austin, TX 78745",
+          "date_of_birth": "04/18/1987",
+          "full_name": "Elena Brooks",
+          "mbi": "DEMO-MBI-771204"
+        },
+        "prescriber": {
+          "name": "Priya Raman, MD",
+          "npi": "1234567890",
+          "phone": "(555) 470-2200"
+        },
+        "request": {
+          "mash_with_fibrosis": "No",
+          "moderate_to_severe_osa": "No",
+          "part_d_acknowledgement": "Acknowledged",
+          "requested_drug": "Wegovy Injection"
+        }
+      },
+      "metadata": {
+        "patient": {
+          "address": {
+            "bbox": {
+              "height": 11.0,
+              "width": 132.0,
+              "x": 91.0,
+              "y": 266.0
+            },
+            "pageIndex": 0
+          },
+          "date_of_birth": {
+            "bbox": {
+              "height": 12.0,
+              "width": 47.0,
+              "x": 129.0,
+              "y": 251.0
+            },
+            "pageIndex": 0
+          },
+          "full_name": {
+            "bbox": {
+              "height": 12.0,
+              "width": 58.0,
+              "x": 108.0,
+              "y": 209.0
+            },
+            "pageIndex": 0
+          },
+          "mbi": {
+            "bbox": {
+              "height": 12.0,
+              "width": 79.0,
+              "x": 152.0,
+              "y": 236.0
+            },
+            "pageIndex": 0
+          }
+        },
+        "prescriber": {
+          "name": {
+            "bbox": {
+              "height": 12.0,
+              "width": 74.0,
+              "x": 387.0,
+              "y": 209.0
+            },
+            "pageIndex": 0
+          },
+          "npi": {
+            "bbox": {
+              "height": 12.0,
+              "width": 52.0,
+              "x": 338.0,
+              "y": 268.0
+            },
+            "pageIndex": 0
+          },
+          "phone": {
+            "bbox": {
+              "height": 12.0,
+              "width": 63.0,
+              "x": 347.0,
+              "y": 240.0
+            },
+            "pageIndex": 0
+          }
+        },
+        "request": {
+          "mash_with_fibrosis": {
+            "bbox": {
+              "height": 18.0,
+              "width": 38.0,
+              "x": 322.0,
+              "y": 650.0
+            },
+            "pageIndex": 0
+          },
+          "moderate_to_severe_osa": {
+            "bbox": {
+              "height": 18.0,
+              "width": 38.0,
+              "x": 322.0,
+              "y": 577.0
+            },
+            "pageIndex": 0
+          },
+          "part_d_acknowledgement": {
+            "bbox": {
+              "height": 18.0,
+              "width": 83.0,
+              "x": 68.0,
+              "y": 516.0
+            },
+            "pageIndex": 0
+          },
+          "requested_drug": {
+            "bbox": {
+              "height": 18.0,
+              "width": 85.0,
+              "x": 45.0,
+              "y": 357.0
+            },
+            "pageIndex": 0
+          }
+        }
+      },
+      "pages": [
+        {
+          "height": 792.0,
+          "width": 612.0
+        }
+      ]
+    },
+    "reconstructed": false,
+    "requestId": "provisional-layout-prior_authorization-d3a44af77af3",
+    "status": 200
+  },
+  "sourceStatus": "provisional-layout"
+}

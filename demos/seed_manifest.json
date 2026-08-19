@@ -348,7 +348,7 @@
     "demo": "parse_citations",
     "source_file": "demos/parse_citations/data/appraisal_report_parse_results.json",
     "pdf": "demos/parse_citations/data/appraisal_report.pdf",
-    "endpoint": "https://api.nutrient.io/parse",
+    "endpoint": "https://api.nutrient.io/extraction/parse",
     "replay_config": {
       "mode": "agentic",
       "outputFormat": {
@@ -360,5 +360,98 @@
       }
     },
     "cache_key": "829ebf31fe9e6a24aaf2bce403220aec367fdc883ff4f335f0b6b49749b32ae2-extraction-parse-8972b5a5f8b0d4fd21a998424ebcd83289b3b06e188cac9916cc1b1c9b9d813e"
+  },
+  {
+    "demo": "mortgage_verification",
+    "inventory_kind": "reviewed_live_authentic_form",
+    "source_file": "demos/mortgage_verification/cache/2eab5c8c1c843ef5f0f0bef9e361f818369a6e5e7652f00e6e614d381a36018e-extraction-extract-c916fe75b45defb3f9078a09545733ea7e8ae8d20310dfb490ecbeb2bff6c2aa.json",
+    "pdf": "demos/mortgage_verification/data/mortgage-verification.pdf",
+    "endpoint": "https://api.nutrient.io/extraction/extract",
+    "replay_config_source": "demos/mortgage_verification/docs.json",
+    "cache_key": "2eab5c8c1c843ef5f0f0bef9e361f818369a6e5e7652f00e6e614d381a36018e-extraction-extract-c916fe75b45defb3f9078a09545733ea7e8ae8d20310dfb490ecbeb2bff6c2aa",
+    "receipt_file": "demos/mortgage_verification/cache/2eab5c8c1c843ef5f0f0bef9e361f818369a6e5e7652f00e6e614d381a36018e-extraction-extract-c916fe75b45defb3f9078a09545733ea7e8ae8d20310dfb490ecbeb2bff6c2aa.receipt.json",
+    "comparison_file": "demos/mortgage_verification/output/comparison.json",
+    "reviewed_output_file": "demos/mortgage_verification/output/index.html",
+    "source_page_file": "demos/mortgage_verification/output/source-page.png",
+    "sha256": {
+      "pdf": "2eab5c8c1c843ef5f0f0bef9e361f818369a6e5e7652f00e6e614d381a36018e",
+      "response_cache": "2c20be96b8496f675ed8f0a70c77226afbd7008a59cdb47eea8a000f7b6c04e8",
+      "receipt": "c931efb663f093748713de0cd4b51d497dbe808443e6a6afca4143210048facb",
+      "comparison": "afb217cc553e4507e3a8dd1130e9ed51e0605f5f4fb2c066049f956ea81c2936",
+      "reviewed_output": "f65c55222343a0c4803e510670f3a65410e280cf70e7e2bc680e351d075acd67",
+      "source_page": "43f0b6d63e9f42cd8efc49ab379dd8fe63984107c2cc8152d1347d4df3b77975"
+    },
+    "legacy_evidence": {
+      "pdf": "demos/mortgage_verification/data/legacy-synthetic-mortgage-verification.pdf",
+      "cache_key": "15f9be3fc3c78a78bb5a67e8f2b8fa0d09383626b0c2600676e2a3f95d054e77-extraction-extract-b35c962edca85f56a9f2707e49646779b4db844e5c22ad71f6b29b445118de59",
+      "receipt_file": "demos/mortgage_verification/cache/15f9be3fc3c78a78bb5a67e8f2b8fa0d09383626b0c2600676e2a3f95d054e77-extraction-extract-b35c962edca85f56a9f2707e49646779b4db844e5c22ad71f6b29b445118de59.receipt.json",
+      "sha256": {
+        "pdf": "15f9be3fc3c78a78bb5a67e8f2b8fa0d09383626b0c2600676e2a3f95d054e77",
+        "response_cache": "a1c31e6f3b8b2f9647107926687d1396ced32dbe47d47c378c9c8894e109f1a1",
+        "receipt": "4d08edf9538d4dc5d8cedfce5edf15dd4deb7e7c343440044400158597dd7d1a"
+      }
+    }
+  },
+  {
+    "demo": "insurance_claim_intake",
+    "inventory_kind": "reviewed_live_authentic_form",
+    "source_file": "demos/insurance_claim_intake/cache/82bd017e04267eca150ef8ccb3f2471a5b445680d882f8375a174391c47fbbeb-extraction-extract-5270e4d2c6eb39ec7ff32e01fc0e8a6012e6a031be8a2532f16b9ff3ed397207.json",
+    "pdf": "demos/insurance_claim_intake/data/insurance-claim-intake.pdf",
+    "endpoint": "https://api.nutrient.io/extraction/extract",
+    "replay_config_source": "demos/insurance_claim_intake/docs.json",
+    "cache_key": "82bd017e04267eca150ef8ccb3f2471a5b445680d882f8375a174391c47fbbeb-extraction-extract-5270e4d2c6eb39ec7ff32e01fc0e8a6012e6a031be8a2532f16b9ff3ed397207",
+    "receipt_file": "demos/insurance_claim_intake/cache/82bd017e04267eca150ef8ccb3f2471a5b445680d882f8375a174391c47fbbeb-extraction-extract-5270e4d2c6eb39ec7ff32e01fc0e8a6012e6a031be8a2532f16b9ff3ed397207.receipt.json",
+    "comparison_file": "demos/insurance_claim_intake/output/comparison.json",
+    "reviewed_output_file": "demos/insurance_claim_intake/output/index.html",
+    "source_page_file": "demos/insurance_claim_intake/output/source-page.png",
+    "sha256": {
+      "pdf": "82bd017e04267eca150ef8ccb3f2471a5b445680d882f8375a174391c47fbbeb",
+      "response_cache": "72170c3c25bfaea102ef747097ee94d27a11179a12564c6d19d940923ee0424a",
+      "receipt": "254617154a5b3f34984ce4e094403dc2366cf3fd01f8e6d8e4696f961171029c",
+      "comparison": "35f05513552be18c8b792f1edafe6199f59a7efe883271b87426e26571da6db2",
+      "reviewed_output": "7ce6fdb1564b4103f327e45e2c54ab45ccf9c621fc9e92f6454b6bd7b1577acb",
+      "source_page": "d9b1eb577f262e5da8237146061f4b77613c3b2ff01c87c9f17d5cdfe2970bc5"
+    },
+    "legacy_evidence": {
+      "pdf": "demos/insurance_claim_intake/data/legacy-synthetic-insurance-claim-intake.pdf",
+      "cache_key": "acb9970d933b9b1af6d9b8c08c3843006f09e8d574f07ea0b29cf51c27e2ca33-extraction-extract-ab82c0e620306ef4a76f60768e4d990f80af692bc65304953f8499474f5921b0",
+      "receipt_file": "demos/insurance_claim_intake/cache/acb9970d933b9b1af6d9b8c08c3843006f09e8d574f07ea0b29cf51c27e2ca33-extraction-extract-ab82c0e620306ef4a76f60768e4d990f80af692bc65304953f8499474f5921b0.receipt.json",
+      "sha256": {
+        "pdf": "acb9970d933b9b1af6d9b8c08c3843006f09e8d574f07ea0b29cf51c27e2ca33",
+        "response_cache": "57dff011062c8cac680176e371b644a1ac97a854a72b26c80627c8076b9c1a30",
+        "receipt": "0ffe741675fadf513682a3d7e1ddcd5001d1cf3801164c708172f8ab270eed1c"
+      }
+    }
+  },
+  {
+    "demo": "prior_authorization",
+    "inventory_kind": "reviewed_live_authentic_form",
+    "source_file": "demos/prior_authorization/cache/18bb2e0c4419c0c2acb002acb0b4857efacc7e96f37d15decebfe06d3394d530-extraction-extract-335056f54e95ba9cd7e96cd888db202cfb359998701790e7c15b155719d8c579.json",
+    "pdf": "demos/prior_authorization/data/prior-authorization.pdf",
+    "endpoint": "https://api.nutrient.io/extraction/extract",
+    "replay_config_source": "demos/prior_authorization/docs.json",
+    "cache_key": "18bb2e0c4419c0c2acb002acb0b4857efacc7e96f37d15decebfe06d3394d530-extraction-extract-335056f54e95ba9cd7e96cd888db202cfb359998701790e7c15b155719d8c579",
+    "receipt_file": "demos/prior_authorization/cache/18bb2e0c4419c0c2acb002acb0b4857efacc7e96f37d15decebfe06d3394d530-extraction-extract-335056f54e95ba9cd7e96cd888db202cfb359998701790e7c15b155719d8c579.receipt.json",
+    "comparison_file": "demos/prior_authorization/output/comparison.json",
+    "reviewed_output_file": "demos/prior_authorization/output/index.html",
+    "source_page_file": "demos/prior_authorization/output/source-page.png",
+    "sha256": {
+      "pdf": "18bb2e0c4419c0c2acb002acb0b4857efacc7e96f37d15decebfe06d3394d530",
+      "response_cache": "407ee89890604ca46ff356ec72a20968f504ad2f6015998719d49edd4f736805",
+      "receipt": "c63cb5d4b14dd5460af7ae321f2357aaecba600faefee3427141abdaf9b2ce59",
+      "comparison": "c974f57939385f4e0cd935aa5ec480920baa8245b593a3f0ff5132e4fa101eb9",
+      "reviewed_output": "02a91dad24097282b2d91f3f499423f824bb09489837c8aa73daf9675961c8b1",
+      "source_page": "ce4494e56f05d93575038187d950432e88d3574a2dc765d37b06a230183cdade"
+    },
+    "legacy_evidence": {
+      "pdf": "demos/prior_authorization/data/legacy-synthetic-prior-authorization.pdf",
+      "cache_key": "8b71d8dfe70b98f5d35b1e3709fc6eb0891daf3108c705676341f4c22f936354-extraction-extract-1f70709d4b47f8041baa824b5664ab140725273ae45199fe9c8dd06b36e178b4",
+      "receipt_file": "demos/prior_authorization/cache/8b71d8dfe70b98f5d35b1e3709fc6eb0891daf3108c705676341f4c22f936354-extraction-extract-1f70709d4b47f8041baa824b5664ab140725273ae45199fe9c8dd06b36e178b4.receipt.json",
+      "sha256": {
+        "pdf": "8b71d8dfe70b98f5d35b1e3709fc6eb0891daf3108c705676341f4c22f936354",
+        "response_cache": "934ad86cefc1419537d7380bc736770ee2ccac5fa13c673cf6ea34446b2abbb0",
+        "receipt": "80aecfe92b4465500f5bca5d949a08ab2459bda441786d18d3e5c7ae46d0d920"
+      }
+    }
   }
 ]

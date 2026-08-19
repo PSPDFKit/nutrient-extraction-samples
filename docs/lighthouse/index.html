@@ -1,0 +1,1461 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta
+    name="description"
+    content="Three reviewed Nutrient Data Extraction API demonstrations using selected authentic public mortgage, insurance, and prior-authorization forms with privacy-safe demo values."
+  >
+  <title>Reviewed Data Extraction proofs | Nutrient</title>
+  <link rel="icon" href="assets/nutrient-logo.svg" type="image/svg+xml">
+  <style>
+    @font-face {
+      font-family: "ABC Monument Grotesk";
+      src: url("assets/fonts/ABCMonumentGroteskVariable.woff2") format("woff2");
+      font-style: normal;
+      font-weight: 200 900;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "ABC Monument Grotesk Semi-Mono";
+      src: url("assets/fonts/ABCMonumentGroteskSemi-Mono-Regular.woff2") format("woff2");
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "ABC Monument Grotesk Mono";
+      src: url("assets/fonts/ABCMonumentGroteskMono-Medium.woff2") format("woff2");
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+    }
+
+    :root {
+      color-scheme: dark;
+      --ink: #0d1016;
+      --ink-soft: #151922;
+      --ink-raised: #1c212c;
+      --paper: #f2ecdc;
+      --paper-deep: #e3dac3;
+      --white: #f7f8fb;
+      --muted: #abb2c0;
+      --line: #343b49;
+      --line-light: #5b6474;
+      --citrus: #d8ff48;
+      --cobalt: #9badff;
+      --green: #79e996;
+      --font-display: Georgia, "Times New Roman", serif;
+      --font-body: "Avenir Next", Avenir, "Segoe UI", Helvetica, sans-serif;
+      --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --page: 84rem;
+      --radius: 0.85rem;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-width: 20rem;
+      background: var(--ink);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.6;
+      text-rendering: optimizeLegibility;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    a:focus-visible {
+      outline: 3px solid var(--citrus);
+      outline-offset: 4px;
+    }
+
+    .skip-link {
+      position: fixed;
+      z-index: 20;
+      top: 0.75rem;
+      left: 0.75rem;
+      min-height: 2.75rem;
+      padding: 0.6rem 1rem;
+      background: var(--citrus);
+      color: var(--ink);
+      font-weight: 800;
+      transform: translateY(-160%);
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .page-shell {
+      width: min(100%, var(--page));
+      margin-inline: auto;
+      padding-inline: 1rem;
+    }
+
+    .site-header {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .header-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem 1.5rem;
+      min-height: 5rem;
+      padding-block: 0.75rem;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      min-height: 2.75rem;
+      text-decoration: none;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 1.8rem;
+      height: 1.8rem;
+      place-items: center;
+      border: 1px solid var(--citrus);
+      color: var(--citrus);
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      line-height: 1;
+    }
+
+    .brand-detail {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .site-nav ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .site-nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.75rem;
+      padding-inline: 0.75rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .site-nav a:hover {
+      color: var(--white);
+    }
+
+    .hero {
+      position: relative;
+      padding-block: clamp(3.5rem, 9vw, 8rem) clamp(3rem, 7vw, 6rem);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero::before {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 3rem 3rem;
+      content: "";
+      opacity: 0.16;
+      mask-image: linear-gradient(to bottom, black, transparent 86%);
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: 2.5rem;
+      align-items: end;
+    }
+
+    .eyebrow {
+      margin: 0 0 1rem;
+      color: var(--citrus);
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      overflow-wrap: anywhere;
+    }
+
+    h1 {
+      max-width: 14ch;
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 12vw, 6.9rem);
+      font-weight: 500;
+      letter-spacing: -0.065em;
+      line-height: 0.94;
+    }
+
+    .hero-lede {
+      max-width: 66ch;
+      margin: 1.75rem 0 0;
+      color: #d4d8e1;
+      font-size: clamp(1.05rem, 2vw, 1.3rem);
+      line-height: 1.55;
+    }
+
+    .hero-actions,
+    .proof-actions,
+    .activation-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .hero-actions {
+      margin-top: 2rem;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 2.75rem;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      padding: 0.72rem 1rem;
+      border: 1px solid var(--line-light);
+      text-decoration: none;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .button::after {
+      content: "↗";
+      font-family: var(--font-mono);
+    }
+
+    .button.local::after {
+      content: "→";
+    }
+
+    .button.primary {
+      border-color: var(--citrus);
+      background: var(--citrus);
+      color: var(--ink);
+    }
+
+    .button.secondary {
+      background: transparent;
+      color: var(--white);
+    }
+
+    .button:hover {
+      border-color: var(--white);
+    }
+
+    .button.primary:hover {
+      border-color: var(--white);
+      background: var(--white);
+    }
+
+    .review-note {
+      min-width: 0;
+      border: 1px solid var(--cobalt);
+      border-radius: var(--radius);
+      background: rgba(28, 33, 44, 0.92);
+      padding: 1.25rem;
+    }
+
+    .review-state {
+      display: inline-flex;
+      min-height: 2.1rem;
+      align-items: center;
+      gap: 0.55rem;
+      color: var(--green);
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 800;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .review-state::before {
+      width: 0.65rem;
+      height: 0.65rem;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 0.25rem rgba(121, 233, 150, 0.12);
+      content: "";
+    }
+
+    .review-note p {
+      margin: 0.8rem 0 0;
+      color: var(--muted);
+    }
+
+    .review-note strong {
+      color: var(--white);
+    }
+
+    .metric-strip {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 2rem;
+      border: 1px solid var(--line);
+      background: var(--ink-soft);
+    }
+
+    .metric-strip div {
+      min-width: 0;
+      padding: 1rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .metric-strip div:nth-child(odd) {
+      border-right: 1px solid var(--line);
+    }
+
+    .metric-strip div:nth-last-child(-n + 2) {
+      border-bottom: 0;
+    }
+
+    .metric-strip strong,
+    .proof-stats dd {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: clamp(1.25rem, 4vw, 1.7rem);
+      line-height: 1.1;
+    }
+
+    .metric-strip span {
+      display: block;
+      margin-top: 0.4rem;
+      color: var(--muted);
+      font-size: 0.875rem;
+      line-height: 1.35;
+    }
+
+    .section {
+      padding-block: clamp(4rem, 9vw, 7rem);
+    }
+
+    .section + .section {
+      border-top: 1px solid var(--line);
+    }
+
+    .section-heading {
+      display: grid;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-heading h2 {
+      max-width: 16ch;
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(2.25rem, 7vw, 4.7rem);
+      font-weight: 500;
+      letter-spacing: -0.05em;
+      line-height: 1;
+    }
+
+    .section-heading p {
+      max-width: 62ch;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .chain {
+      display: grid;
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid var(--line-light);
+      list-style: none;
+      counter-reset: evidence-step;
+    }
+
+    .chain li {
+      position: relative;
+      min-width: 0;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--line-light);
+      counter-increment: evidence-step;
+    }
+
+    .chain li::before {
+      display: block;
+      margin-bottom: 1.2rem;
+      color: var(--citrus);
+      content: "0" counter(evidence-step);
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 800;
+    }
+
+    .chain h3 {
+      margin: 0;
+      font-size: 1.15rem;
+      line-height: 1.2;
+    }
+
+    .chain p {
+      max-width: 30rem;
+      margin: 0.6rem 0 0;
+      color: var(--muted);
+    }
+
+    .chain-code {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.35rem 0.55rem;
+      border: 1px solid var(--line);
+      color: var(--cobalt);
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+    }
+
+    .proof-list {
+      display: grid;
+      gap: 4rem;
+    }
+
+    .proof {
+      display: grid;
+      min-width: 0;
+      gap: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--line-light);
+    }
+
+    .proof-visual {
+      position: relative;
+      min-width: 0;
+      margin: 0;
+      padding: 0.75rem;
+      border: 1px solid var(--line);
+      background: var(--ink-soft);
+    }
+
+    .proof-visual::before {
+      position: absolute;
+      z-index: 2;
+      top: 1.3rem;
+      left: 1.3rem;
+      padding: 0.45rem 0.6rem;
+      border: 1px solid var(--green);
+      background: var(--ink);
+      color: var(--green);
+      content: "REVIEWED LIVE";
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+    }
+
+    .proof-shot {
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--ink);
+    }
+
+    .proof-shot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    .proof-visual figcaption {
+      padding: 0.9rem 0.15rem 0.1rem;
+      color: var(--muted);
+      font-size: 0.875rem;
+    }
+
+    .proof-copy {
+      min-width: 0;
+    }
+
+    .proof-kicker {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      color: var(--cobalt);
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 800;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .proof-verdict {
+      display: inline-flex;
+      min-height: 2rem;
+      align-items: center;
+      padding: 0.35rem 0.65rem;
+      border-radius: 0.5rem;
+      font-family: var(--font-semi, var(--font-mono));
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .proof-verdict.pass {
+      background: rgba(121, 233, 150, 0.18);
+      color: #1f552d;
+    }
+
+    .proof-verdict.blocked {
+      background: #f7d3ca;
+      color: #7e291f;
+    }
+
+    .proof h3 {
+      max-width: 15ch;
+      margin: 1.1rem 0 0;
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 3.6rem);
+      font-weight: 500;
+      letter-spacing: -0.045em;
+      line-height: 1.02;
+    }
+
+    .proof-summary {
+      max-width: 56ch;
+      margin: 1.25rem 0 0;
+      color: #d4d8e1;
+      font-size: 1.05rem;
+    }
+
+    .proof-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin: 1.6rem 0 0;
+      border-block: 1px solid var(--line);
+    }
+
+    .proof-stats div {
+      min-width: 0;
+      padding: 1rem 0.5rem 1rem 0;
+    }
+
+    .proof-stats dt {
+      color: var(--muted);
+      font-size: 0.875rem;
+      line-height: 1.3;
+    }
+
+    .proof-stats dd {
+      margin: 0.45rem 0 0;
+      color: var(--white);
+    }
+
+    .proof-stats div:last-child dd {
+      color: var(--green);
+    }
+
+    .proof.has-issues .proof-stats div:last-child dd {
+      color: #9f3529;
+    }
+
+    .scope-note {
+      margin: 1.5rem 0 0;
+      padding: 1rem 0 1rem 1rem;
+      border-left: 3px solid var(--citrus);
+      color: var(--muted);
+    }
+
+    .scope-note strong {
+      color: var(--white);
+    }
+
+    .proof-actions {
+      margin-top: 1.6rem;
+    }
+
+    .limits {
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    .limits .eyebrow {
+      color: #4d5d00;
+    }
+
+    .limits-grid {
+      display: grid;
+      gap: 2rem;
+    }
+
+    .limits h2 {
+      max-width: 15ch;
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 8vw, 5rem);
+      font-weight: 500;
+      letter-spacing: -0.055em;
+      line-height: 0.98;
+    }
+
+    .limits-copy {
+      max-width: 65ch;
+    }
+
+    .limits-copy p {
+      margin: 0;
+      font-size: 1.05rem;
+    }
+
+    .limits-copy p + p {
+      margin-top: 1rem;
+    }
+
+    .exclusion-list {
+      display: grid;
+      gap: 0;
+      margin: 2rem 0 0;
+      padding: 0;
+      border-top: 1px solid #91866e;
+      list-style: none;
+    }
+
+    .exclusion-list li {
+      padding: 0.9rem 0;
+      border-bottom: 1px solid #91866e;
+      font-weight: 700;
+    }
+
+    .activation {
+      background: var(--ink-soft);
+    }
+
+    .activation-grid {
+      display: grid;
+      gap: 2rem;
+    }
+
+    .activation h2 {
+      max-width: 13ch;
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 8vw, 5rem);
+      font-weight: 500;
+      letter-spacing: -0.055em;
+      line-height: 1;
+    }
+
+    .activation-copy {
+      max-width: 65ch;
+    }
+
+    .activation-copy > p {
+      margin: 0 0 1.5rem;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .activation-links .button {
+      flex: 1 1 14rem;
+    }
+
+    .pricing-note {
+      margin-top: 1.25rem;
+      color: var(--muted);
+      font-size: 0.875rem;
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-block: 2rem;
+    }
+
+    .footer-inner p {
+      max-width: 60ch;
+      margin: 0;
+    }
+
+    .footer-inner a {
+      display: inline-flex;
+      min-height: 2.75rem;
+      align-items: center;
+      color: var(--white);
+      font-weight: 700;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .button,
+      .site-nav a,
+      .proof-shot img {
+        transition: 180ms ease;
+        transition-property: background-color, border-color, color, transform;
+      }
+
+      .proof-visual:hover .proof-shot img {
+        transform: scale(1.012);
+      }
+    }
+
+    @media (min-width: 48rem) {
+      .page-shell {
+        padding-inline: 2rem;
+      }
+
+      .metric-strip {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .metric-strip div,
+      .metric-strip div:nth-child(odd),
+      .metric-strip div:nth-last-child(-n + 2) {
+        border-right: 1px solid var(--line);
+        border-bottom: 0;
+      }
+
+      .metric-strip div:last-child {
+        border-right: 0;
+      }
+
+      .section-heading {
+        grid-template-columns: minmax(0, 0.85fr) minmax(18rem, 0.65fr);
+        align-items: end;
+      }
+
+      .chain {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .chain li {
+        padding: 1.5rem;
+        border-right: 1px solid var(--line-light);
+      }
+
+      .chain li:nth-child(even) {
+        border-right: 0;
+      }
+
+      .proof-shot {
+        aspect-ratio: 1 / 1;
+      }
+
+      .limits-grid,
+      .activation-grid {
+        grid-template-columns: minmax(0, 0.8fr) minmax(20rem, 1fr);
+        align-items: start;
+      }
+    }
+
+    @media (min-width: 64rem) {
+      .page-shell {
+        padding-inline: 2.5rem;
+      }
+
+      .hero-grid {
+        grid-template-columns: minmax(0, 1.55fr) minmax(18rem, 0.55fr);
+      }
+
+      .metric-strip {
+        grid-column: 1 / -1;
+      }
+
+      .chain {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .chain li,
+      .chain li:nth-child(even) {
+        border-right: 1px solid var(--line-light);
+      }
+
+      .chain li:last-child {
+        border-right: 0;
+      }
+
+      .proof {
+        grid-template-columns: minmax(0, 1.2fr) minmax(22rem, 0.8fr);
+        gap: clamp(2rem, 6vw, 5rem);
+        align-items: center;
+      }
+
+      .proof:nth-child(even) .proof-visual {
+        order: 2;
+      }
+
+      .proof:nth-child(even) .proof-copy {
+        order: 1;
+      }
+    }
+
+    /* Website-v3 company theme, copied from the frozen homepage-vnext source. */
+    :root {
+      color-scheme: light;
+      --ink: hsla(0, 13%, 9%, 1);
+      --ink-soft: hsla(24, 15%, 13%, 1);
+      --ink-raised: hsla(0, 4%, 19%, 1);
+      --paper: hsla(0, 0%, 100%, 1);
+      --paper-deep: hsla(30, 20%, 92%, 1);
+      --white: hsla(0, 0%, 100%, 1);
+      --muted: hsla(30, 16%, 35%, 1);
+      --line: hsla(30, 14%, 72%, .72);
+      --line-light: hsla(30, 14%, 72%, 1);
+      --citrus: hsla(43, 82%, 67%, 1);
+      --cobalt: hsla(317, 50%, 74%, 1);
+      --green: hsla(129, 32%, 57%, 1);
+      --font-display: "ABC Monument Grotesk", ui-sans-serif, sans-serif;
+      --font-body: "ABC Monument Grotesk", ui-sans-serif, sans-serif;
+      --font-mono: "ABC Monument Grotesk Mono", ui-monospace, monospace;
+      --font-semi: "ABC Monument Grotesk Semi-Mono", ui-monospace, monospace;
+      --page: 87.5rem;
+      --radius: 1rem;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .site-header {
+      border-bottom-color: var(--line);
+      background: rgba(255, 255, 255, .94);
+      backdrop-filter: blur(1rem);
+    }
+
+    .header-inner { min-height: 5.5rem; }
+
+    .brand { gap: 1rem; }
+
+    .brand-logo {
+      width: 8.25rem;
+      height: auto;
+    }
+
+    .brand-mark { display: none; }
+
+    .brand-detail {
+      padding-left: 1rem;
+      border-left: 1px solid var(--line);
+      color: var(--muted);
+      font-family: var(--font-semi);
+      font-size: .75rem;
+      font-weight: 400;
+      text-transform: uppercase;
+    }
+
+    .site-nav a { color: var(--muted); }
+    .site-nav a:hover { color: var(--ink); }
+
+    .hero {
+      padding-block: clamp(4rem, 10vw, 9rem) clamp(3rem, 8vw, 7rem);
+      border-bottom-color: var(--line);
+      background: var(--paper);
+    }
+
+    .hero::before {
+      display: none;
+    }
+
+    .eyebrow {
+      color: var(--muted);
+      font-family: var(--font-semi);
+      font-weight: 400;
+      letter-spacing: .06em;
+    }
+
+    h1 {
+      max-width: 12ch;
+      font-weight: 440;
+      letter-spacing: -.055em;
+      line-height: .92;
+    }
+
+    .hero-lede,
+    .proof-summary {
+      color: var(--muted);
+    }
+
+    .button {
+      min-height: 2.75rem;
+      border-radius: .5rem;
+      border-color: var(--ink);
+      font-family: var(--font-semi);
+      font-size: .75rem;
+      font-weight: 400;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .button.primary,
+    .button.secondary {
+      border-color: var(--ink);
+      background: var(--ink);
+      color: var(--white);
+    }
+
+    .button.primary:hover,
+    .button.secondary:hover {
+      border-color: var(--ink-raised);
+      background: var(--ink-raised);
+      color: var(--white);
+      opacity: .78;
+    }
+
+    .review-note {
+      border: 0;
+      border-radius: 1rem;
+      background: var(--paper-deep);
+      padding: 1.5rem;
+    }
+
+    .review-state {
+      color: hsla(131, 20%, 21%, 1);
+      font-family: var(--font-semi);
+      font-size: .75rem;
+      font-weight: 400;
+    }
+
+    .review-note p { color: var(--muted); }
+    .review-note strong { color: var(--ink); }
+
+    .metric-strip {
+      overflow: hidden;
+      border: 0;
+      border-radius: 2rem;
+      background: var(--ink-soft);
+      color: var(--white);
+    }
+
+    .metric-strip div,
+    .metric-strip div:nth-child(odd),
+    .metric-strip div:nth-last-child(-n + 2) {
+      padding: 1.5rem;
+      border-color: hsla(30, 14%, 72%, .22);
+    }
+
+    .metric-strip strong { font-weight: 400; }
+    .metric-strip span { color: hsla(30, 14%, 72%, 1); }
+
+    .section + .section { border-top-color: var(--line); }
+
+    .section-heading h2,
+    .proof h3,
+    .limits h2,
+    .activation h2 {
+      font-weight: 440;
+    }
+
+    .section-heading p,
+    .chain p,
+    .scope-note,
+    .proof-visual figcaption,
+    .pricing-note,
+    .site-footer,
+    .activation-copy > p {
+      color: var(--muted);
+    }
+
+    .chain { border-top-color: var(--line); }
+    .chain li { border-color: var(--line); }
+    .chain li::before {
+      color: var(--muted);
+      font-family: var(--font-semi);
+      font-weight: 400;
+    }
+    .chain-code {
+      border-color: var(--line);
+      border-radius: .5rem;
+      color: var(--ink);
+      background: var(--paper-deep);
+    }
+
+    .proof-list { gap: 1.5rem; }
+
+    .proof {
+      gap: clamp(2rem, 6vw, 5rem);
+      padding: clamp(1rem, 3vw, 2.5rem);
+      border: 0;
+      border-radius: 2rem;
+      background: var(--paper-deep);
+    }
+
+    .proof-visual {
+      border: 0;
+      border-radius: 1rem;
+      background: var(--white);
+      padding: .75rem;
+    }
+
+    .proof-visual::before {
+      border: 0;
+      border-radius: .5rem;
+      background: var(--ink);
+      color: var(--white);
+      font-family: var(--font-semi);
+      font-weight: 400;
+    }
+
+    .proof-shot { border-color: var(--line); background: var(--white); }
+
+    .proof-kicker {
+      color: var(--muted);
+      font-family: var(--font-semi);
+      font-weight: 400;
+    }
+
+    .proof-verdict { font-weight: 400; }
+
+    .proof-stats { border-color: var(--line); }
+    .proof-stats dt { color: var(--muted); }
+    .proof-stats dd { color: var(--ink); font-weight: 400; }
+    .proof-stats div:last-child dd { color: hsla(131, 20%, 21%, 1); }
+
+    .scope-note { border-left-color: var(--ink); }
+    .scope-note strong { color: var(--ink); }
+
+    .limits {
+      background: var(--ink-soft);
+      color: var(--white);
+    }
+
+    .limits .eyebrow { color: var(--line-light); }
+    .limits-copy { color: var(--white); }
+    .exclusion-list { border-top-color: hsla(30, 14%, 72%, .4); }
+    .exclusion-list li { border-bottom-color: hsla(30, 14%, 72%, .4); }
+
+    .activation { background: var(--paper); }
+    .activation-links .button { background: var(--ink); color: var(--white); }
+
+    .site-footer { border-top-color: var(--line); }
+    .footer-inner a { color: var(--ink); }
+
+    @media (min-width: 48rem) {
+      .metric-strip div,
+      .metric-strip div:nth-child(odd),
+      .metric-strip div:nth-last-child(-n + 2) {
+        border-color: hsla(30, 14%, 72%, .22);
+      }
+    }
+
+    @media (max-width: 47.99rem) {
+      .brand {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: .65rem;
+      }
+      .brand-logo { width: 7.5rem; }
+      .brand-detail {
+        min-height: 2.75rem;
+        display: flex;
+        align-items: center;
+        padding: 0;
+        border-left: 0;
+      }
+      .proof { border-radius: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to evidence</a>
+
+  <header class="site-header">
+    <div class="page-shell header-inner">
+      <a class="brand" href="#top" aria-label="Nutrient Data Extraction lighthouse home">
+        <img class="brand-logo" src="assets/nutrient-logo.svg" alt="Nutrient">
+        <span class="brand-detail">Data Extraction proof</span>
+      </a>
+      <nav class="site-nav" aria-label="Lighthouse sections">
+        <ul>
+          <li><a href="#evidence">Evidence chain</a></li>
+          <li><a href="#proofs">Three proofs</a></li>
+          <li><a href="#limits">Boundaries</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="page-shell hero-grid">
+        <div>
+          <p class="eyebrow">Three verticals · reviewed live evidence</p>
+          <h1 id="hero-title">Follow every value back to the page.</h1>
+          <p class="hero-lede">
+            On three selected one-page authentic public forms populated with privacy-safe
+            demo values, one live Nutrient Data Extraction API response per form exactly
+            matched 26 of 30 predeclared fields: mortgage 6/8, insurance 11/11, and
+            healthcare 9/11. All 30 returned fields included valid page-bounded primary
+            source regions, and four mismatches were retained for review.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary local" href="#proofs">Inspect the three proofs</a>
+            <a class="button secondary local" href="#evidence">See the evidence chain</a>
+          </div>
+        </div>
+
+        <aside class="review-note" aria-label="Review and pricing boundary">
+          <span class="review-state">Recorded evidence review</span>
+          <p>
+            <strong>An independent field-by-field evidence audit is recorded.</strong>
+            “Reviewed” describes that audit. It is not user approval, publication approval,
+            government endorsement, or permission to publish.
+          </p>
+          <p>
+            Pricing and credit usage can change. Check the current official pricing page
+            before making a live request.
+          </p>
+        </aside>
+
+        <div class="metric-strip" aria-label="Pilot evidence summary">
+          <div><strong>3</strong><span>selected authentic public forms</span></div>
+          <div><strong>26/30</strong><span>predeclared fields matched exactly</span></div>
+          <div><strong>30/30</strong><span>primary regions returned and page-bounded</span></div>
+          <div><strong>4</strong><span>retained comparison issues</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="evidence" aria-labelledby="evidence-title">
+      <div class="page-shell">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">The differentiator</p>
+            <h2 id="evidence-title">The proof is the chain.</h2>
+          </div>
+          <p>
+            A plausible value is not enough. Each package keeps the document, extracted
+            JSON value, source location, and independent oracle result connected so a
+            developer can inspect where the answer came from.
+          </p>
+        </div>
+
+        <ol class="chain">
+          <li>
+            <h3>Document</h3>
+            <p>A selected authentic public form carries only privacy-safe demo values.</p>
+            <span class="chain-code">PDF · page 1</span>
+          </li>
+          <li>
+            <h3>JSON value</h3>
+            <p>The schema requests a typed field and the live response returns its value.</p>
+            <span class="chain-code">$.field → value</span>
+          </li>
+          <li>
+            <h3>Primary source region</h3>
+            <p>The response returns a page index and primary box that a reviewer can inspect.</p>
+            <span class="chain-code">pageIndex + bbox</span>
+          </li>
+          <li>
+            <h3>Oracle status</h3>
+            <p>A predeclared expected value decides whether the field is exact or retained for review.</p>
+            <span class="chain-code">JSON-value match</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" id="proofs" aria-labelledby="proofs-title">
+      <div class="page-shell">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Reviewed proof pages</p>
+            <h2 id="proofs-title">Three documents. Three concrete stories.</h2>
+          </div>
+          <p>
+            Every proof opens locally and displays one receipt-bound live response beside
+            its selected authentic public form and predeclared expected values.
+          </p>
+        </div>
+
+        <div class="proof-list">
+          <article class="proof has-issues" id="mortgage">
+            <figure class="proof-visual">
+              <div class="proof-shot">
+                <picture>
+                  <source
+                    media="(max-width: 47.99rem)"
+                    srcset="../screenshots/lighthouse-mortgage-mobile.png"
+                  >
+                  <img
+                    src="../screenshots/lighthouse-mortgage-desktop.png"
+                    width="1440"
+                    height="1429"
+                    loading="eager"
+                    alt="Reviewed mortgage extraction proof showing an authentic public RMA form beside eight compared fields and two retained issues"
+                  >
+                </picture>
+              </div>
+              <figcaption>Current reviewed proof · Treasury RMA form · privacy-safe demo values</figcaption>
+            </figure>
+            <div class="proof-copy">
+              <div class="proof-kicker"><span>01 / Mortgage</span><span class="proof-verdict blocked">Review blocked</span></div>
+              <h3>Two punctuation mismatches, preserved for review.</h3>
+              <p class="proof-summary">
+                Six of eight values matched exactly. The borrower-name region exposes one
+                omitted period; the servicer primary and nested regions clip the decisive
+                final period, so the expected-versus-actual ledger carries that evidence.
+              </p>
+              <dl class="proof-stats">
+                <div><dt>Exact values</dt><dd>6/8</dd></div>
+                <div><dt>Primary regions returned</dt><dd>8/8</dd></div>
+                <div><dt>Retained issues</dt><dd>2</dd></div>
+              </dl>
+              <p class="scope-note">
+                <strong>Scope:</strong> verification evidence only—not KYC, underwriting,
+                a lending decision, compliance, or production accuracy.
+              </p>
+              <div class="proof-actions">
+                <a
+                  class="button primary local"
+                  href="assets/mortgage-verification-reviewed.html?utm_campaign=de_lighthouse_pilot_v1&amp;utm_source=nutrient_owned&amp;utm_medium=owned&amp;utm_content=mortgage_verification.owned_hub.v01.proof"
+                >Open reviewed proof</a>
+                <a
+                  class="button secondary"
+                  href="https://github.com/PSPDFKit/nutrient-extraction-samples/tree/main/demos/mortgage_verification?utm_campaign=de_lighthouse_pilot_v1&amp;utm_source=nutrient_owned&amp;utm_medium=owned&amp;utm_content=mortgage_verification.owned_hub.v01.github"
+                  rel="noopener noreferrer"
+                >Browse GitHub sample</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="proof" id="insurance">
+            <figure class="proof-visual">
+              <div class="proof-shot">
+                <picture>
+                  <source
+                    media="(max-width: 47.99rem)"
+                    srcset="../screenshots/lighthouse-insurance-mobile.png"
+                  >
+                  <img
+                    src="../screenshots/lighthouse-insurance-desktop.png"
+                    width="1440"
+                    height="1429"
+                    loading="eager"
+                    alt="Reviewed insurance extraction proof showing an authentic public GSA crash report beside eleven exact fields"
+                  >
+                </picture>
+              </div>
+              <figcaption>Current reviewed proof · GSA Standard Form 91 · privacy-safe demo values</figcaption>
+            </figure>
+            <div class="proof-copy">
+              <div class="proof-kicker"><span>02 / Insurance</span><span class="proof-verdict pass">11/11 exact → Continue</span></div>
+              <h3>Eleven exact fields on one government crash form.</h3>
+              <p class="proof-summary">
+                The live response matched every predeclared value and returned a valid,
+                page-bounded primary source region for each field on this selected form.
+              </p>
+              <dl class="proof-stats">
+                <div><dt>Exact values</dt><dd>11/11</dd></div>
+                <div><dt>Primary regions returned</dt><dd>11/11</dd></div>
+                <div><dt>Retained issues</dt><dd>0</dd></div>
+              </dl>
+              <p class="scope-note">
+                <strong>Scope:</strong> document intake only—not coverage, liability,
+                fraud, eligibility, payment, adjudication, compliance, or production accuracy.
+              </p>
+              <div class="proof-actions">
+                <a
+                  class="button primary local"
+                  href="assets/insurance-claim-intake-reviewed.html?utm_campaign=de_lighthouse_pilot_v1&amp;utm_source=nutrient_owned&amp;utm_medium=owned&amp;utm_content=insurance_claim_intake.owned_hub.v01.proof"
+                >Open reviewed proof</a>
+                <a
+                  class="button secondary"
+                  href="https://github.com/PSPDFKit/nutrient-extraction-samples/tree/main/demos/insurance_claim_intake?utm_campaign=de_lighthouse_pilot_v1&amp;utm_source=nutrient_owned&amp;utm_medium=owned&amp;utm_content=insurance_claim_intake.owned_hub.v01.github"
+                  rel="noopener noreferrer"
+                >Browse GitHub sample</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="proof has-issues" id="healthcare">
+            <figure class="proof-visual">
+              <div class="proof-shot">
+                <picture>
+                  <source
+                    media="(max-width: 47.99rem)"
+                    srcset="../screenshots/lighthouse-healthcare-mobile.png"
+                  >
+                  <img
+                    src="../screenshots/lighthouse-healthcare-desktop.png"
+                    width="1440"
+                    height="1429"
+                    loading="eager"
+                    alt="Reviewed prior-authorization proof showing an authentic public CMS form beside eleven compared fields and two retained issues"
+                  >
+                </picture>
+              </div>
+              <figcaption>Current reviewed proof · CMS GLP-1 Bridge form · privacy-safe demo values</figcaption>
+            </figure>
+            <div class="proof-copy">
+              <div class="proof-kicker"><span>03 / Healthcare</span><span class="proof-verdict blocked">Review blocked</span></div>
+              <h3>A checked box—and the wrong extracted answer.</h3>
+              <p class="proof-summary">
+                Nine of eleven values matched exactly. The ledger retains a wrong
+                acknowledgement answer and a duplicated requested-drug value beside their
+                returned primary regions.
+              </p>
+              <dl class="proof-stats">
+                <div><dt>Exact values</dt><dd>9/11</dd></div>
+                <div><dt>Primary regions returned</dt><dd>11/11</dd></div>
+                <div><dt>Retained issues</dt><dd>2</dd></div>
+              </dl>
+              <p class="scope-note">
+                <strong>Scope:</strong> intake and source review only—not clinical
+                correctness, medical necessity, coverage, eligibility, approval,
+                compliance, or production accuracy.
+              </p>
+              <div class="proof-actions">
+                <a
+                  class="button primary local"
+                  href="assets/prior-authorization-reviewed.html?utm_campaign=de_lighthouse_pilot_v1&amp;utm_source=nutrient_owned&amp;utm_medium=owned&amp;utm_content=prior_authorization.owned_hub.v01.proof"
+                >Open reviewed proof</a>
+                <a
+                  class="button secondary"
+                  href="https://github.com/PSPDFKit/nutrient-extraction-samples/tree/main/demos/prior_authorization?utm_campaign=de_lighthouse_pilot_v1&amp;utm_source=nutrient_owned&amp;utm_medium=owned&amp;utm_content=prior_authorization.owned_hub.v01.github"
+                  rel="noopener noreferrer"
+                >Browse GitHub sample</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section limits" id="limits" aria-labelledby="limits-title">
+      <div class="page-shell limits-grid">
+        <div>
+          <p class="eyebrow">Claim boundary</p>
+          <h2 id="limits-title">Evidence this narrow stays useful.</h2>
+        </div>
+        <div class="limits-copy">
+          <p>
+            These pages demonstrate one extraction chain across three selected one-page
+            authentic public forms populated with privacy-safe demo values. One live
+            response was recorded per form. This is a demonstration, not an accuracy,
+            production, or performance benchmark.
+          </p>
+          <p>
+            Three of the four mismatches are exposed by returned metadata. The fourth stays
+            visible in the expected-versus-actual ledger and beside the returned region on
+            the full proof page. For mortgage servicer name, the primary and nested regions
+            clip the decisive final period. Grounding makes mistakes reviewable. It does
+            not make them correct.
+          </p>
+          <p>
+            <strong>WORKFLOW SCHEMATIC · CONCEPT:</strong>
+            Extract → Source evidence → Decision gate. This is a discussion model for
+            future review, approval, exception, audit, or access controls—not shipped
+            product UI or proof of a complete governed-review workflow.
+          </p>
+          <ul class="exclusion-list" aria-label="Explicit exclusions">
+            <li>No accuracy, production, or performance benchmark claim</li>
+            <li>No compliance, security, or regulatory certification claim</li>
+            <li>No KYC, underwriting, lending, coverage, liability, fraud, or adjudication decision</li>
+            <li>No clinical correctness, medical necessity, eligibility, or healthcare approval</li>
+            <li>No account-balance reconciliation, personal user approval, or publication approval</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section activation" aria-labelledby="activation-title">
+      <div class="page-shell activation-grid">
+        <div>
+          <p class="eyebrow">Run your own document</p>
+          <h2 id="activation-title">Move from proof to first request.</h2>
+        </div>
+        <div class="activation-copy">
+          <p>
+            Start in the official guide or Studio, review current pricing, and get the
+            separate Data Extraction API key before making an authenticated request.
+          </p>
+          <div class="activation-links">
+            <a
+              class="button secondary"
+              href="https://www.nutrient.io/guides/dws-data-extraction/getting-started/?utm_campaign=de_lighthouse_pilot_v1&amp;utm_source=nutrient_owned&amp;utm_medium=owned&amp;utm_content=cross_vertical.owned_hub.v01.docs"
+              rel="noopener noreferrer"
+            >Read the guide</a>
+            <a
+              class="button secondary"
+              href="https://dashboard.nutrient.io/data-extraction-api/studio/extract?utm_campaign=de_lighthouse_pilot_v1&amp;utm_source=nutrient_owned&amp;utm_medium=owned&amp;utm_content=cross_vertical.owned_hub.v01.studio"
+              rel="noopener noreferrer"
+            >Open Nutrient Studio</a>
+            <a
+              class="button secondary"
+              href="https://www.nutrient.io/api/pricing/data-extraction-api/?utm_campaign=de_lighthouse_pilot_v1&amp;utm_source=nutrient_owned&amp;utm_medium=owned&amp;utm_content=cross_vertical.owned_hub.v01.docs"
+              rel="noopener noreferrer"
+            >Review current pricing</a>
+            <a
+              class="button primary"
+              href="https://www.nutrient.io/api/data-extraction-api/?utm_campaign=de_lighthouse_pilot_v1&amp;utm_source=nutrient_owned&amp;utm_medium=owned&amp;utm_content=cross_vertical.owned_hub.v01.signup"
+              rel="noopener noreferrer"
+            >Get an API key</a>
+          </div>
+          <p class="pricing-note">
+            Pricing and credit usage can change. Check the current official pricing page
+            before making a live request.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="page-shell footer-inner">
+      <p>
+        Selected authentic public forms with privacy-safe demo values. Reviewed means the
+        evidence audit was recorded; it does not approve publication or production use.
+      </p>
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </footer>
+</body>
+</html>

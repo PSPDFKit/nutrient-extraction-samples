@@ -1,0 +1,106 @@
+[
+  {
+    "id": "insurance_claim_intake",
+    "name": "GSA SF 91 Motor Vehicle Accident Report",
+    "file": "data/insurance-claim-intake.pdf",
+    "mode": "agentic",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "crash": {
+          "type": "object",
+          "description": "Crash details printed on the GSA Standard Form 91.",
+          "properties": {
+            "date": {
+              "type": "string",
+              "description": "The crash date exactly as printed in field 3, DATE OF CRASH."
+            }
+          },
+          "required": [
+            "date"
+          ]
+        },
+        "federal_vehicle": {
+          "type": "object",
+          "description": "Federal vehicle details printed in Section I of the GSA Standard Form 91.",
+          "properties": {
+            "driver_name": {
+              "type": "string",
+              "description": "The federal vehicle driver's name exactly as printed in field 1."
+            },
+            "tag_id": {
+              "type": "string",
+              "description": "The federal vehicle tag or identification number exactly as printed in field 5."
+            },
+            "estimated_repair_cost": {
+              "type": "string",
+              "description": "The federal vehicle estimated repair cost exactly as printed in field 6, preserving the decimal form as a string."
+            },
+            "year": {
+              "type": "string",
+              "description": "The federal vehicle model year exactly as printed in field 7."
+            },
+            "make": {
+              "type": "string",
+              "description": "The federal vehicle make exactly as printed in field 8."
+            },
+            "model": {
+              "type": "string",
+              "description": "The federal vehicle model exactly as printed in field 9."
+            },
+            "damage": {
+              "type": "string",
+              "description": "The federal vehicle damage description exactly as printed in field 11."
+            }
+          },
+          "required": [
+            "driver_name",
+            "tag_id",
+            "estimated_repair_cost",
+            "year",
+            "make",
+            "model",
+            "damage"
+          ]
+        },
+        "other_vehicle": {
+          "type": "object",
+          "description": "Other vehicle details printed in Section II of the GSA Standard Form 91.",
+          "properties": {
+            "driver_name": {
+              "type": "string",
+              "description": "The other vehicle driver's name exactly as printed in field 12."
+            },
+            "insurance": {
+              "type": "object",
+              "description": "The other vehicle driver's insurer details printed in field 23.",
+              "properties": {
+                "company": {
+                  "type": "string",
+                  "description": "The insurance company name exactly as printed in field 23a."
+                },
+                "policy_number": {
+                  "type": "string",
+                  "description": "The insurance policy number exactly as printed in field 23b."
+                }
+              },
+              "required": [
+                "company",
+                "policy_number"
+              ]
+            }
+          },
+          "required": [
+            "driver_name",
+            "insurance"
+          ]
+        }
+      },
+      "required": [
+        "crash",
+        "federal_vehicle",
+        "other_vehicle"
+      ]
+    }
+  }
+]

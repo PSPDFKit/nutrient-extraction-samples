@@ -1,0 +1,116 @@
+{
+  "response": {
+    "output": {
+      "data": {
+        "borrower": {
+          "full_name": "Patricia N. Alvarez",
+          "home_phone": "(555) 201-4477",
+          "mailing_address": "3390 Maple Grove Lane, Denver, CO 80219"
+        },
+        "hardship": {
+          "summary": "Reduced work hours led to a decrease in household income, making it difficult to keep up with the mortgage payment."
+        },
+        "loan_id": "0012345678",
+        "property": {
+          "intent": "Keep the Property",
+          "occupancy": "Primary Residence"
+        },
+        "servicer": {
+          "name": "Meridian Loan Servicing, Inc."
+        }
+      },
+      "metadata": {
+        "borrower": {
+          "full_name": {
+            "bbox": {
+              "height": 16.0,
+              "width": 76.0,
+              "x": 75.0,
+              "y": 149.0
+            },
+            "pageIndex": 0
+          },
+          "home_phone": {
+            "bbox": {
+              "height": 14.0,
+              "width": 70.0,
+              "x": 75.0,
+              "y": 194.0
+            },
+            "pageIndex": 0
+          },
+          "mailing_address": {
+            "bbox": {
+              "height": 15.0,
+              "width": 159.0,
+              "x": 74.0,
+              "y": 289.0
+            },
+            "pageIndex": 0
+          }
+        },
+        "hardship": {
+          "summary": {
+            "bbox": {
+              "height": 37.0,
+              "width": 477.0,
+              "x": 74.0,
+              "y": 674.0
+            },
+            "pageIndex": 0
+          }
+        },
+        "loan_id": {
+          "bbox": {
+            "height": 15.0,
+            "width": 53.0,
+            "x": 139.0,
+            "y": 109.0
+          },
+          "pageIndex": 0
+        },
+        "property": {
+          "intent": {
+            "bbox": {
+              "height": 14.0,
+              "width": 81.0,
+              "x": 169.0,
+              "y": 236.0
+            },
+            "pageIndex": 0
+          },
+          "occupancy": {
+            "bbox": {
+              "height": 14.0,
+              "width": 81.0,
+              "x": 169.0,
+              "y": 250.0
+            },
+            "pageIndex": 0
+          }
+        },
+        "servicer": {
+          "name": {
+            "bbox": {
+              "height": 15.0,
+              "width": 107.0,
+              "x": 358.0,
+              "y": 109.0
+            },
+            "pageIndex": 0
+          }
+        }
+      },
+      "pages": [
+        {
+          "height": 792.0,
+          "width": 612.0
+        }
+      ]
+    },
+    "reconstructed": false,
+    "requestId": "provisional-layout-mortgage_verification-b1fac06a48fe",
+    "status": 200
+  },
+  "sourceStatus": "provisional-layout"
+}

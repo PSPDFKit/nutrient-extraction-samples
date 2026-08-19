@@ -1,0 +1,84 @@
+[
+  {
+    "id": "prior_authorization",
+    "name": "CMS GLP-1 Bridge Prior Authorization Request Form",
+    "file": "data/prior-authorization.pdf",
+    "mode": "agentic",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "patient": {
+          "type": "object",
+          "description": "Patient details printed in the patient section of the form.",
+          "properties": {
+            "full_name": {
+              "type": "string",
+              "description": "The patient's full name from the field labeled 'Patient name'."
+            },
+            "mbi": {
+              "type": "string",
+              "description": "The Medicare beneficiary MBI exactly as printed, preserving letters, digits, and separators."
+            },
+            "date_of_birth": {
+              "type": "string",
+              "description": "The patient date of birth exactly as printed."
+            },
+            "address": {
+              "type": "string",
+              "description": "The complete patient address exactly as printed in the address field."
+            }
+          },
+          "required": ["full_name", "mbi", "date_of_birth", "address"]
+        },
+        "prescriber": {
+          "type": "object",
+          "description": "Prescriber details printed in the prescriber section of the form.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The prescriber's name and credentials exactly as printed."
+            },
+            "phone": {
+              "type": "string",
+              "description": "The prescriber phone number exactly as printed."
+            },
+            "npi": {
+              "type": "string",
+              "description": "The prescriber NPI exactly as printed, returned as text."
+            }
+          },
+          "required": ["name", "phone", "npi"]
+        },
+        "request": {
+          "type": "object",
+          "description": "The selected drug and the answers marked in questions 1 through 3.",
+          "properties": {
+            "requested_drug": {
+              "type": "string",
+              "description": "The exact requested-drug option marked under 'Requested drug (select one)'."
+            },
+            "part_d_acknowledgement": {
+              "type": "string",
+              "description": "Return 'Acknowledged' when that option is marked in question 1; otherwise return 'Not acknowledged'."
+            },
+            "moderate_to_severe_osa": {
+              "type": "string",
+              "description": "Return the exact marked 'Yes' or 'No' answer to question 2."
+            },
+            "mash_with_fibrosis": {
+              "type": "string",
+              "description": "Return the exact marked 'Yes' or 'No' answer to question 3."
+            }
+          },
+          "required": [
+            "requested_drug",
+            "part_d_acknowledgement",
+            "moderate_to_severe_osa",
+            "mash_with_fibrosis"
+          ]
+        }
+      },
+      "required": ["patient", "prescriber", "request"]
+    }
+  }
+]

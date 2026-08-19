@@ -1,0 +1,29 @@
+{
+  "insured_id_number": "XW1234567",
+  "patient_name": "Thornton, Emily R.",
+  "prior_authorization_number": "PA-0098765",
+  "total_charge": {
+    "amount": 170,
+    "iso_4217_currency_code": "USD"
+  },
+  "service_lines": [
+    {
+      "date_of_service_from": "07 10 26",
+      "procedure_code": "99213",
+      "line_charges": {
+        "amount": 125,
+        "iso_4217_currency_code": "USD"
+      },
+      "rendering_provider_npi": "1234567890"
+    },
+    {
+      "date_of_service_from": "07 10 26",
+      "procedure_code": "87880",
+      "line_charges": {
+        "amount": 45,
+        "iso_4217_currency_code": "USD"
+      },
+      "rendering_provider_npi": "1234567890"
+    }
+  ]
+}

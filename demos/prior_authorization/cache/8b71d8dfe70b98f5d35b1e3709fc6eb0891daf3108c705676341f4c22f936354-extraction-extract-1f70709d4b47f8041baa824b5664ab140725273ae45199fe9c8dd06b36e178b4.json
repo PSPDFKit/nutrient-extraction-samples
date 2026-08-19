@@ -1,0 +1,360 @@
+{
+  "output": {
+    "data": {
+      "ordering_provider": {
+        "facility": "Example Regional Imaging Center",
+        "name": "Priya Raman, MD"
+      },
+      "patient": {
+        "date_of_birth": "04/18/1987",
+        "full_name": "Elena Brooks",
+        "member_id": "DEMO-MBR-771204"
+      },
+      "request_id": "PA-2026-0904",
+      "service": {
+        "description": "MRI lumbar spine without contrast",
+        "diagnosis_code": "M54.16",
+        "procedure_code": "72148",
+        "requested_date": "09/04/2026",
+        "urgency": "Standard"
+      }
+    },
+    "metadata": {
+      "ordering_provider": {
+        "facility": {
+          "bbox": {
+            "height": 36,
+            "width": 508,
+            "x": 152,
+            "y": 1636
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 121.5677490234375,
+                "width": 541.71484375,
+                "x": 143.91555786132812,
+                "y": 1563.8052978515625
+              },
+              "block_id": "c10",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "name": {
+          "bbox": {
+            "height": 33,
+            "width": 258,
+            "x": 908,
+            "y": 1411
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 133.738525390625,
+                "width": 302.8409423828125,
+                "x": 887.1649169921875,
+                "y": 1333.83544921875
+              },
+              "block_id": "c9",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        }
+      },
+      "patient": {
+        "date_of_birth": {
+          "bbox": {
+            "height": 27,
+            "width": 166,
+            "x": 905,
+            "y": 727
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 112.32342529296875,
+                "width": 318.14892578125,
+                "x": 882.349365234375,
+                "y": 656.6233520507812
+              },
+              "block_id": "c3",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "full_name": {
+          "bbox": {
+            "height": 30,
+            "width": 194,
+            "x": 908,
+            "y": 497
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 114.26654052734375,
+                "width": 249.502685546875,
+                "x": 892.5068359375,
+                "y": 434.53619384765625
+              },
+              "block_id": "c1",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "member_id": {
+          "bbox": {
+            "height": 27,
+            "width": 305,
+            "x": 152,
+            "y": 727
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 110.2230224609375,
+                "width": 325.1792907714844,
+                "x": 140.72415161132812,
+                "y": 659.0892333984375
+              },
+              "block_id": "c2",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        }
+      },
+      "request_id": {
+        "bbox": {
+          "height": 27,
+          "width": 213,
+          "x": 152,
+          "y": 499
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 114.07315063476562,
+              "width": 228.39222717285156,
+              "x": 140.7161102294922,
+              "y": 438.6919860839844
+            },
+            "block_id": "c0",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "service": {
+        "description": {
+          "bbox": {
+            "height": 36,
+            "width": 503,
+            "x": 152,
+            "y": 952
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 117.3704833984375,
+                "width": 530.685302734375,
+                "x": 142.96115112304688,
+                "y": 880.19677734375
+              },
+              "block_id": "c4",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "diagnosis_code": {
+          "bbox": {
+            "height": 27,
+            "width": 108,
+            "x": 908,
+            "y": 955
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 108.879150390625,
+                "width": 240.497802734375,
+                "x": 883.07958984375,
+                "y": 880.0494384765625
+              },
+              "block_id": "c5",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "procedure_code": {
+          "bbox": {
+            "height": 27,
+            "width": 91,
+            "x": 150,
+            "y": 1183
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 125.56201171875,
+                "width": 239.44369506835938,
+                "x": 138.72900390625,
+                "y": 1107.876220703125
+              },
+              "block_id": "c6",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "requested_date": {
+          "bbox": {
+            "height": 27,
+            "width": 166,
+            "x": 150,
+            "y": 1411
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 142.850830078125,
+                "width": 329.1785888671875,
+                "x": 140.31956481933594,
+                "y": 1332.922607421875
+              },
+              "block_id": "c8",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "urgency": {
+          "bbox": {
+            "height": 30,
+            "width": 136,
+            "x": 905,
+            "y": 1180
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 149.9942626953125,
+                "width": 169.3035888671875,
+                "x": 892.998291015625,
+                "y": 1104.669189453125
+              },
+              "block_id": "c7",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        }
+      }
+    },
+    "pages": [
+      {
+        "height": 2200,
+        "page": 1,
+        "width": 1700
+      }
+    ]
+  },
+  "reconstructed": false,
+  "requestId": "GMxyKfuz8lVFQGEAG1PB",
+  "status": 200
+}

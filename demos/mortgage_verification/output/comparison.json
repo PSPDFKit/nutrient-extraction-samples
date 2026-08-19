@@ -1,0 +1,25 @@
+{
+  "artifactVersion": 1,
+  "comparison": {
+    "exitCode": 1,
+    "expectedLeaves": 8,
+    "groundedLeaves": 8,
+    "issues": [
+      {
+        "code": "WRONG",
+        "message": "expected 'Patricia N. Alvarez', got 'Patricia N Alvarez'",
+        "path": "$.borrower.full_name"
+      },
+      {
+        "code": "WRONG",
+        "message": "expected 'Meridian Loan Servicing, Inc.', got 'Meridian Loan Servicing, Inc'",
+        "path": "$.servicer.name"
+      }
+    ],
+    "matchedLeaves": 6,
+    "passed": false
+  },
+  "evidenceKind": "live",
+  "evidenceLabel": "REVIEWED LIVE API RESPONSE",
+  "reviewed": true
+}
