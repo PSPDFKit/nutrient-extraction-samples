@@ -1,0 +1,293 @@
+{
+  "output": {
+    "data": {
+      "borrower": {
+        "full_name": "Patricia N Alvarez",
+        "home_phone": "(555) 201-4477",
+        "mailing_address": "3390 Maple Grove Lane, Denver, CO 80219"
+      },
+      "hardship": {
+        "summary": "Reduced work hours led to a decrease in household income, making it difficult to keep up with the mortgage payment."
+      },
+      "loan_id": "0012345678",
+      "property": {
+        "intent": "Keep the Property",
+        "occupancy": "Primary Residence"
+      },
+      "servicer": {
+        "name": "Meridian Loan Servicing, Inc"
+      }
+    },
+    "metadata": {
+      "borrower": {
+        "full_name": {
+          "bbox": {
+            "height": 20,
+            "width": 178,
+            "x": 221,
+            "y": 424
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "recognitionScore": 0.8044138550758362,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 21.946197509765625,
+                "width": 180.84298706054688,
+                "x": 218.82769775390625,
+                "y": 422.6753234863281
+              },
+              "block_id": "b10",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "home_phone": {
+          "bbox": {
+            "height": 21,
+            "width": 148,
+            "x": 221,
+            "y": 547
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "recognitionScore": 0.9559304118156433,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 22.35614013671875,
+                "width": 151.29733276367188,
+                "x": 218.701171875,
+                "y": 546.0486450195312
+              },
+              "block_id": "b14",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "mailing_address": {
+          "bbox": {
+            "height": 19,
+            "width": 424,
+            "x": 215,
+            "y": 814
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "recognitionScore": 0.9402267932891846,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 25.2564697265625,
+                "width": 428.6247253417969,
+                "x": 212.91757202148438,
+                "y": 811.1243896484375
+              },
+              "block_id": "b20",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        }
+      },
+      "hardship": {
+        "summary": {
+          "bbox": {
+            "height": 82.7344970703125,
+            "width": 1095.7192993164062,
+            "x": 206.76531982421875,
+            "y": 1880.2655029296875
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match_multiblock",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "recognitionScore": 0.9451408982276917,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 25.5250244140625,
+                "width": 512.3526000976562,
+                "x": 790.1320190429688,
+                "y": 1880.2655029296875
+              },
+              "block_id": "b50",
+              "pageIndex": 0,
+              "pageNumber": 1
+            },
+            {
+              "bbox": {
+                "height": 27.9561767578125,
+                "width": 647.2346801757812,
+                "x": 206.76531982421875,
+                "y": 1935.0438232421875
+              },
+              "block_id": "b51",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        }
+      },
+      "loan_id": {
+        "bbox": {
+          "height": 19,
+          "width": 121,
+          "x": 397,
+          "y": 313
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "recognitionScore": 0.35208237171173096,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 32,
+              "width": 304.698486328125,
+              "x": 215.2185821533203,
+              "y": 303
+            },
+            "block_id": "b7",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "property": {
+        "intent": {
+          "bbox": {
+            "height": 20,
+            "width": 154,
+            "x": 511,
+            "y": 663
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "recognitionScore": 0.8242091536521912,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 24.36517333984375,
+                "width": 185.878662109375,
+                "x": 479.97625732421875,
+                "y": 658.7664184570312
+              },
+              "block_id": "b52",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "occupancy": {
+          "bbox": {
+            "height": 20,
+            "width": 155,
+            "x": 510,
+            "y": 701
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "recognitionScore": 0.9627319574356079,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 23.46051025390625,
+                "width": 186.79177856445312,
+                "x": 480.2521667480469,
+                "y": 699.1741943359375
+              },
+              "block_id": "b53",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        }
+      },
+      "servicer": {
+        "name": {
+          "bbox": {
+            "height": 19,
+            "width": 270,
+            "x": 1005,
+            "y": 316
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "recognitionScore": 0.8718842267990112,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 23.895355224609375,
+                "width": 355.8447265625,
+                "x": 920.6536865234375,
+                "y": 312.4984436035156
+              },
+              "block_id": "b4",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        }
+      }
+    },
+    "pages": [
+      {
+        "height": 2200,
+        "page": 1,
+        "width": 1700
+      }
+    ]
+  },
+  "reconstructed": false,
+  "requestId": "GM0CoPTBV6-M19QAAlcB",
+  "status": 200
+}

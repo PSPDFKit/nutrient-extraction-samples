@@ -1,0 +1,364 @@
+{
+  "output": {
+    "data": {
+      "crash": {
+        "date": "08/03/2026"
+      },
+      "federal_vehicle": {
+        "damage": "Rear bumper and liftgate dented; vehicle remains drivable.",
+        "driver_name": "Alvarez, Noah",
+        "estimated_repair_cost": "2750.00",
+        "make": "Subaru",
+        "model": "Outback",
+        "tag_id": "GSA-48312",
+        "year": "2023"
+      },
+      "other_vehicle": {
+        "driver_name": "Chen, Maya",
+        "insurance": {
+          "company": "Prairie Mutual Insurance",
+          "policy_number": "PN-84-221907"
+        }
+      }
+    },
+    "metadata": {
+      "crash": {
+        "date": {
+          "bbox": {
+            "height": 19,
+            "width": 111,
+            "x": 1333,
+            "y": 363
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 19.2310791015625,
+                "width": 111.8370361328125,
+                "x": 1333,
+                "y": 362.8481750488281
+              },
+              "block_id": "b42",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        }
+      },
+      "federal_vehicle": {
+        "damage": {
+          "bbox": {
+            "height": 22,
+            "width": 541,
+            "x": 108,
+            "y": 558
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 23.74444580078125,
+                "width": 541.694091796875,
+                "x": 107.30591583251953,
+                "y": 556.2555541992188
+              },
+              "block_id": "b13",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "driver_name": {
+          "bbox": {
+            "height": 22,
+            "width": 147,
+            "x": 108,
+            "y": 363
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 22,
+                "width": 147.87762451171875,
+                "x": 107.18013763427734,
+                "y": 363
+              },
+              "block_id": "b8",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "estimated_repair_cost": {
+          "bbox": {
+            "height": 19,
+            "width": 80,
+            "x": 530,
+            "y": 497
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 19.356658935546875,
+                "width": 1155,
+                "x": 108,
+                "y": 496.6433410644531
+              },
+              "block_id": "b11",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "make": {
+          "bbox": {
+            "height": 19,
+            "width": 75,
+            "x": 988,
+            "y": 497
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 19.356658935546875,
+                "width": 1155,
+                "x": 108,
+                "y": 496.6433410644531
+              },
+              "block_id": "b11",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "model": {
+          "bbox": {
+            "height": 19,
+            "width": 86,
+            "x": 1177,
+            "y": 497
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 19.356658935546875,
+                "width": 1155,
+                "x": 108,
+                "y": 496.6433410644531
+              },
+              "block_id": "b11",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "tag_id": {
+          "bbox": {
+            "height": 19,
+            "width": 116,
+            "x": 108,
+            "y": 497
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 19.356658935546875,
+                "width": 1155,
+                "x": 108,
+                "y": 496.6433410644531
+              },
+              "block_id": "b11",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "year": {
+          "bbox": {
+            "height": 19,
+            "width": 50,
+            "x": 777,
+            "y": 497
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 19.356658935546875,
+                "width": 1155,
+                "x": 108,
+                "y": 496.6433410644531
+              },
+              "block_id": "b11",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        }
+      },
+      "other_vehicle": {
+        "driver_name": {
+          "bbox": {
+            "height": 25,
+            "width": 121,
+            "x": 108,
+            "y": 688
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 25,
+                "width": 123.93738555908203,
+                "x": 107.32357025146484,
+                "y": 688
+              },
+              "block_id": "b16",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "insurance": {
+          "company": {
+            "bbox": {
+              "height": 19,
+              "width": 255,
+              "x": 111,
+              "y": 1022
+            },
+            "confidence": 0.95,
+            "confidenceComponents": {
+              "groundingScore": 0.95,
+              "source": "no-logprobs"
+            },
+            "match": "id_match",
+            "pageIndex": 0,
+            "pageNumber": 1,
+            "source_bboxes": [
+              {
+                "bbox": {
+                  "height": 19.25897216796875,
+                  "width": 257.7248229980469,
+                  "x": 108.29705047607422,
+                  "y": 1021.9465942382812
+                },
+                "block_id": "b23",
+                "pageIndex": 0,
+                "pageNumber": 1
+              }
+            ]
+          },
+          "policy_number": {
+            "bbox": {
+              "height": 19,
+              "width": 144,
+              "x": 1175,
+              "y": 1019
+            },
+            "confidence": 0.95,
+            "confidenceComponents": {
+              "groundingScore": 0.95,
+              "source": "no-logprobs"
+            },
+            "match": "id_match",
+            "pageIndex": 0,
+            "pageNumber": 1,
+            "source_bboxes": [
+              {
+                "bbox": {
+                  "height": 19.827392578125,
+                  "width": 146.0274658203125,
+                  "x": 1172.9725341796875,
+                  "y": 1018.35302734375
+                },
+                "block_id": "b38",
+                "pageIndex": 0,
+                "pageNumber": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    "pages": [
+      {
+        "height": 2200,
+        "page": 1,
+        "width": 1700
+      }
+    ]
+  },
+  "reconstructed": false,
+  "requestId": "GM0DIIhdRBPv1QwAABRx",
+  "status": 200
+}

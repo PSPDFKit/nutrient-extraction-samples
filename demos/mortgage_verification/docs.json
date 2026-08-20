@@ -1,0 +1,91 @@
+[
+  {
+    "id": "mortgage_verification",
+    "name": "Treasury Request for Mortgage Assistance (RMA) - privacy-safe demo",
+    "file": "data/mortgage-verification.pdf",
+    "mode": "agentic",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "loan_id": {
+          "type": "string",
+          "description": "The value printed beside Loan I.D. Number; preserve leading zeroes."
+        },
+        "borrower": {
+          "type": "object",
+          "description": "Borrower contact details visibly printed on page 1 of the RMA form.",
+          "properties": {
+            "full_name": {
+              "type": "string",
+              "description": "The borrower's full name printed in the Borrower's name field."
+            },
+            "home_phone": {
+              "type": "string",
+              "description": "The value printed in Home phone number with area code, preserving punctuation."
+            },
+            "mailing_address": {
+              "type": "string",
+              "description": "The complete value printed in the Mailing address field."
+            }
+          },
+          "required": [
+            "full_name",
+            "home_phone",
+            "mailing_address"
+          ]
+        },
+        "servicer": {
+          "type": "object",
+          "description": "Mortgage-servicer details visibly printed at the top of page 1.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The full company name printed beside Servicer."
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "property": {
+          "type": "object",
+          "description": "The selected property-intent and residence options on page 1.",
+          "properties": {
+            "intent": {
+              "type": "string",
+              "description": "The checked choice in the I want to row."
+            },
+            "occupancy": {
+              "type": "string",
+              "description": "The checked choice in the The property is my row."
+            }
+          },
+          "required": [
+            "intent",
+            "occupancy"
+          ]
+        },
+        "hardship": {
+          "type": "object",
+          "description": "The borrower's visible explanation in the Hardship Affidavit section.",
+          "properties": {
+            "summary": {
+              "type": "string",
+              "description": "The complete two-line value printed beside Explanation, preserving sentence punctuation."
+            }
+          },
+          "required": [
+            "summary"
+          ]
+        }
+      },
+      "required": [
+        "loan_id",
+        "borrower",
+        "servicer",
+        "property",
+        "hardship"
+      ]
+    }
+  }
+]

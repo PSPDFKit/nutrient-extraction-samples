@@ -21,6 +21,32 @@ from common.seed_cache import (
 )
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+REVIEWED_LIVE_CACHE_INVENTORY = {
+    "mortgage_verification": {
+        "current_cache_key": "2eab5c8c1c843ef5f0f0bef9e361f818369a6e5e7652f00e6e614d381a36018e-extraction-extract-c916fe75b45defb3f9078a09545733ea7e8ae8d20310dfb490ecbeb2bff6c2aa",
+        "current_response_sha256": "2c20be96b8496f675ed8f0a70c77226afbd7008a59cdb47eea8a000f7b6c04e8",
+        "current_receipt_sha256": "c931efb663f093748713de0cd4b51d497dbe808443e6a6afca4143210048facb",
+        "legacy_cache_key": "15f9be3fc3c78a78bb5a67e8f2b8fa0d09383626b0c2600676e2a3f95d054e77-extraction-extract-b35c962edca85f56a9f2707e49646779b4db844e5c22ad71f6b29b445118de59",
+        "legacy_response_sha256": "a1c31e6f3b8b2f9647107926687d1396ced32dbe47d47c378c9c8894e109f1a1",
+        "legacy_receipt_sha256": "4d08edf9538d4dc5d8cedfce5edf15dd4deb7e7c343440044400158597dd7d1a",
+    },
+    "insurance_claim_intake": {
+        "current_cache_key": "82bd017e04267eca150ef8ccb3f2471a5b445680d882f8375a174391c47fbbeb-extraction-extract-5270e4d2c6eb39ec7ff32e01fc0e8a6012e6a031be8a2532f16b9ff3ed397207",
+        "current_response_sha256": "72170c3c25bfaea102ef747097ee94d27a11179a12564c6d19d940923ee0424a",
+        "current_receipt_sha256": "254617154a5b3f34984ce4e094403dc2366cf3fd01f8e6d8e4696f961171029c",
+        "legacy_cache_key": "acb9970d933b9b1af6d9b8c08c3843006f09e8d574f07ea0b29cf51c27e2ca33-extraction-extract-ab82c0e620306ef4a76f60768e4d990f80af692bc65304953f8499474f5921b0",
+        "legacy_response_sha256": "57dff011062c8cac680176e371b644a1ac97a854a72b26c80627c8076b9c1a30",
+        "legacy_receipt_sha256": "0ffe741675fadf513682a3d7e1ddcd5001d1cf3801164c708172f8ab270eed1c",
+    },
+    "prior_authorization": {
+        "current_cache_key": "18bb2e0c4419c0c2acb002acb0b4857efacc7e96f37d15decebfe06d3394d530-extraction-extract-335056f54e95ba9cd7e96cd888db202cfb359998701790e7c15b155719d8c579",
+        "current_response_sha256": "407ee89890604ca46ff356ec72a20968f504ad2f6015998719d49edd4f736805",
+        "current_receipt_sha256": "c63cb5d4b14dd5460af7ae321f2357aaecba600faefee3427141abdaf9b2ce59",
+        "legacy_cache_key": "8b71d8dfe70b98f5d35b1e3709fc6eb0891daf3108c705676341f4c22f936354-extraction-extract-1f70709d4b47f8041baa824b5664ab140725273ae45199fe9c8dd06b36e178b4",
+        "legacy_response_sha256": "934ad86cefc1419537d7380bc736770ee2ccac5fa13c673cf6ea34446b2abbb0",
+        "legacy_receipt_sha256": "80aecfe92b4465500f5bca5d949a08ab2459bda441786d18d3e5c7ae46d0d920",
+    },
+}
 
 
 def _extract_response(value: Any = "cached") -> dict[str, Any]:
@@ -52,6 +78,10 @@ def _load_json(path: Path) -> Any:
 
 def _write_json(path: Path, value: Any) -> None:
     path.write_text(json.dumps(value), encoding="utf-8")
+
+
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def _fail_transport(*_args: object, **_kwargs: object) -> dict[str, Any]:
@@ -319,7 +349,73 @@ def test_sentinel_key_is_refused_and_never_persisted_or_exposed(
 ) -> None:
     sentinel = "sentinel-nutrient-key-must-never-be-cached"
     committed_cache_files = sorted(REPO_ROOT.glob("demos/*/cache/*.json"))
-    assert len(committed_cache_files) == len(SEEDED_FIXTURES)
+    committed_cache_paths = set(committed_cache_files)
+    seed_manifest = _load_json(REPO_ROOT / "demos" / "seed_manifest.json")
+    assert isinstance(seed_manifest, list)
+    manifest_by_demo = {entry["demo"]: entry for entry in seed_manifest}
+    seeded_demos = {demo for demo, _source, _endpoint in SEEDED_FIXTURES}
+    assert set(manifest_by_demo) == (
+        seeded_demos | set(REVIEWED_LIVE_CACHE_INVENTORY)
+    )
+    seeded_cache_paths = {
+        REPO_ROOT
+        / "demos"
+        / demo
+        / "cache"
+        / f"{manifest_by_demo[demo]['cache_key']}.json"
+        for demo, _source, _endpoint in SEEDED_FIXTURES
+    }
+    reviewed_cache_paths = {
+        REPO_ROOT / "demos" / demo / "cache" / filename
+        for demo, expected in REVIEWED_LIVE_CACHE_INVENTORY.items()
+        for prefix in (
+            expected["current_cache_key"],
+            expected["legacy_cache_key"],
+        )
+        for filename in (f"{prefix}.json", f"{prefix}.receipt.json")
+    }
+    assert seeded_cache_paths | reviewed_cache_paths == committed_cache_paths
+
+    for demo, expected in REVIEWED_LIVE_CACHE_INVENTORY.items():
+        entry = manifest_by_demo[demo]
+        assert entry["inventory_kind"] == "reviewed_live_authentic_form"
+        assert entry["cache_key"] == expected["current_cache_key"]
+        assert entry["sha256"]["response_cache"] == expected[
+            "current_response_sha256"
+        ]
+        assert entry["sha256"]["receipt"] == expected[
+            "current_receipt_sha256"
+        ]
+        assert entry["legacy_evidence"]["cache_key"] == expected[
+            "legacy_cache_key"
+        ]
+        assert entry["legacy_evidence"]["sha256"]["response_cache"] == expected[
+            "legacy_response_sha256"
+        ]
+        assert entry["legacy_evidence"]["sha256"]["receipt"] == expected[
+            "legacy_receipt_sha256"
+        ]
+
+        cache_dir = REPO_ROOT / "demos" / demo / "cache"
+        for prefix, response_hash, receipt_hash in (
+            (
+                expected["current_cache_key"],
+                expected["current_response_sha256"],
+                expected["current_receipt_sha256"],
+            ),
+            (
+                expected["legacy_cache_key"],
+                expected["legacy_response_sha256"],
+                expected["legacy_receipt_sha256"],
+            ),
+        ):
+            response_path = cache_dir / f"{prefix}.json"
+            receipt_path = cache_dir / f"{prefix}.receipt.json"
+            assert response_path in committed_cache_paths
+            assert receipt_path in committed_cache_paths
+            assert _sha256(response_path) == response_hash
+            assert _sha256(receipt_path) == receipt_hash
+
     assert all(
         sentinel not in cache_file.read_text(encoding="utf-8")
         for cache_file in committed_cache_files

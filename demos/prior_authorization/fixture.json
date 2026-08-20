@@ -1,0 +1,120 @@
+{
+  "version": 2,
+  "slug": "prior_authorization",
+  "sourceStatus": "public-form-demo",
+  "document": {
+    "filename": "data/prior-authorization.pdf",
+    "title": "CMS GLP-1 Bridge Prior Authorization Request Form",
+    "subtitle": "Authentic public form - privacy-safe demo values",
+    "width": 612,
+    "height": 792
+  },
+  "provenance": {
+    "publisher": "Centers for Medicare & Medicaid Services",
+    "officialFormName": "Medicare GLP-1 Bridge Prior Authorization Request Form",
+    "canonicalSourceUrl": "https://www.cms.gov/glp-1-bridge.pdf",
+    "originalSha256": "c223dc0f6acaf1d7b7e345bdf968ba2373ce94b39994b006a1e9915a07768fa0",
+    "sourceSha256": "18bb2e0c4419c0c2acb002acb0b4857efacc7e96f37d15decebfe06d3394d530"
+  },
+  "fields": [
+    {
+      "path": ["patient", "full_name"],
+      "label": "Patient full name",
+      "value": "Elena Brooks",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {"x": 108, "y": 209, "width": 58, "height": 12}
+      }
+    },
+    {
+      "path": ["patient", "mbi"],
+      "label": "Medicare beneficiary MBI",
+      "value": "DEMO-MBI-771204",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {"x": 152, "y": 236, "width": 79, "height": 12}
+      }
+    },
+    {
+      "path": ["patient", "date_of_birth"],
+      "label": "Patient date of birth",
+      "value": "04/18/1987",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {"x": 129, "y": 251, "width": 47, "height": 12}
+      }
+    },
+    {
+      "path": ["patient", "address"],
+      "label": "Patient address",
+      "value": "742 Demo Street, Austin, TX 78745",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {"x": 91, "y": 266, "width": 132, "height": 11}
+      }
+    },
+    {
+      "path": ["prescriber", "name"],
+      "label": "Prescriber name",
+      "value": "Priya Raman, MD",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {"x": 387, "y": 209, "width": 74, "height": 12}
+      }
+    },
+    {
+      "path": ["prescriber", "phone"],
+      "label": "Prescriber phone",
+      "value": "(555) 470-2200",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {"x": 347, "y": 240, "width": 63, "height": 12}
+      }
+    },
+    {
+      "path": ["prescriber", "npi"],
+      "label": "Prescriber NPI",
+      "value": "1234567890",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {"x": 338, "y": 268, "width": 52, "height": 12}
+      }
+    },
+    {
+      "path": ["request", "requested_drug"],
+      "label": "Requested drug",
+      "value": "Wegovy Injection",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {"x": 45, "y": 357, "width": 85, "height": 18}
+      }
+    },
+    {
+      "path": ["request", "part_d_acknowledgement"],
+      "label": "Part D acknowledgement",
+      "value": "Acknowledged",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {"x": 68, "y": 516, "width": 83, "height": 18}
+      }
+    },
+    {
+      "path": ["request", "moderate_to_severe_osa"],
+      "label": "Moderate to severe OSA",
+      "value": "No",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {"x": 322, "y": 577, "width": 38, "height": 18}
+      }
+    },
+    {
+      "path": ["request", "mash_with_fibrosis"],
+      "label": "MASH with fibrosis",
+      "value": "No",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {"x": 322, "y": 650, "width": 38, "height": 18}
+      }
+    }
+  ]
+}

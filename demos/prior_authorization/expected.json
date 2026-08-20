@@ -1,0 +1,19 @@
+{
+  "patient": {
+    "full_name": "Elena Brooks",
+    "mbi": "DEMO-MBI-771204",
+    "date_of_birth": "04/18/1987",
+    "address": "742 Demo Street, Austin, TX 78745"
+  },
+  "prescriber": {
+    "name": "Priya Raman, MD",
+    "phone": "(555) 470-2200",
+    "npi": "1234567890"
+  },
+  "request": {
+    "requested_drug": "Wegovy Injection",
+    "part_d_acknowledgement": "Acknowledged",
+    "moderate_to_severe_osa": "No",
+    "mash_with_fibrosis": "No"
+  }
+}

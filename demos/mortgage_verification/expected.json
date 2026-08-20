@@ -1,0 +1,18 @@
+{
+  "borrower": {
+    "full_name": "Patricia N. Alvarez",
+    "home_phone": "(555) 201-4477",
+    "mailing_address": "3390 Maple Grove Lane, Denver, CO 80219"
+  },
+  "hardship": {
+    "summary": "Reduced work hours led to a decrease in household income, making it difficult to keep up with the mortgage payment."
+  },
+  "loan_id": "0012345678",
+  "property": {
+    "intent": "Keep the Property",
+    "occupancy": "Primary Residence"
+  },
+  "servicer": {
+    "name": "Meridian Loan Servicing, Inc."
+  }
+}

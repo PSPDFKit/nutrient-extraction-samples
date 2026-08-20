@@ -1,0 +1,302 @@
+{
+  "output": {
+    "data": {
+      "applicant": {
+        "full_name": "Maya Chen"
+      },
+      "application_id": "MV-2026-0147",
+      "assets": {
+        "account_suffix": "4821",
+        "currency_code": "USD",
+        "institution": "Pioneer Community Bank",
+        "liquid_assets_amount": 42380.55,
+        "statement_date": "07/31/2026"
+      },
+      "employment": {
+        "employer": "Northstar Bicycle Works",
+        "gross_monthly_income": 8450
+      }
+    },
+    "metadata": {
+      "applicant": {
+        "full_name": {
+          "bbox": {
+            "height": 35,
+            "width": 166,
+            "x": 908,
+            "y": 497
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 100.30905151367188,
+                "width": 283.30889892578125,
+                "x": 889.0565795898438,
+                "y": 437.7625427246094
+              },
+              "block_id": "c2",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        }
+      },
+      "application_id": {
+        "bbox": {
+          "height": 27,
+          "width": 216,
+          "x": 152,
+          "y": 499
+        },
+        "confidence": 0.95,
+        "confidenceComponents": {
+          "groundingScore": 0.95,
+          "source": "no-logprobs"
+        },
+        "match": "id_match",
+        "pageIndex": 0,
+        "pageNumber": 1,
+        "source_bboxes": [
+          {
+            "bbox": {
+              "height": 106.76181030273438,
+              "width": 243.75071716308594,
+              "x": 139.2238311767578,
+              "y": 440.1905212402344
+            },
+            "block_id": "c0",
+            "pageIndex": 0,
+            "pageNumber": 1
+          }
+        ]
+      },
+      "assets": {
+        "account_suffix": {
+          "bbox": {
+            "height": 27,
+            "width": 69,
+            "x": 905,
+            "y": 955
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 127.0947265625,
+                "width": 234.75067138671875,
+                "x": 886.1770629882812,
+                "y": 877.35400390625
+              },
+              "block_id": "c8",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "currency_code": {
+          "bbox": {
+            "height": 27,
+            "width": 66,
+            "x": 908,
+            "y": 1183
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 112.8935546875,
+                "width": 230.3309326171875,
+                "x": 882.4371337890625,
+                "y": 1111.9052734375
+              },
+              "block_id": "c11",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "institution": {
+          "bbox": {
+            "height": 36,
+            "width": 375,
+            "x": 152,
+            "y": 952
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 112.4415283203125,
+                "width": 397.8053894042969,
+                "x": 139.49319458007812,
+                "y": 881.8719482421875
+              },
+              "block_id": "c6",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "liquid_assets_amount": {
+          "bbox": {
+            "height": 27,
+            "width": 138,
+            "x": 150,
+            "y": 1183
+          },
+          "confidence": 0.9696927825876808,
+          "confidenceComponents": {
+            "formatScore": 1,
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 106.1611328125,
+                "width": 295.01995849609375,
+                "x": 137.06915283203125,
+                "y": 1113.830322265625
+              },
+              "block_id": "c9",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "statement_date": {
+          "bbox": {
+            "height": 27,
+            "width": 166,
+            "x": 150,
+            "y": 1411
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 112.9716796875,
+                "width": 216.06668090820312,
+                "x": 136.45748901367188,
+                "y": 1340.06201171875
+              },
+              "block_id": "c12",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        }
+      },
+      "employment": {
+        "employer": {
+          "bbox": {
+            "height": 36,
+            "width": 350,
+            "x": 152,
+            "y": 725
+          },
+          "confidence": 0.95,
+          "confidenceComponents": {
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 117.83197021484375,
+                "width": 379.09326171875,
+                "x": 138.40736389160156,
+                "y": 656.2883911132812
+              },
+              "block_id": "c3",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        },
+        "gross_monthly_income": {
+          "bbox": {
+            "height": 27,
+            "width": 102,
+            "x": 905,
+            "y": 727
+          },
+          "confidence": 0.9696927825876808,
+          "confidenceComponents": {
+            "formatScore": 1,
+            "groundingScore": 0.95,
+            "source": "no-logprobs"
+          },
+          "match": "id_match",
+          "pageIndex": 0,
+          "pageNumber": 1,
+          "source_bboxes": [
+            {
+              "bbox": {
+                "height": 114.23687744140625,
+                "width": 326.03857421875,
+                "x": 887.140869140625,
+                "y": 655.0525512695312
+              },
+              "block_id": "c5",
+              "pageIndex": 0,
+              "pageNumber": 1
+            }
+          ]
+        }
+      }
+    },
+    "pages": [
+      {
+        "height": 2200,
+        "page": 1,
+        "width": 1700
+      }
+    ]
+  },
+  "reconstructed": false,
+  "requestId": "GMxyEMJHL4iNXZIAIFuS",
+  "status": 200
+}

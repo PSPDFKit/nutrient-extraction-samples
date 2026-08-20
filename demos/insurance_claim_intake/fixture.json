@@ -1,0 +1,210 @@
+{
+  "version": 2,
+  "slug": "insurance_claim_intake",
+  "sourceStatus": "public-form-demo",
+  "document": {
+    "filename": "data/insurance-claim-intake.pdf",
+    "title": "GSA STANDARD FORM 91 - MOTOR VEHICLE ACCIDENT (CRASH) REPORT",
+    "subtitle": "Authentic public form with privacy-safe demo values - not customer claim data",
+    "width": 612.0,
+    "height": 792.0
+  },
+  "provenance": {
+    "publisher": "U.S. General Services Administration",
+    "officialFormName": "Standard Form 91, Motor Vehicle Accident (Crash) Report, revision 09/2020",
+    "canonicalSourceUrl": "https://www.gsa.gov/system/files/SF91-20.pdf",
+    "originalSha256": "18a11675590189964522114c294b8ea0974f86989fb7f49a31788ba2807d44ac",
+    "sourceSha256": "82bd017e04267eca150ef8ccb3f2471a5b445680d882f8375a174391c47fbbeb"
+  },
+  "fields": [
+    {
+      "path": [
+        "crash",
+        "date"
+      ],
+      "label": "Crash date",
+      "value": "08/03/2026",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {
+          "x": 478.15,
+          "y": 127.89,
+          "width": 88.23,
+          "height": 11.57
+        }
+      }
+    },
+    {
+      "path": [
+        "federal_vehicle",
+        "driver_name"
+      ],
+      "label": "Federal vehicle driver name",
+      "value": "Alvarez, Noah",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {
+          "x": 36.86,
+          "y": 127.86,
+          "width": 261.27,
+          "height": 12.31
+        }
+      }
+    },
+    {
+      "path": [
+        "federal_vehicle",
+        "tag_id"
+      ],
+      "label": "Federal vehicle tag or identification number",
+      "value": "GSA-48312",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {
+          "x": 36.86,
+          "y": 175.63,
+          "width": 137.58,
+          "height": 12.31
+        }
+      }
+    },
+    {
+      "path": [
+        "federal_vehicle",
+        "estimated_repair_cost"
+      ],
+      "label": "Federal vehicle estimated repair cost",
+      "value": "2750.00",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {
+          "x": 188.51,
+          "y": 175.63,
+          "width": 86.39,
+          "height": 12.31
+        }
+      }
+    },
+    {
+      "path": [
+        "federal_vehicle",
+        "year"
+      ],
+      "label": "Federal vehicle year",
+      "value": "2023",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {
+          "x": 277.8,
+          "y": 175.63,
+          "width": 73.1,
+          "height": 12.31
+        }
+      }
+    },
+    {
+      "path": [
+        "federal_vehicle",
+        "make"
+      ],
+      "label": "Federal vehicle make",
+      "value": "Subaru",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {
+          "x": 353.52,
+          "y": 175.63,
+          "width": 65.13,
+          "height": 12.31
+        }
+      }
+    },
+    {
+      "path": [
+        "federal_vehicle",
+        "model"
+      ],
+      "label": "Federal vehicle model",
+      "value": "Outback",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {
+          "x": 421.16,
+          "y": 175.63,
+          "width": 64.81,
+          "height": 12.31
+        }
+      }
+    },
+    {
+      "path": [
+        "federal_vehicle",
+        "damage"
+      ],
+      "label": "Federal vehicle damage description",
+      "value": "Rear bumper and liftgate dented; vehicle remains drivable.",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {
+          "x": 36.86,
+          "y": 196.6,
+          "width": 538.34,
+          "height": 12.31
+        }
+      }
+    },
+    {
+      "path": [
+        "other_vehicle",
+        "driver_name"
+      ],
+      "label": "Other vehicle driver name",
+      "value": "Chen, Maya",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {
+          "x": 36.86,
+          "y": 245.06,
+          "width": 216.02,
+          "height": 12.31
+        }
+      }
+    },
+    {
+      "path": [
+        "other_vehicle",
+        "insurance",
+        "company"
+      ],
+      "label": "Other vehicle driver's insurance company",
+      "value": "Prairie Mutual Insurance",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {
+          "x": 36.86,
+          "y": 363.71,
+          "width": 380.8,
+          "height": 35.06
+        }
+      }
+    },
+    {
+      "path": [
+        "other_vehicle",
+        "insurance",
+        "policy_number"
+      ],
+      "label": "Other vehicle driver's insurance policy number",
+      "value": "PN-84-221907",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {
+          "x": 420.61,
+          "y": 363.73,
+          "width": 155.32,
+          "height": 12.31
+        }
+      }
+    }
+  ]
+}

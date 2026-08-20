@@ -34,14 +34,14 @@ EXPECTED_ARTIFACT_SHA256 = {
         "metadata.json": "21a3fbccb0110b83f9e44db0144efd64eff608de2c7ed6c6df05117f70402642",
     },
     "grounded_extraction": {
-        "cms_1500_page_0.png": "c95d02b7df14fc03024fabb7fabf0409b8be891d2582c420aaca741114516ae8",
-        "index.html": "2ce45e5ec368ba356b8abe8e71a17c298eb98a98de15a44cc5f1c88ba363b1a0",
-        "metadata.json": "d04e81770eac358a27afb8f9ca92b419a0c558cd30a1f1ab113c991e3484ea64",
+        "cms_1500_page_0.png": "9d5ad6273543be9bd8d4ef82b51d3a2478d9688d5d8bc2c449e7152de59cec7c",
+        "index.html": "a99c5dab0d56b0453fae9567571feac6829c021c0eca94af76a2388358b67349",
+        "metadata.json": "28198d99f79b7497240a1d23c7a5bd62f96bb59237b17da8f051ebf060240859",
     },
     "parse_citations": {
-        "appraisal_report_page_0.png": "2c109c531094705052272607c5c48de653596e9d93f38cc349e766ea24f8bf6b",
-        "elements.json": "42e79cc0d1866b1c0d166cf5c90b3b0025a647be33572913a0213eecbd8c8615",
-        "index.html": "5c72f30c8644a488ba6d5f6ec85b0b01f8e78fe5ef857e4eb6f94a1b49067b5a",
+        "appraisal_report_page_0.png": "00c5e5e5730bf4707ef4c14277ada163530bff872ea6e811918dfaf14adaeb70",
+        "elements.json": "306943320e3720669b62d3dd2fd7437d187edc62ec169e45cf4fd809384ca9fe",
+        "index.html": "9a0601e563fb597e8e47bfc2ff24cc62f19c1a1d688a45182d25b6e38ec1525a",
     },
     "rma_extraction": {
         "index.html": "fc391170fb2691c7ecb9c72cfa0589f4e465308ab8ba963cd678298c30740fee",
@@ -58,6 +58,26 @@ EXPECTED_ARTIFACT_SHA256 = {
         "sc100_page_1.png": "857a924db862df1759d2094b4d14eea9fe36c7f36da780173b902da8cbbda98a",
         "sc100_page_2.png": "4be88b73498afa03fe124277efc02002a187d5fcccb995542d2eb66b2c71efe3",
         "sc100_page_3.png": "9b8be3c89e3dfc2dc9fc051b2e2d912297b311e370efa50815919dc2822d34f2",
+    },
+}
+REVIEWED_LIGHTHOUSE_ARTIFACT_SHA256 = {
+    "mortgage_verification": {
+        "comparison.json": "afb217cc553e4507e3a8dd1130e9ed51e0605f5f4fb2c066049f956ea81c2936",
+        "index.html": "06c747b2f58a069dc109eebc578a4afc24326d3544aac69a110c431e0f99bca3",
+        "source-page.png": "43f0b6d63e9f42cd8efc49ab379dd8fe63984107c2cc8152d1347d4df3b77975",
+        "hub_copy": "mortgage-verification-reviewed.html",
+    },
+    "insurance_claim_intake": {
+        "comparison.json": "35f05513552be18c8b792f1edafe6199f59a7efe883271b87426e26571da6db2",
+        "index.html": "2fe6ca1bc12be0ff4a5fb46f7ec7728a12986bc17cf7a3d898d4d2664c5f7a44",
+        "source-page.png": "d9b1eb577f262e5da8237146061f4b77613c3b2ff01c87c9f17d5cdfe2970bc5",
+        "hub_copy": "insurance-claim-intake-reviewed.html",
+    },
+    "prior_authorization": {
+        "comparison.json": "c974f57939385f4e0cd935aa5ec480920baa8245b593a3f0ff5132e4fa101eb9",
+        "index.html": "c947213165b41a517551eda77dc2f1ce58ad63d43a92f51be6d737ea36a2b027",
+        "source-page.png": "ce4494e56f05d93575038187d950432e88d3574a2dc765d37b06a230183cdade",
+        "hub_copy": "prior-authorization-reviewed.html",
     },
 }
 HOSTILE = "</script><script>alert(1)</script>"
@@ -268,6 +288,32 @@ def test_committed_cache_replay_is_offline_and_preserves_all_artifacts(
     asyncio.run(generator.main(refresh=False))
 
     assert _output_artifact_hashes(demo_dir) == EXPECTED_ARTIFACT_SHA256[demo_name]
+
+
+def test_reviewed_authentic_form_artifacts_and_hub_copies_are_hash_pinned() -> None:
+    manifest = json.loads(
+        (REPO_ROOT / "demos" / "seed_manifest.json").read_text(encoding="utf-8")
+    )
+    manifest_by_demo = {entry["demo"]: entry for entry in manifest}
+
+    for demo, expected in REVIEWED_LIGHTHOUSE_ARTIFACT_SHA256.items():
+        output_dir = REPO_ROOT / "demos" / demo / "output"
+        for artifact_name in ("comparison.json", "index.html", "source-page.png"):
+            artifact_hash = hashlib.sha256(
+                (output_dir / artifact_name).read_bytes()
+            ).hexdigest()
+            assert artifact_hash == expected[artifact_name]
+
+        copied_proof = (
+            REPO_ROOT
+            / "docs"
+            / "lighthouse"
+            / "assets"
+            / expected["hub_copy"]
+        )
+        copied_hash = hashlib.sha256(copied_proof.read_bytes()).hexdigest()
+        assert copied_hash == expected["index.html"]
+        assert manifest_by_demo[demo]["sha256"]["reviewed_output"] == copied_hash
 
 
 @pytest.mark.parametrize("position", TEXT_LEAF_POSITIONS)

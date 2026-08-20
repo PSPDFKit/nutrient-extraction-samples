@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "slug": "mortgage_verification",
+  "sourceStatus": "public-form-demo",
+  "document": {
+    "filename": "data/mortgage-verification.pdf",
+    "title": "Treasury Request for Mortgage Assistance (RMA) - page 1",
+    "subtitle": "Authentic public form with privacy-safe demo values",
+    "width": 612,
+    "height": 792
+  },
+  "provenance": {
+    "publisher": "U.S. Department of the Treasury, Making Home Affordable",
+    "officialFormName": "Request for Mortgage Assistance (RMA)",
+    "canonicalSourceUrl": "https://home.treasury.gov/data/troubled-assets-relief-program/housing/mha",
+    "originalSha256": "15ea438e22263407da910f88ac353855c205cfe4cf479ef17468cb74b683db8c",
+    "sourceSha256": "2eab5c8c1c843ef5f0f0bef9e361f818369a6e5e7652f00e6e614d381a36018e"
+  },
+  "fields": [
+    {
+      "path": ["loan_id"],
+      "label": "Loan I.D. Number",
+      "value": "0012345678",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {"x": 139, "y": 109, "width": 53, "height": 15}
+      }
+    },
+    {
+      "path": ["borrower", "full_name"],
+      "label": "Borrower's name",
+      "value": "Patricia N. Alvarez",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {"x": 75, "y": 149, "width": 76, "height": 16}
+      }
+    },
+    {
+      "path": ["servicer", "name"],
+      "label": "Servicer",
+      "value": "Meridian Loan Servicing, Inc.",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {"x": 358, "y": 109, "width": 107, "height": 15}
+      }
+    },
+    {
+      "path": ["borrower", "home_phone"],
+      "label": "Home phone number with area code",
+      "value": "(555) 201-4477",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {"x": 75, "y": 194, "width": 70, "height": 14}
+      }
+    },
+    {
+      "path": ["borrower", "mailing_address"],
+      "label": "Mailing address",
+      "value": "3390 Maple Grove Lane, Denver, CO 80219",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {"x": 74, "y": 289, "width": 159, "height": 15}
+      }
+    },
+    {
+      "path": ["property", "intent"],
+      "label": "I want to",
+      "value": "Keep the Property",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {"x": 169, "y": 236, "width": 81, "height": 14}
+      }
+    },
+    {
+      "path": ["property", "occupancy"],
+      "label": "The property is my",
+      "value": "Primary Residence",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {"x": 169, "y": 250, "width": 81, "height": 14}
+      }
+    },
+    {
+      "path": ["hardship", "summary"],
+      "label": "Hardship explanation",
+      "value": "Reduced work hours led to a decrease in household income, making it difficult to keep up with the mortgage payment.",
+      "source": {
+        "pageIndex": 0,
+        "bbox": {"x": 74, "y": 674, "width": 477, "height": 37}
+      }
+    }
+  ]
+}
