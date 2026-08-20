@@ -53,11 +53,12 @@ python3 demos/mortgage_verification/generate_demo.py --provisional
 python3 demos/mortgage_verification/check_expected.py --allow-provisional
 ```
 
-Open `demos/mortgage_verification/output/index.html` directly. The page is
+Open `demos/mortgage_verification/provisional/output/index.html` directly. The page is
 self-contained. These commands do not read `NUTRIENT_API_KEY`, access a live
 cache, call the network, or consume credits. A zero exit code means only that
 the fixture-derived values and independently recorded source boxes match the
-oracle in `expected.json`.
+oracle in `expected.json`. They write only below `provisional/` and never
+replace the committed reviewed artifacts under `output/`.
 
 ## Live refresh gate
 
@@ -93,7 +94,8 @@ KYC, underwriting, an eligibility decision, or an accuracy, compliance,
 security, or performance benchmark. The servicer region clips the decisive
 final period, so the page does not claim complete semantic grounding.
 
-Generated artifacts are `provisional/evidence.json`,
-`output/source-page.png`, `output/comparison.json`, and `output/index.html`.
+Generated provisional artifacts are `provisional/evidence.json`,
+`provisional/output/source-page.png`, `provisional/output/comparison.json`, and
+`provisional/output/index.html`.
 The current output artifacts represent the reviewed public-form response;
 historical captures in `output/playwright/` remain legacy evidence.

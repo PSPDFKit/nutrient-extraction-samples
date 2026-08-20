@@ -10,5 +10,6 @@ venv/
 demos/grounded-extraction/
 demos/parse-citations/
 outputs/
+demos/*/provisional/output/
 scripts/*
 !scripts/build_lighthouse_fixtures.py

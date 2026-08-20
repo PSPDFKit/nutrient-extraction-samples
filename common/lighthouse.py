@@ -1578,23 +1578,6 @@ def render_lighthouse_page(
         + base64.b64encode(document_image).decode("ascii")
     )
     assets_dir = Path(__file__).resolve().parent / "assets"
-    font_urls = {
-        "sans": _embedded_asset_url(
-            assets_dir / "fonts" / "ABCMonumentGroteskVariable.woff2",
-            mime="font/woff2",
-            label="ABC Monument Grotesk font",
-        ),
-        "semi_mono": _embedded_asset_url(
-            assets_dir / "fonts" / "ABCMonumentGroteskSemi-Mono-Regular.woff2",
-            mime="font/woff2",
-            label="ABC Monument Grotesk Semi-Mono font",
-        ),
-        "mono": _embedded_asset_url(
-            assets_dir / "fonts" / "ABCMonumentGroteskMono-Medium.woff2",
-            mime="font/woff2",
-            label="ABC Monument Grotesk Mono font",
-        ),
-    }
     logo_url = _embedded_asset_url(
         assets_dir / "logotype" / "nutrient-logo.svg",
         mime="image/svg+xml",
@@ -1616,7 +1599,6 @@ def render_lighthouse_page(
         summary=summary,
         document_name=document_name,
         image_url=image_url,
-        font_urls=font_urls,
         logo_url=logo_url,
         evidence_kind=evidence.kind,
         evidence_label=evidence.label,

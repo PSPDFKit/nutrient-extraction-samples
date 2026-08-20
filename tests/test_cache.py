@@ -365,7 +365,16 @@ def test_sentinel_key_is_refused_and_never_persisted_or_exposed(
         / f"{manifest_by_demo[demo]['cache_key']}.json"
         for demo, _source, _endpoint in SEEDED_FIXTURES
     }
-    assert seeded_cache_paths <= committed_cache_paths
+    reviewed_cache_paths = {
+        REPO_ROOT / "demos" / demo / "cache" / filename
+        for demo, expected in REVIEWED_LIVE_CACHE_INVENTORY.items()
+        for prefix in (
+            expected["current_cache_key"],
+            expected["legacy_cache_key"],
+        )
+        for filename in (f"{prefix}.json", f"{prefix}.receipt.json")
+    }
+    assert seeded_cache_paths | reviewed_cache_paths == committed_cache_paths
 
     for demo, expected in REVIEWED_LIVE_CACHE_INVENTORY.items():
         entry = manifest_by_demo[demo]

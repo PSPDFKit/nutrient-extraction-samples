@@ -378,7 +378,7 @@
       "response_cache": "2c20be96b8496f675ed8f0a70c77226afbd7008a59cdb47eea8a000f7b6c04e8",
       "receipt": "c931efb663f093748713de0cd4b51d497dbe808443e6a6afca4143210048facb",
       "comparison": "afb217cc553e4507e3a8dd1130e9ed51e0605f5f4fb2c066049f956ea81c2936",
-      "reviewed_output": "f65c55222343a0c4803e510670f3a65410e280cf70e7e2bc680e351d075acd67",
+      "reviewed_output": "06c747b2f58a069dc109eebc578a4afc24326d3544aac69a110c431e0f99bca3",
       "source_page": "43f0b6d63e9f42cd8efc49ab379dd8fe63984107c2cc8152d1347d4df3b77975"
     },
     "legacy_evidence": {
@@ -409,7 +409,7 @@
       "response_cache": "72170c3c25bfaea102ef747097ee94d27a11179a12564c6d19d940923ee0424a",
       "receipt": "254617154a5b3f34984ce4e094403dc2366cf3fd01f8e6d8e4696f961171029c",
       "comparison": "35f05513552be18c8b792f1edafe6199f59a7efe883271b87426e26571da6db2",
-      "reviewed_output": "7ce6fdb1564b4103f327e45e2c54ab45ccf9c621fc9e92f6454b6bd7b1577acb",
+      "reviewed_output": "2fe6ca1bc12be0ff4a5fb46f7ec7728a12986bc17cf7a3d898d4d2664c5f7a44",
       "source_page": "d9b1eb577f262e5da8237146061f4b77613c3b2ff01c87c9f17d5cdfe2970bc5"
     },
     "legacy_evidence": {
@@ -440,7 +440,7 @@
       "response_cache": "407ee89890604ca46ff356ec72a20968f504ad2f6015998719d49edd4f736805",
       "receipt": "c63cb5d4b14dd5460af7ae321f2357aaecba600faefee3427141abdaf9b2ce59",
       "comparison": "c974f57939385f4e0cd935aa5ec480920baa8245b593a3f0ff5132e4fa101eb9",
-      "reviewed_output": "02a91dad24097282b2d91f3f499423f824bb09489837c8aa73daf9675961c8b1",
+      "reviewed_output": "c947213165b41a517551eda77dc2f1ce58ad63d43a92f51be6d737ea36a2b027",
       "source_page": "ce4494e56f05d93575038187d950432e88d3574a2dc765d37b06a230183cdade"
     },
     "legacy_evidence": {

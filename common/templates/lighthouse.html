@@ -3,33 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; font-src data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
   <title>{{ title }}</title>
   <style>
-    @font-face {
-      font-family: "ABC Monument Grotesk";
-      src: url("{{ font_urls.sans }}") format("woff2");
-      font-style: normal;
-      font-weight: 200 900;
-      font-display: swap;
-    }
-
-    @font-face {
-      font-family: "ABC Monument Grotesk Semi-Mono";
-      src: url("{{ font_urls.semi_mono }}") format("woff2");
-      font-style: normal;
-      font-weight: 400;
-      font-display: swap;
-    }
-
-    @font-face {
-      font-family: "ABC Monument Grotesk Mono";
-      src: url("{{ font_urls.mono }}") format("woff2");
-      font-style: normal;
-      font-weight: 400;
-      font-display: swap;
-    }
-
     :root {
       color-scheme: dark;
       --ink: #111319;
@@ -385,7 +361,7 @@
     /*
       Website-v3 visual layer, copied from the frozen homepage-vnext source.
       The evidence markup and behavior above remain unchanged; this layer maps
-      them onto the company theme's Monument type, warm surfaces, black bands,
+      them onto the company theme's editorial type, warm surfaces, black bands,
       rounded containers, compact buttons, and restrained status colors.
     */
     :root {
@@ -404,9 +380,9 @@
       --coral-v3: hsla(9, 87%, 61%, 1);
       --radius-v3: 2rem;
       --radius-card: 1rem;
-      --font-sans-v3: "ABC Monument Grotesk", ui-sans-serif, sans-serif;
-      --font-semi-v3: "ABC Monument Grotesk Semi-Mono", ui-monospace, monospace;
-      --font-mono-v3: "ABC Monument Grotesk Mono", ui-monospace, monospace;
+      --font-sans-v3: "Avenir Next", Avenir, "Segoe UI", Helvetica, sans-serif;
+      --font-semi-v3: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --font-mono-v3: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
     }
 
     body {

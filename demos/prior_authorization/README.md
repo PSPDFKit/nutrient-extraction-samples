@@ -25,10 +25,11 @@ From the repository root:
 
 ```bash
 python3 demos/prior_authorization/build_public_form.py
+python3 demos/prior_authorization/build_public_form.py --check
 ```
 
-The builder verifies the approved original hash and prints the derived PDF's
-SHA-256. Repeated runs must print the same digest recorded in `fixture.json`.
+The builder verifies the approved original and derived hashes before writing.
+`--check` compares the committed PDF byte-for-byte without modifying it.
 
 ## Offline provisional package
 
@@ -37,11 +38,13 @@ python3 demos/prior_authorization/generate_demo.py --provisional
 python3 demos/prior_authorization/check_expected.py --allow-provisional
 ```
 
-Open `demos/prior_authorization/output/index.html` directly. The page is
+Open `demos/prior_authorization/provisional/output/index.html` directly. The page is
 self-contained. These commands do not read `NUTRIENT_API_KEY`, use a response
 cache, call the network, or consume credits. A zero exit code means only that
 the fixture-derived values and manually reviewed page-0 source boxes match the
-independent oracle. Provisional evidence is not API-performance evidence.
+independent oracle. Provisional evidence is not API-performance evidence. The
+commands write only below `provisional/` and never replace the committed
+reviewed artifacts under `output/`.
 
 ## Live refresh gate
 
@@ -77,5 +80,6 @@ necessity, coverage, payer action, or compliance. It is not an accuracy,
 compliance, security, or performance benchmark. Source regions make results
 reviewable; the independent oracle determines whether this single form matches.
 
-Generated artifacts are `provisional/evidence.json`,
-`output/source-page.png`, `output/comparison.json`, and `output/index.html`.
+Generated provisional artifacts are `provisional/evidence.json`,
+`provisional/output/source-page.png`, `provisional/output/comparison.json`, and
+`provisional/output/index.html`.

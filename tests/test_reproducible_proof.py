@@ -66,6 +66,14 @@ def _run_checker(tmp_path: Path, mutate: str | None = None) -> subprocess.Comple
         output["data"]["patient_name"] = "Wrong Person"
     elif mutate == "ungrounded":
         del output["metadata"]["patient_name"]["bbox"]
+    elif mutate == "wrong_page":
+        output["metadata"]["patient_name"]["pageIndex"] = 1
+    elif mutate == "negative_origin":
+        output["metadata"]["patient_name"]["bbox"]["x"] = -1
+    elif mutate == "outside_page":
+        output["metadata"]["patient_name"]["bbox"]["x"] = output["pages"][0][
+            "width"
+        ]
     elif mutate == "source_corrected":
         for service_line in output["data"]["service_lines"]:
             service_line["date_of_service_from"] = "07 10 26"
@@ -117,3 +125,10 @@ def test_checker_classifies_missing_wrong_and_ungrounded_fields(
         result = _run_checker(tmp_path, mutation)
         assert result.returncode == 1
         assert label in result.stdout
+
+
+def test_checker_rejects_grounding_outside_the_declared_page(tmp_path: Path) -> None:
+    for mutation in ("wrong_page", "negative_origin", "outside_page"):
+        result = _run_checker(tmp_path, mutation)
+        assert result.returncode == 1
+        assert "UNGROUNDED $.patient_name" in result.stdout

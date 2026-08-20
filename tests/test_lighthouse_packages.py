@@ -81,15 +81,6 @@ SCREENSHOTS = {
     "lighthouse-healthcare-mobile.png",
 }
 DESIGN_ASSETS = {
-    "fonts/ABCMonumentGroteskVariable.woff2": (
-        "a290892b541674d3682e01f18277185ca8ee48caa011e45b901f55ccca7fe5ac"
-    ),
-    "fonts/ABCMonumentGroteskSemi-Mono-Regular.woff2": (
-        "d2764ac72c40dc455279147d6a20b1fd1e3368bae32fae374a1507de706c2cfb"
-    ),
-    "fonts/ABCMonumentGroteskMono-Medium.woff2": (
-        "99a97a4e9dbc8016ea9f0b11b0f1b499bdf70767cc6d576b8d2fd1b921aa8a73"
-    ),
     "nutrient-logo.svg": (
         "c9102300d8cce70ed381f1775057fb72f5f874fafafde3efabdc82d8a0cbcb88"
     ),
@@ -222,14 +213,16 @@ def test_hub_has_complete_local_reviewed_evidence() -> None:
     assert all(image.get("alt", "").strip() for image in parser.images)
 
 
-def test_hub_and_proofs_use_the_frozen_website_v3_design_assets() -> None:
+def test_hub_and_proofs_use_the_frozen_design_without_proprietary_fonts() -> None:
     html, _ = _parse_hub()
     design_source = (ROOT / "docs" / "lighthouse-design-source.md").read_text(
         encoding="utf-8"
     )
 
     assert "71f76eb62384241e2cf18d76fd31020b95a0a1f6" in design_source
-    assert 'font-family: "ABC Monument Grotesk"' in html
+    assert '"Avenir Next", Avenir, "Segoe UI"' in html
+    assert "ABC Monument" not in html
+    assert "assets/fonts/" not in html
     assert "Website-v3 company theme" in html
     assert 'src="assets/nutrient-logo.svg"' in html
     assert (
@@ -245,11 +238,16 @@ def test_hub_and_proofs_use_the_frozen_website_v3_design_assets() -> None:
 
     for reviewed_output in PROOF_ASSETS.values():
         proof_html = reviewed_output.read_text(encoding="utf-8")
-        assert "font-src data:" in proof_html
-        assert "data:font/woff2;base64," in proof_html
+        assert '"Avenir Next", Avenir, "Segoe UI"' in proof_html
+        assert "font-src data:" not in proof_html
+        assert "data:font/" not in proof_html
+        assert "ABC Monument" not in proof_html
         assert "Website-v3 visual layer" in proof_html
         assert 'alt="Nutrient"' in proof_html
         assert "max-height: none" in proof_html
+
+    assert not (ROOT / "common" / "assets" / "fonts").exists()
+    assert not (deployed_assets / "fonts").exists()
 
 
 def test_hub_links_follow_fixed_measurement_contract() -> None:

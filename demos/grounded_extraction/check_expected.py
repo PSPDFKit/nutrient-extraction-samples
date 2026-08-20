@@ -18,28 +18,56 @@ def _path(parent: str, key: str | int) -> str:
     return f"{parent}[{key}]" if isinstance(key, int) else f"{parent}.{key}"
 
 
-def _has_grounding(metadata: Any) -> bool:
+def _has_grounding(metadata: Any, pages: Any) -> bool:
     if not isinstance(metadata, dict):
         return False
     bbox = metadata.get("bbox")
     page_index = metadata.get("pageIndex")
     if not isinstance(bbox, dict) or isinstance(page_index, bool):
         return False
-    if not isinstance(page_index, int) or page_index < 0:
+    if (
+        not isinstance(page_index, int)
+        or not isinstance(pages, list)
+        or page_index < 0
+        or page_index >= len(pages)
+    ):
         return False
+    page = pages[page_index]
+    if not isinstance(page, dict):
+        return False
+    dimensions: dict[str, float] = {}
+    for dimension in ("width", "height"):
+        value = page.get(dimension)
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            return False
+        numeric = float(value)
+        if not math.isfinite(numeric) or numeric <= 0:
+            return False
+        dimensions[dimension] = numeric
+    coordinates: dict[str, float] = {}
     for coordinate in ("x", "y", "width", "height"):
         value = bbox.get(coordinate)
         if isinstance(value, bool) or not isinstance(value, (int, float)):
             return False
-        if not math.isfinite(float(value)):
+        numeric = float(value)
+        if not math.isfinite(numeric):
             return False
-    return bbox["width"] > 0 and bbox["height"] > 0
+        coordinates[coordinate] = numeric
+    return (
+        coordinates["x"] >= 0
+        and coordinates["y"] >= 0
+        and coordinates["width"] > 0
+        and coordinates["height"] > 0
+        and coordinates["x"] + coordinates["width"] <= dimensions["width"]
+        and coordinates["y"] + coordinates["height"] <= dimensions["height"]
+    )
 
 
 def compare(
     expected: Any,
     actual: Any,
     metadata: Any,
+    pages: Any,
     path: str = "$",
 ) -> tuple[list[str], int]:
     issues: list[str] = []
@@ -57,7 +85,7 @@ def compare(
         for key in sorted(expected_keys & actual_keys):
             child_meta = metadata.get(key) if isinstance(metadata, dict) else None
             child_issues, child_grounded = compare(
-                expected[key], actual[key], child_meta, _path(path, key)
+                expected[key], actual[key], child_meta, pages, _path(path, key)
             )
             issues.extend(child_issues)
             grounded_leaves += child_grounded
@@ -76,7 +104,7 @@ def compare(
         for index in range(min(len(expected), len(actual))):
             child_meta = metadata_items[index] if index < len(metadata_items) else None
             child_issues, child_grounded = compare(
-                expected[index], actual[index], child_meta, _path(path, index)
+                expected[index], actual[index], child_meta, pages, _path(path, index)
             )
             issues.extend(child_issues)
             grounded_leaves += child_grounded
@@ -84,7 +112,7 @@ def compare(
 
     if actual != expected:
         issues.append(f"WRONG {path}: expected {expected!r}, got {actual!r}")
-    if not _has_grounding(metadata):
+    if not _has_grounding(metadata, pages):
         issues.append(f"UNGROUNDED {path}")
     else:
         grounded_leaves += 1
@@ -110,11 +138,12 @@ def main() -> int:
         output = response["output"]
         actual = output["data"]
         metadata = output["metadata"]
+        pages = output["pages"]
     except (KeyError, TypeError):
-        print("WRONG $: response must contain output.data and output.metadata")
+        print("WRONG $: response must contain output.data, output.metadata, and output.pages")
         return 1
 
-    issues, grounded_leaves = compare(expected, actual, metadata)
+    issues, grounded_leaves = compare(expected, actual, metadata, pages)
     if issues:
         print("\n".join(issues))
         return 1

@@ -44,12 +44,13 @@ python3 demos/insurance_claim_intake/generate_demo.py --provisional
 python3 demos/insurance_claim_intake/check_expected.py --allow-provisional
 ```
 
-Open `demos/insurance_claim_intake/output/index.html` directly. The page is
+Open `demos/insurance_claim_intake/provisional/output/index.html` directly. The page is
 self-contained. These commands do not read `NUTRIENT_API_KEY`, access or mutate
 the historical live cache, call the network, or consume credits. A zero exit
 code means only that the fixture-derived values and the 11 manually reviewed
 page-0 source boxes match the independent oracle. Provisional evidence cannot
-support a release claim.
+support a release claim. The commands write only below `provisional/` and never
+replace the committed reviewed artifacts under `output/`.
 
 ## Current reviewed live response
 
@@ -96,4 +97,5 @@ this public-form input.
   fields
 
 Generated provisional artifacts are `provisional/evidence.json`,
-`output/source-page.png`, `output/comparison.json`, and `output/index.html`.
+`provisional/output/source-page.png`, `provisional/output/comparison.json`, and
+`provisional/output/index.html`.

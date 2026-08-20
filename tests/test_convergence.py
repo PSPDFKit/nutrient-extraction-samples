@@ -63,19 +63,19 @@ EXPECTED_ARTIFACT_SHA256 = {
 REVIEWED_LIGHTHOUSE_ARTIFACT_SHA256 = {
     "mortgage_verification": {
         "comparison.json": "afb217cc553e4507e3a8dd1130e9ed51e0605f5f4fb2c066049f956ea81c2936",
-        "index.html": "f65c55222343a0c4803e510670f3a65410e280cf70e7e2bc680e351d075acd67",
+        "index.html": "06c747b2f58a069dc109eebc578a4afc24326d3544aac69a110c431e0f99bca3",
         "source-page.png": "43f0b6d63e9f42cd8efc49ab379dd8fe63984107c2cc8152d1347d4df3b77975",
         "hub_copy": "mortgage-verification-reviewed.html",
     },
     "insurance_claim_intake": {
         "comparison.json": "35f05513552be18c8b792f1edafe6199f59a7efe883271b87426e26571da6db2",
-        "index.html": "7ce6fdb1564b4103f327e45e2c54ab45ccf9c621fc9e92f6454b6bd7b1577acb",
+        "index.html": "2fe6ca1bc12be0ff4a5fb46f7ec7728a12986bc17cf7a3d898d4d2664c5f7a44",
         "source-page.png": "d9b1eb577f262e5da8237146061f4b77613c3b2ff01c87c9f17d5cdfe2970bc5",
         "hub_copy": "insurance-claim-intake-reviewed.html",
     },
     "prior_authorization": {
         "comparison.json": "c974f57939385f4e0cd935aa5ec480920baa8245b593a3f0ff5132e4fa101eb9",
-        "index.html": "02a91dad24097282b2d91f3f499423f824bb09489837c8aa73daf9675961c8b1",
+        "index.html": "c947213165b41a517551eda77dc2f1ce58ad63d43a92f51be6d737ea36a2b027",
         "source-page.png": "ce4494e56f05d93575038187d950432e88d3574a2dc765d37b06a230183cdade",
         "hub_copy": "prior-authorization-reviewed.html",
     },

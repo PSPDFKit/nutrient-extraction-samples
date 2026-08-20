@@ -109,6 +109,22 @@ class PackageConfig:
     def output_html_path(self) -> Path:
         return self.output_dir / "index.html"
 
+    @property
+    def provisional_output_dir(self) -> Path:
+        return self.demo_dir / "provisional" / "output"
+
+    @property
+    def provisional_output_image_path(self) -> Path:
+        return self.provisional_output_dir / "source-page.png"
+
+    @property
+    def provisional_output_comparison_path(self) -> Path:
+        return self.provisional_output_dir / "comparison.json"
+
+    @property
+    def provisional_output_html_path(self) -> Path:
+        return self.provisional_output_dir / "index.html"
+
 
 def _json_bytes(value: Any) -> bytes:
     return (
@@ -652,13 +668,31 @@ def comparison_artifact(
     }
 
 
+def _artifact_paths(
+    config: PackageConfig,
+    evidence: LighthouseEvidence,
+) -> tuple[Path, Path, Path]:
+    if isinstance(evidence, ProvisionalEvidence):
+        return (
+            config.provisional_output_image_path,
+            config.provisional_output_comparison_path,
+            config.provisional_output_html_path,
+        )
+    return (
+        config.output_image_path,
+        config.output_comparison_path,
+        config.output_html_path,
+    )
+
+
 def _write_comparison(
     config: PackageConfig,
     evidence: LighthouseEvidence,
     report: Any,
 ) -> None:
+    _image_path, comparison_path, _html_path = _artifact_paths(config, evidence)
     atomic_write(
-        config.output_comparison_path,
+        comparison_path,
         _json_bytes(comparison_artifact(evidence, report)),
     )
 
@@ -683,10 +717,11 @@ def write_generated_outputs(
     response = evidence.response
     page = response["output"]["pages"][0]
     pdf_path = source_pdf_path(config, fixture)
+    image_path, comparison_path, html_path = _artifact_paths(config, evidence)
     ensure_page_png(
         pdf_path,
         0,
-        config.output_image_path,
+        image_path,
         page_dims=page,
         refresh=True,
     )
@@ -695,13 +730,13 @@ def write_generated_outputs(
         title=config.page_title,
         summary=_summary(config, evidence),
         document_name=fixture.title,
-        document_image=config.output_image_path.read_bytes(),
+        document_image=image_path.read_bytes(),
         expected=expected,
         evidence=evidence,
         source_status=fixture.source_status,
     )
     normalized_html = "\n".join(line.rstrip() for line in html.splitlines()) + "\n"
-    atomic_write(config.output_html_path, normalized_html.encode("utf-8"))
+    atomic_write(html_path, normalized_html.encode("utf-8"))
 
     print(f"Evidence: {evidence.label}")
     print(
@@ -710,9 +745,9 @@ def write_generated_outputs(
         f"{report.grounded_leaves}/{report.expected_leaves} source-grounded; "
         f"{len(report.issues)} issue(s)."
     )
-    print(f"Wrote {config.output_image_path}")
-    print(f"Wrote {config.output_comparison_path}")
-    print(f"Wrote {config.output_html_path}")
+    print(f"Wrote {image_path}")
+    print(f"Wrote {comparison_path}")
+    print(f"Wrote {html_path}")
     if isinstance(evidence, ProvisionalEvidence):
         print("RESULT: PROVISIONAL LAYOUT ONLY — NO API CALL; not release evidence.")
     elif evidence.reviewed and report.passed:

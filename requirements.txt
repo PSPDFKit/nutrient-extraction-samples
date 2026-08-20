@@ -2,4 +2,7 @@ jinja2==3.1.6
 aiohttp==3.14.3
 requests==2.34.2
 python-dotenv==1.2.2
+Pillow==11.3.0
+pypdf==6.10.2
 pypdfium2==5.12.1
+reportlab==5.0.0

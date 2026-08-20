@@ -11,6 +11,7 @@ from typing import Any
 import pytest
 
 import common.lighthouse_package as lighthouse_package
+import demos.prior_authorization.build_public_form as prior_authorization_builder
 from common.lighthouse import (
     COMMITTED_CACHE_KEYS,
     LighthouseError,
@@ -40,9 +41,9 @@ from demos.prior_authorization.generate_demo import CONFIG as HEALTHCARE_CONFIG
 PACKAGE_CONFIGS = (MORTGAGE_CONFIG, INSURANCE_CONFIG, HEALTHCARE_CONFIG)
 OUTPUT_ARTIFACTS = (
     "provisional/evidence.json",
-    "output/source-page.png",
-    "output/comparison.json",
-    "output/index.html",
+    "provisional/output/source-page.png",
+    "provisional/output/comparison.json",
+    "provisional/output/index.html",
 )
 
 
@@ -56,6 +57,35 @@ def _write_json(path: Path, value: Any) -> None:
         json.dumps(value, ensure_ascii=False, sort_keys=True, indent=2) + "\n",
         encoding="utf-8",
     )
+
+
+def test_prior_authorization_builder_checks_without_writing(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    output = tmp_path / "prior-authorization.pdf"
+    output.write_bytes(prior_authorization_builder.OUTPUT.read_bytes())
+    before = output.read_bytes()
+    monkeypatch.setattr(prior_authorization_builder, "OUTPUT", output)
+
+    assert prior_authorization_builder.build(check=True) == (
+        prior_authorization_builder.DERIVED_SHA256
+    )
+    assert output.read_bytes() == before
+
+
+def test_prior_authorization_builder_never_overwrites_on_digest_drift(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    output = tmp_path / "prior-authorization.pdf"
+    output.write_bytes(b"reviewed-input-must-survive")
+    monkeypatch.setattr(prior_authorization_builder, "OUTPUT", output)
+    monkeypatch.setattr(prior_authorization_builder, "DERIVED_SHA256", "0" * 64)
+
+    with pytest.raises(ValueError, match="derived demo SHA-256 mismatch"):
+        prior_authorization_builder.build(check=False)
+    assert output.read_bytes() == b"reviewed-input-must-survive"
 
 
 def _copy_config(tmp_path: Path, original: PackageConfig) -> PackageConfig:
@@ -213,7 +243,7 @@ def test_provisional_generation_is_offline_exact_and_deterministic(
     assert set(envelope["response"]) == COMMITTED_CACHE_KEYS
     assert set(envelope["response"]["output"]) == {"data", "metadata", "pages"}
 
-    artifact = _json(config.output_comparison_path)
+    artifact = _json(config.provisional_output_comparison_path)
     assert set(artifact) == {
         "artifactVersion",
         "evidenceKind",
@@ -233,7 +263,7 @@ def test_provisional_generation_is_offline_exact_and_deterministic(
         "issues",
     }
 
-    html = config.output_html_path.read_text(encoding="utf-8")
+    html = config.provisional_output_html_path.read_text(encoding="utf-8")
     assert "data:image/png;base64," in html
     assert "http://" not in html
     assert "https://" not in html
@@ -263,6 +293,30 @@ def test_public_form_uses_current_explicit_insurance_damage_box() -> None:
     assert damage["bbox"]["y"] + damage["bbox"]["height"] <= fixture.page_height
 
 
+@pytest.mark.parametrize("original", PACKAGE_CONFIGS, ids=lambda item: item.slug)
+def test_provisional_commands_never_overwrite_reviewed_outputs(
+    tmp_path: Path,
+    original: PackageConfig,
+) -> None:
+    config = _copy_config(tmp_path, original)
+    reviewed = {
+        config.output_image_path: b"reviewed-image",
+        config.output_comparison_path: b"reviewed-comparison",
+        config.output_html_path: b"reviewed-html",
+    }
+    for path, payload in reviewed.items():
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(payload)
+
+    assert generator_main(config, ["--provisional"]) == 0
+    assert checker_main(config, ["--allow-provisional"]) == 0
+
+    assert all(path.read_bytes() == payload for path, payload in reviewed.items())
+    assert config.provisional_output_image_path.is_file()
+    assert config.provisional_output_comparison_path.is_file()
+    assert config.provisional_output_html_path.is_file()
+
+
 def test_public_form_provisional_uses_only_explicit_independent_boxes_and_copy(
     tmp_path: Path,
 ) -> None:
@@ -284,7 +338,7 @@ def test_public_form_provisional_uses_only_explicit_independent_boxes_and_copy(
         ),
         environment=_NoEnvironmentAccess(),
     ) == 0
-    html = config.output_html_path.read_text(encoding="utf-8")
+    html = config.provisional_output_html_path.read_text(encoding="utf-8")
     assert "Reviewed evidence / authentic public form" in html
     assert "Authentic public form · privacy-safe demo values · page 1" in html
     assert "customer data" not in html.lower()
@@ -482,7 +536,7 @@ def test_checker_retains_provisional_mismatch_and_exits_one(
 
     assert checker_main(config, ["--allow-provisional"]) == 1
     assert config.provisional_path.read_bytes() == exact_envelope
-    artifact = _json(config.output_comparison_path)
+    artifact = _json(config.provisional_output_comparison_path)
     assert artifact["comparison"]["exitCode"] == 1
     assert any(
         issue["code"] == "WRONG"
@@ -630,7 +684,7 @@ def test_playwright_mobile_provisional_verdict_stays_visible_after_card_scroll(
         try:
             page = browser.new_page(viewport=viewport)
             for config, field_path in targets:
-                page.goto(config.output_html_path.as_uri(), wait_until="load")
+                page.goto(config.provisional_output_html_path.as_uri(), wait_until="load")
                 card = page.locator(".field-card", has_text=field_path)
                 assert card.count() == 1, field_path
                 assert card.evaluate(

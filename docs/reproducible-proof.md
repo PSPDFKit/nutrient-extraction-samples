@@ -49,6 +49,7 @@ Do not commit a live response until every derivative has passed the repository's
 
 - The source document and committed response are a reviewed synthetic example, not an accuracy benchmark.
 - The committed response contains the two service-date errors described above and therefore is not a passing launch proof.
+- The published schema defines `prior_authorization_number` but does not yet list it as required, while the source oracle and checker expect it. Before the next live refresh, add it to the required list, regenerate `instructions.json`, accept the resulting cache-key change, and independently review the new response. The committed response is preserved rather than silently changing its request contract.
 - Recognition and grounding signals are not calibrated correctness probabilities.
 - Some responses or fields may not contain grounding metadata.
 - The generated HTML is sample code, not a production review or approval workflow.

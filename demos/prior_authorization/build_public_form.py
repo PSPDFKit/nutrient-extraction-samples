@@ -7,7 +7,11 @@ rail, and overlays only the privacy-safe values approved for the demo.
 
 from __future__ import annotations
 
+import argparse
 import hashlib
+import os
+import sys
+import tempfile
 from copy import deepcopy
 from io import BytesIO
 from pathlib import Path
@@ -23,6 +27,7 @@ ORIGINAL = DEMO_DIR / "source" / "cms-glp-1-bridge-original.pdf"
 OUTPUT = DEMO_DIR / "data" / "prior-authorization.pdf"
 
 ORIGINAL_SHA256 = "c223dc0f6acaf1d7b7e345bdf968ba2373ce94b39994b006a1e9915a07768fa0"
+DERIVED_SHA256 = "18bb2e0c4419c0c2acb002acb0b4857efacc7e96f37d15decebfe06d3394d530"
 PAGE_WIDTH = 612.0
 PAGE_HEIGHT = 792.0
 FORM_SCALE = 0.96
@@ -34,8 +39,41 @@ PROVENANCE_RAIL = "AUTHENTIC PUBLIC FORM - PRIVACY-SAFE DEMO VALUES"
 INK = (24 / 255, 52 / 255, 91 / 255)
 
 
-def _sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+def _sha256(payload: bytes) -> str:
+    return hashlib.sha256(payload).hexdigest()
+
+
+def _read_frozen(path: Path, *, expected_sha256: str, label: str) -> bytes:
+    if path.is_symlink() or not path.is_file():
+        raise ValueError(f"{label} must be a regular, non-symlink file")
+    payload = path.read_bytes()
+    actual = _sha256(payload)
+    if actual != expected_sha256:
+        raise ValueError(
+            f"{label} SHA-256 mismatch: expected {expected_sha256}, found {actual}"
+        )
+    return payload
+
+
+def _atomic_write(path: Path, payload: bytes) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if path.is_file() and not path.is_symlink() and path.read_bytes() == payload:
+        return
+    descriptor, temporary_name = tempfile.mkstemp(
+        dir=path.parent,
+        prefix=f".{path.name}.",
+        suffix=".tmp",
+    )
+    temporary = Path(temporary_name)
+    try:
+        with os.fdopen(descriptor, "wb") as stream:
+            stream.write(payload)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, path)
+    finally:
+        if temporary.exists():
+            temporary.unlink()
 
 
 def _final_x(original_x: float) -> float:
@@ -141,9 +179,12 @@ def _overlay_pdf() -> BytesIO:
     return payload
 
 
-def build() -> str:
-    if _sha256(ORIGINAL) != ORIGINAL_SHA256:
-        raise ValueError("official CMS source hash does not match the approved source")
+def _build_payload() -> bytes:
+    _read_frozen(
+        ORIGINAL,
+        expected_sha256=ORIGINAL_SHA256,
+        label="official CMS source",
+    )
 
     source_reader = PdfReader(ORIGINAL)
     if len(source_reader.pages) != 3:
@@ -178,13 +219,13 @@ def build() -> str:
     )
     writer.root_object.pop(NameObject("/AcroForm"), None)
 
-    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    temporary = OUTPUT.with_suffix(".pdf.tmp")
-    with temporary.open("wb") as stream:
-        writer.write(stream)
-    temporary.replace(OUTPUT)
+    payload = BytesIO()
+    writer.write(payload)
+    return payload.getvalue()
 
-    reopened = PdfReader(OUTPUT)
+
+def _validate_output(payload: bytes) -> None:
+    reopened = PdfReader(BytesIO(payload), strict=True)
     if len(reopened.pages) != 1:
         raise ValueError("derived demo PDF must contain exactly one page")
     if reopened.get_fields():
@@ -200,8 +241,47 @@ def build() -> str:
         raise ValueError("derived demo PDF must not contain Widget annotations")
     if float(reopened.pages[0].mediabox.width) != PAGE_WIDTH or float(reopened.pages[0].mediabox.height) != PAGE_HEIGHT:
         raise ValueError("derived demo PDF must remain exactly 612x792 points")
-    return _sha256(OUTPUT)
+
+
+def build(*, check: bool) -> str:
+    payload = _build_payload()
+    _validate_output(payload)
+    digest = _sha256(payload)
+    if digest != DERIVED_SHA256:
+        raise ValueError(
+            f"derived demo SHA-256 mismatch: expected {DERIVED_SHA256}, found {digest}"
+        )
+
+    if check:
+        _read_frozen(
+            OUTPUT,
+            expected_sha256=DERIVED_SHA256,
+            label="committed derived demo",
+        )
+        if OUTPUT.read_bytes() != payload:
+            raise ValueError("committed derived demo bytes are stale")
+    else:
+        _atomic_write(OUTPUT, payload)
+    return digest
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="Verify the deterministic derived PDF byte-for-byte without writing.",
+    )
+    args = parser.parse_args(argv)
+    try:
+        digest = build(check=args.check)
+    except (OSError, RuntimeError, ValueError) as error:
+        print(f"public-form build failed: {error}", file=sys.stderr)
+        return 1
+    action = "Verified" if args.check else "Built"
+    print(f"{action} deterministic CMS public-form demo: {digest}")
+    return 0
 
 
 if __name__ == "__main__":
-    print(build())
+    raise SystemExit(main())
